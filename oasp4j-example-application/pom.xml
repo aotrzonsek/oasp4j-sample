@@ -125,6 +125,11 @@
       <artifactId>h2</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-core</artifactId>
+    </dependency>
+
     <!-- hibernate -->
     <dependency>
       <groupId>org.hibernate.javax.persistence</groupId>
