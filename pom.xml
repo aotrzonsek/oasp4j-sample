@@ -16,6 +16,7 @@
 
     <modules>
         <module>oasp4j-example-application</module>
+        <module>oasp4j-example-boot-application</module>
         <module>oasp4j-restaurant</module>
     </modules>
 
