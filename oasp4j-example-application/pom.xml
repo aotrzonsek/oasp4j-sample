@@ -17,11 +17,6 @@
 
     <dependency>
       <groupId>io.oasp.java</groupId>
-      <artifactId>oasp4j-monitoring</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>io.oasp.java</groupId>
       <artifactId>oasp4j-logging</artifactId>
     </dependency>
 
