@@ -82,7 +82,7 @@
     <property name="authenticationSuccessHandler">
       <bean class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
         <property name="defaultTargetUrl">
-          <util:constant static-field="io.oasp.gastronomy.restaurant.general.gui.api.LoginController.defaultTargetUrl"/>
+          <util:constant static-field="io.oasp.gastronomy.restaurant.general.gui.api.LoginControllerDefaultTargetUrl.defaultTargetUrl"/>
         </property>
       </bean>
     </property>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.oasp.java</groupId>
+        <artifactId>oasp4j-example</artifactId>
+        <version>dev-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>oasp4j-restaurant</artifactId>
+    <version>dev-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+        </dependency>
+        <!-- JAX-RS API for REST services-->
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+        </dependency>
+
+        <!-- Database -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+        <!-- flyway -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <!-- for Object Relational Mapping (JPA/Hibernate) -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.oasp.java</groupId>
+            <artifactId>oasp4j-beanmapping</artifactId>
+            <version>${oasp4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.oasp.java</groupId>
+            <artifactId>oasp4j-jpa</artifactId>
+            <version>${oasp4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.oasp.java</groupId>
+            <artifactId>oasp4j-web</artifactId>
+            <version>${oasp4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.oasp.java</groupId>
+            <artifactId>oasp4j-security</artifactId>
+            <version>${oasp4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.oasp.java</groupId>
+            <artifactId>oasp4j-rest</artifactId>
+            <version>${oasp4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.oasp.java</groupId>
+            <artifactId>oasp4j-logging</artifactId>
+            <version>${oasp4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.oasp.java</groupId>
+            <artifactId>oasp4j-configuration</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.m-m-m</groupId>
+            <artifactId>mmm-util-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-client</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- local transport for fast testing -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-local</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>
