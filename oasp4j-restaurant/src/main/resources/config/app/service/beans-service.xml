@@ -16,7 +16,6 @@
 
   <!-- By convention web-services should be located in the path folder "ws" -->
   <!-- BEGIN ARCHETYPE SKIP -->
-  <jaxws:endpoint id="tableManagement" implementor="#TablemanagementWebService" address="/ws/Tablemanagement/v1_0"/>
   <!-- END ARCHETYPE SKIP -->
 
   <!-- By convention REST services should be located in the path folder "rest" -->
