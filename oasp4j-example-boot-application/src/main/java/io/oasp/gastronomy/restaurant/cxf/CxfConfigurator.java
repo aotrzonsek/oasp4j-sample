@@ -37,7 +37,7 @@ public class CxfConfigurator {
     }
 
     @Bean
-    public BusExtensionPostProcessor BusExtensionPostProcessor() {
+    public BusExtensionPostProcessor busExtensionPostProcessor() {
         return new BusExtensionPostProcessor();
     }
 

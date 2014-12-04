@@ -10,31 +10,31 @@
 
   <context:component-scan base-package="io.oasp.gastronomy.restaurant.general.common.*.security"/>
 
-  <security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled"
-    jsr250-annotations="enabled" access-decision-manager-ref="MethodAccessDecisionManager">
-    <!-- AspectJ pointcut expression that locates our "post" method and applies
-      security that way <protect-pointcut expression="execution(* bigbank.*Service.post*(..))"
-      access="ROLE_TELLER"/> -->
-  </security:global-method-security>
+  <!--<security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled"-->
+    <!--jsr250-annotations="enabled" access-decision-manager-ref="MethodAccessDecisionManager">-->
+    <!--&lt;!&ndash; AspectJ pointcut expression that locates our "post" method and applies-->
+      <!--security that way <protect-pointcut expression="execution(* bigbank.*Service.post*(..))"-->
+      <!--access="ROLE_TELLER"/> &ndash;&gt;-->
+  <!--</security:global-method-security>-->
 
   <bean id="SecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
     <constructor-arg>
       <list>
         <!--JS Client is publicly available -->
-        <security:filter-chain pattern="/jsclient/**" filters="none"/>
+        <!--<security:filter-chain pattern="/jsclient/**" filters="none"/>-->
 
         <!--REST login without CSRF filter -->
-        <security:filter-chain pattern="/services/rest/login"
-            filters="RequestContextFilter,
-                   SecurityContextPersistenceFilter,
-                   RestLogoutFilter,
-                   JsonUsernamePasswordAuthenticationFilter,
-                   RequestCacheAwareFilter,
-                   SecurityContextHolderAwareRequestFilter,
-                   AnonymousAuthenticationFilter,
-                   SessionManagementFilter,
-                   RestExceptionTranslationFilter,
-                   FilterSecurityInterceptor"/>
+        <!--<security:filter-chain pattern="/services/rest/login"-->
+            <!--filters="RequestContextFilter,-->
+                   <!--SecurityContextPersistenceFilter,-->
+                   <!--RestLogoutFilter,-->
+                   <!--JsonUsernamePasswordAuthenticationFilter,-->
+                   <!--RequestCacheAwareFilter,-->
+                   <!--SecurityContextHolderAwareRequestFilter,-->
+                   <!--AnonymousAuthenticationFilter,-->
+                   <!--SessionManagementFilter,-->
+                   <!--RestExceptionTranslationFilter,-->
+                   <!--FilterSecurityInterceptor"/>-->
         <!-- REST Services intended for JS Client are secured based on a session cookies and have REST login/logout API -->
         <security:filter-chain pattern="/services/rest/**"
           filters="RequestContextFilter,
