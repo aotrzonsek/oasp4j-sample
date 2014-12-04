@@ -1,5 +1,6 @@
 package io.oasp.gastronomy.restaurant;
 
+import io.oasp.gastronomy.restaurant.cxf.CxfConfigurator;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.springframework.boot.SpringApplication;
@@ -10,12 +11,14 @@ import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletCon
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.web.servlet.DispatcherServlet;
 
 @Configuration
 @EnableAutoConfiguration
 @ImportResource({"classpath:config/app/beans-application.xml"})
+@Import(CxfConfigurator.class)
 public class Application {
 
     public static void main(String[] args) {
