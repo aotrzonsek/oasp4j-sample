@@ -1,6 +1,7 @@
 package io.oasp.gastronomy.restaurant.offermanagement.service.impl.rest;
 
 import io.oasp.gastronomy.restaurant.general.common.api.constants.PermissionConstants;
+import io.oasp.gastronomy.restaurant.general.logic.api.to.BinaryObjectEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.Offermanagement;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.DrinkEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.MealEto;
@@ -12,11 +13,19 @@ import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductFilter;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductSortBy;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.SideDishEto;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -28,6 +37,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.cxf.helpers.IOUtils;
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+import org.apache.cxf.jaxrs.ext.multipart.Multipart;
+import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
@@ -39,8 +52,6 @@ import org.springframework.validation.annotation.Validated;
  */
 @Path("/offermanagement")
 @Named("OffermanagementRestService")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
 @Transactional
 @Validated
 public class OffermanagementRestServiceImpl {
@@ -60,6 +71,7 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
+  @Produces(MediaType.APPLICATION_JSON)
   @GET
   @Path("/offer/{id}")
   @RolesAllowed(PermissionConstants.FIND_OFFER)
@@ -72,6 +84,7 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
+  @Consumes(MediaType.APPLICATION_JSON)
   @POST
   @Path("/offer/")
   @RolesAllowed(PermissionConstants.CREATE_OFFER)
@@ -86,6 +99,7 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
+  @Consumes(MediaType.APPLICATION_JSON)
   @PUT
   @Path("/offer/{id}")
   @RolesAllowed(PermissionConstants.UPDATE_OFFER)
@@ -98,6 +112,7 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
+  @Produces(MediaType.APPLICATION_JSON)
   @GET
   @Path("/offer/")
   @RolesAllowed(PermissionConstants.FIND_OFFER)
@@ -110,6 +125,7 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
+  @Produces(MediaType.APPLICATION_JSON)
   @GET
   @Path("/product/")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -122,6 +138,7 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
+  @Consumes(MediaType.APPLICATION_JSON)
   @POST
   @Path("/product/")
   @RolesAllowed(PermissionConstants.CREATE_PRODUCT)
@@ -134,6 +151,7 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
+  @Produces(MediaType.APPLICATION_JSON)
   @GET
   @Path("/product/meal/")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -146,6 +164,7 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
+  @Produces(MediaType.APPLICATION_JSON)
   @GET
   @Path("/product/drink/")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -158,6 +177,7 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
+  @Produces(MediaType.APPLICATION_JSON)
   @GET
   @Path("/product/side/")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -182,6 +202,7 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
+  @Produces(MediaType.APPLICATION_JSON)
   @GET
   @Path("/product/{id}")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -197,6 +218,7 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
+  @Consumes(MediaType.APPLICATION_JSON)
   @PUT
   @Path("/product/{id}")
   @RolesAllowed(PermissionConstants.UPDATE_PRODUCT)
@@ -233,6 +255,7 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
+  @Consumes(MediaType.APPLICATION_JSON)
   @GET
   @Path("/sortby/{sortBy}")
   @RolesAllowed(PermissionConstants.FIND_OFFER)
@@ -245,11 +268,54 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
+  @Consumes(MediaType.APPLICATION_JSON)
   @GET
   @Path("/product/sortby/{sortBy}")
   @RolesAllowed(PermissionConstants.FIND_OFFER)
   public List<ProductEto> getFilteredProducts(ProductFilter productFilterBo, @PathParam("sortBy") ProductSortBy sortBy) {
 
     return this.offerManagement.findProductsFiltered(productFilterBo, sortBy);
+  }
+
+  @SuppressWarnings("javadoc")
+  @Consumes("multipart/mixed")
+  @POST
+  @Path("/product/{id}/picture")
+  @RolesAllowed(PermissionConstants.UPDATE_PRODUCT)
+  public void updateProductPicture(@PathParam("id") Long productId,
+      @Multipart(value = "binaryObjectEto", type = MediaType.APPLICATION_JSON) BinaryObjectEto binaryObjectEto,
+      @Multipart(value = "blob", type = MediaType.APPLICATION_OCTET_STREAM) InputStream picture)
+      throws SerialException, SQLException, IOException {
+
+    Blob blob = new SerialBlob(IOUtils.readBytesFromStream(picture));
+    this.offerManagement.updateProductPicture(productId, blob, binaryObjectEto);
+
+  }
+
+  @SuppressWarnings("javadoc")
+  @Produces("multipart/mixed")
+  @GET
+  @Path("/product/{id}/picture")
+  @RolesAllowed(PermissionConstants.FIND_PRODUCT)
+  public MultipartBody getProductPicture(@PathParam("id") long productId) throws SQLException, IOException {
+
+    Blob blob = this.offerManagement.findProductPictureBlob(productId);
+    byte[] data = IOUtils.readBytesFromStream(blob.getBinaryStream());
+
+    List<Attachment> atts = new LinkedList<>();
+    atts.add(new Attachment("binaryObjectEto", MediaType.APPLICATION_JSON, this.offerManagement
+        .findProductPicture(productId)));
+    atts.add(new Attachment("blob", MediaType.APPLICATION_OCTET_STREAM, new ByteArrayInputStream(data)));
+    return new MultipartBody(atts, true);
+
+  }
+
+  @SuppressWarnings("javadoc")
+  @DELETE
+  @Path("/product/{id}/picture")
+  @RolesAllowed(PermissionConstants.UPDATE_PRODUCT)
+  public void deleteProductPicture(long productId) {
+
+    this.offerManagement.deleteProductPicture(productId);
   }
 }
