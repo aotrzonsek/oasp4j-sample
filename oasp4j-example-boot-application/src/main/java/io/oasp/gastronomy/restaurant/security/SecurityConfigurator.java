@@ -3,6 +3,7 @@ package io.oasp.gastronomy.restaurant.security;
 import io.oasp.module.security.common.impl.rest.JsonUsernamePasswordAuthenticationFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -21,8 +22,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 @Configuration
-@Import({MethodAccessDecisionManager.class, SecurityFilterConfigurator.class})
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+//@Import({MethodAccessDecisionManager.class, SecurityFilterConfigurator.class})
+//@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfigurator extends WebSecurityConfigurerAdapter {
 
     @Inject
@@ -32,7 +33,7 @@ public class SecurityConfigurator extends WebSecurityConfigurerAdapter {
     @Inject
     @Named("RestLogoutFilter")
     private LogoutFilter restLogoutFilter;
-    @Inject
+//    @Inject
     private JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordAuthenticationFilter;
     @Inject
     private RequestCacheAwareFilter requestCacheAwareFilter;
@@ -47,22 +48,26 @@ public class SecurityConfigurator extends WebSecurityConfigurerAdapter {
     private ExceptionTranslationFilter restExceptionTranslationFilter;
     @Inject
     private FilterSecurityInterceptor filterSecurityInterceptor;
+    @Inject
+    private AuthenticationManager authenticationManager;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.requestMatchers().antMatchers("/jsclient/**");
-
-        http.requestMatchers().antMatchers("/services/rest/login1")
-                .and()
-                .addFilterAfter(requestContextFilter, WebAsyncManagerIntegrationFilter.class)
-                .addFilterAfter(securityContextPersistenceFilter, RequestContextFilter.class)
-                .addFilterAfter(restLogoutFilter, SecurityContextPersistenceFilter.class)
-                .addFilterAfter(jsonUsernamePasswordAuthenticationFilter, LogoutFilter.class)
-                .addFilterAfter(requestCacheAwareFilter, JsonUsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(securityContextHolderAwareRequestFilter, RequestCacheAwareFilter.class)
-                .addFilterAfter(anonymousAuthenticationFilter, AnonymousAuthenticationFilter.class)
-                .addFilterAfter(sessionManagementFilter, SessionManagementFilter.class)
-                .addFilterAfter(restExceptionTranslationFilter, SessionManagementFilter.class)
-                .addFilterAfter(filterSecurityInterceptor, ExceptionTranslationFilter.class);
+//        http.requestMatchers().antMatchers("/jsclient/**");
+//        http.antMatcher("/jsclient/1/**")
+//                .addFilterAfter(requestContextFilter, WebAsyncManagerIntegrationFilter.class);
+//        http.requestMatchers().antMatchers("/services/rest/login")
+//                .and()
+//                .addFilterAfter(requestContextFilter, WebAsyncManagerIntegrationFilter.class)
+//                .addFilterAfter(securityContextPersistenceFilter, RequestContextFilter.class)
+//                .addFilterAfter(restLogoutFilter, SecurityContextPersistenceFilter.class)
+//                .addFilterAfter(SecurityFilterConfigurator.jsonUsernamePasswordAuthenticationFilter(authenticationManager), LogoutFilter.class)
+//                .addFilterAfter(requestCacheAwareFilter, SecurityContextPersistenceFilter.class)
+//                .addFilterAfter(securityContextHolderAwareRequestFilter, RequestCacheAwareFilter.class)
+//                .addFilterAfter(anonymousAuthenticationFilter, AnonymousAuthenticationFilter.class)
+//                .addFilterAfter(sessionManagementFilter, SessionManagementFilter.class)
+//                .addFilterAfter(restExceptionTranslationFilter, SessionManagementFilter.class)
+//                .addFilterAfter(filterSecurityInterceptor, ExceptionTranslationFilter.class);
     }
+
 }

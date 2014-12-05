@@ -32,7 +32,7 @@ public class CxfConfigurator {
     }
 
     @Bean
-    public BusWiringBeanFactoryPostProcessor busWiringBeanFactoryPostProcessor() {
+    public static BusWiringBeanFactoryPostProcessor busWiringBeanFactoryPostProcessor() {
         return new BusWiringBeanFactoryPostProcessor();
     }
 
