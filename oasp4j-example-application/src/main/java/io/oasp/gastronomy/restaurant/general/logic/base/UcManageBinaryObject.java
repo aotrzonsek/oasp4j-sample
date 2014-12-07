@@ -5,7 +5,7 @@ import io.oasp.gastronomy.restaurant.general.logic.api.to.BinaryObjectEto;
 import java.sql.Blob;
 
 /**
- * TODO sspielma This type ...
+ * Use case for managing BinaryObject
  *
  * @author sspielma
  */

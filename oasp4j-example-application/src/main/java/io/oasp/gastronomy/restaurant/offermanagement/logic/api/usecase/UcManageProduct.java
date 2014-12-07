@@ -10,11 +10,6 @@ import java.sql.Blob;
  *
  * @author mvielsac
  */
-/**
- * TODO arklos This type ...
- *
- * @author arklos
- */
 public interface UcManageProduct {
   /**
    * Updates a product.
