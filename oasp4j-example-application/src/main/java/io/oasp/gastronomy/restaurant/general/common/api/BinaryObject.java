@@ -19,4 +19,16 @@ public interface BinaryObject extends ApplicationEntity {
    */
   String getMimeType();
 
+  /**
+   * @return Returns the size in bytes
+   */
+  long getSize();
+
+  /**
+   * Sets the size of bytes
+   *
+   * @param size the size in bytes
+   */
+  void setSize(long size);
+
 }

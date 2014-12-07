@@ -21,6 +21,8 @@ public class BinaryObjectEntity extends ApplicationPersistenceEntity implements 
 
   private String mimeType;
 
+  private long size;
+
   /**
    * The constructor.
    */
@@ -63,5 +65,23 @@ public class BinaryObjectEntity extends ApplicationPersistenceEntity implements 
   public void setData(Blob data) {
 
     this.data = data;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public long getSize() {
+
+    return this.size;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void setSize(long size) {
+
+    this.size = size;
   }
 }

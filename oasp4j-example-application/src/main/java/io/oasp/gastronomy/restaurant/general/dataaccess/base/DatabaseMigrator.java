@@ -22,6 +22,7 @@ public class DatabaseMigrator {
     if (this.enabled) {
       final Flyway flyway = new Flyway();
       flyway.setDataSource(this.dataSource);
+      flyway.clean();
       flyway.migrate();
     }
   }

@@ -52,6 +52,8 @@ import org.springframework.validation.annotation.Validated;
  */
 @Path("/offermanagement")
 @Named("OffermanagementRestService")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 @Transactional
 @Validated
 public class OffermanagementRestServiceImpl {
@@ -71,7 +73,6 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
-  @Produces(MediaType.APPLICATION_JSON)
   @GET
   @Path("/offer/{id}")
   @RolesAllowed(PermissionConstants.FIND_OFFER)
@@ -84,7 +85,6 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
-  @Consumes(MediaType.APPLICATION_JSON)
   @POST
   @Path("/offer/")
   @RolesAllowed(PermissionConstants.CREATE_OFFER)
@@ -99,7 +99,6 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
-  @Consumes(MediaType.APPLICATION_JSON)
   @PUT
   @Path("/offer/{id}")
   @RolesAllowed(PermissionConstants.UPDATE_OFFER)
@@ -112,7 +111,6 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
-  @Produces(MediaType.APPLICATION_JSON)
   @GET
   @Path("/offer/")
   @RolesAllowed(PermissionConstants.FIND_OFFER)
@@ -125,7 +123,6 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
-  @Produces(MediaType.APPLICATION_JSON)
   @GET
   @Path("/product/")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -138,7 +135,6 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
-  @Consumes(MediaType.APPLICATION_JSON)
   @POST
   @Path("/product/")
   @RolesAllowed(PermissionConstants.CREATE_PRODUCT)
@@ -151,7 +147,6 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
-  @Produces(MediaType.APPLICATION_JSON)
   @GET
   @Path("/product/meal/")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -164,7 +159,6 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
-  @Produces(MediaType.APPLICATION_JSON)
   @GET
   @Path("/product/drink/")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -177,7 +171,6 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
-  @Produces(MediaType.APPLICATION_JSON)
   @GET
   @Path("/product/side/")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -202,7 +195,6 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
-  @Produces(MediaType.APPLICATION_JSON)
   @GET
   @Path("/product/{id}")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -218,7 +210,6 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
-  @Consumes(MediaType.APPLICATION_JSON)
   @PUT
   @Path("/product/{id}")
   @RolesAllowed(PermissionConstants.UPDATE_PRODUCT)
@@ -255,7 +246,6 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
-  @Consumes(MediaType.APPLICATION_JSON)
   @GET
   @Path("/sortby/{sortBy}")
   @RolesAllowed(PermissionConstants.FIND_OFFER)
@@ -268,7 +258,6 @@ public class OffermanagementRestServiceImpl {
    * {@inheritDoc}
    */
   @SuppressWarnings("javadoc")
-  @Consumes(MediaType.APPLICATION_JSON)
   @GET
   @Path("/product/sortby/{sortBy}")
   @RolesAllowed(PermissionConstants.FIND_OFFER)
