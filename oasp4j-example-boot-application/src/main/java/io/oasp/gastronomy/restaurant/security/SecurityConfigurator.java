@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.access.vote.UnanimousBased;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,12 +40,6 @@ public class SecurityConfigurator extends WebSecurityConfigurerAdapter {
 	private AuthenticationManager authenticationManager;
 
 	@Inject
-	private ApplicationAccessDeniedHandler accessDeniedHandler;
-
-	@Inject
-	private HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository;
-
-	@Inject
 	@Qualifier("FilterAccessDecisionManager")
 	private UnanimousBased accessDecisionManager;
 
@@ -64,8 +59,6 @@ public class SecurityConfigurator extends WebSecurityConfigurerAdapter {
 				.requestContextFilter();
 		SecurityContextPersistenceFilter securityContextPersistenceFilter = SecurityFilterConfigurator
 				.securityContextPersistenceFilter();
-		LogoutFilter restLogoutFilter = SecurityFilterConfigurator
-				.restLogoutFilter();
 		LogoutFilter logoutFilter = SecurityFilterConfigurator.logoutFilter();
 		JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordAuthenticationFilter = SecurityFilterConfigurator
 				.jsonUsernamePasswordAuthenticationFilter(authenticationManager);
@@ -77,66 +70,11 @@ public class SecurityConfigurator extends WebSecurityConfigurerAdapter {
 				.anonymousAuthenticationFilter();
 		SessionManagementFilter sessionManagementFilter = SecurityFilterConfigurator
 				.sessionManagementFilter();
-		ExceptionTranslationFilter restExceptionTranslationFilter = SecurityFilterConfigurator
-				.restExceptionTranslationFilter();
-		CsrfFilter csrfFilter = SecurityFilterConfigurator.csrfFilter(
-				httpSessionCsrfTokenRepository, accessDeniedHandler);
-		ToggleFilterWrapper csrfFilterWrapper = SecurityFilterConfigurator
-				.csrfFilterWrapper(csrfFilter, "True");
 		ExceptionTranslationFilter exceptionTranslationFilter = SecurityFilterConfigurator
 				.exceptionTranslationFilter();
 		FilterSecurityInterceptor filterSecurityInterceptor = SecurityFilterConfigurator
 				.filterSecurityInterceptor(authenticationManager,
 						accessDecisionManager);
-
-		http.requestMatchers()
-				.antMatchers("/services/rest/login")
-				.and()
-				.addFilterAfter(requestContextFilter,
-						WebAsyncManagerIntegrationFilter.class)
-				.addFilterAfter(securityContextPersistenceFilter,
-						RequestContextFilter.class)
-				.addFilterAfter(restLogoutFilter,
-						SecurityContextPersistenceFilter.class)
-				.addFilterAfter(jsonUsernamePasswordAuthenticationFilter,
-						LogoutFilter.class)
-				.addFilterAfter(requestCacheAwareFilter,
-						JsonUsernamePasswordAuthenticationFilter.class)
-				.addFilterAfter(securityContextHolderAwareRequestFilter,
-						RequestCacheAwareFilter.class)
-				.addFilterAfter(anonymousAuthenticationFilter,
-						AnonymousAuthenticationFilter.class)
-				.addFilterAfter(sessionManagementFilter,
-						SessionManagementFilter.class)
-				.addFilterAfter(restExceptionTranslationFilter,
-						SessionManagementFilter.class)
-				.addFilterAfter(filterSecurityInterceptor,
-						ExceptionTranslationFilter.class);
-
-		http.requestMatchers()
-				.antMatchers("/services/rest/**")
-				.and()
-				.addFilterAfter(requestContextFilter,
-						WebAsyncManagerIntegrationFilter.class)
-				.addFilterAfter(securityContextPersistenceFilter,
-						RequestContextFilter.class)
-				.addFilterAfter(csrfFilterWrapper,
-						SecurityContextPersistenceFilter.class)
-				.addFilterAfter(restLogoutFilter, ToggleFilterWrapper.class)
-				.addFilterAfter(jsonUsernamePasswordAuthenticationFilter,
-						LogoutFilter.class)
-				.addFilterAfter(requestCacheAwareFilter,
-						JsonUsernamePasswordAuthenticationFilter.class)
-				.addFilterAfter(securityContextHolderAwareRequestFilter,
-						RequestCacheAwareFilter.class)
-				.addFilterAfter(anonymousAuthenticationFilter,
-						AnonymousAuthenticationFilter.class)
-				.addFilterAfter(sessionManagementFilter,
-						SessionManagementFilter.class)
-				.addFilterAfter(restExceptionTranslationFilter,
-						SessionManagementFilter.class)
-				.addFilterAfter(filterSecurityInterceptor,
-						ExceptionTranslationFilter.class);
 
 		http.requestMatchers()
 				.antMatchers("/**")
@@ -161,6 +99,140 @@ public class SecurityConfigurator extends WebSecurityConfigurerAdapter {
 						SessionManagementFilter.class)
 				.addFilterAfter(filterSecurityInterceptor,
 						ExceptionTranslationFilter.class);
+	}
+
+	@Configuration
+	@Order(0)
+	public static class RestLoginSecurityConfigurationAdapter extends
+			WebSecurityConfigurerAdapter {
+		@Inject
+		private AuthenticationManager authenticationManager;
+
+		@Inject
+		@Qualifier("FilterAccessDecisionManager")
+		private UnanimousBased accessDecisionManager;
+		
+		protected void configure(HttpSecurity http) throws Exception {
+			RequestContextFilter requestContextFilter = SecurityFilterConfigurator
+					.requestContextFilter();
+			SecurityContextPersistenceFilter securityContextPersistenceFilter = SecurityFilterConfigurator
+					.securityContextPersistenceFilter();
+			LogoutFilter restLogoutFilter = SecurityFilterConfigurator
+					.restLogoutFilter();
+			JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordAuthenticationFilter = SecurityFilterConfigurator
+					.jsonUsernamePasswordAuthenticationFilter(authenticationManager);
+			RequestCacheAwareFilter requestCacheAwareFilter = SecurityFilterConfigurator
+					.requestCacheAwareFilter();
+			SecurityContextHolderAwareRequestFilter securityContextHolderAwareRequestFilter = SecurityFilterConfigurator
+					.securityContextHolderAwareRequestFilter();
+			AnonymousAuthenticationFilter anonymousAuthenticationFilter = SecurityFilterConfigurator
+					.anonymousAuthenticationFilter();
+			SessionManagementFilter sessionManagementFilter = SecurityFilterConfigurator
+					.sessionManagementFilter();
+			ExceptionTranslationFilter restExceptionTranslationFilter = SecurityFilterConfigurator
+					.restExceptionTranslationFilter();
+			FilterSecurityInterceptor filterSecurityInterceptor = SecurityFilterConfigurator
+					.filterSecurityInterceptor(authenticationManager,
+							accessDecisionManager);
+
+			http.requestMatchers()
+					.antMatchers("/services/rest/login")
+					.and()
+					.addFilterAfter(requestContextFilter,
+							WebAsyncManagerIntegrationFilter.class)
+					.addFilterAfter(securityContextPersistenceFilter,
+							RequestContextFilter.class)
+					.addFilterAfter(restLogoutFilter,
+							SecurityContextPersistenceFilter.class)
+					.addFilterAfter(jsonUsernamePasswordAuthenticationFilter,
+							LogoutFilter.class)
+					.addFilterAfter(requestCacheAwareFilter,
+							JsonUsernamePasswordAuthenticationFilter.class)
+					.addFilterAfter(securityContextHolderAwareRequestFilter,
+							RequestCacheAwareFilter.class)
+					.addFilterAfter(anonymousAuthenticationFilter,
+							AnonymousAuthenticationFilter.class)
+					.addFilterAfter(sessionManagementFilter,
+							SessionManagementFilter.class)
+					.addFilterAfter(restExceptionTranslationFilter,
+							SessionManagementFilter.class)
+					.addFilterAfter(filterSecurityInterceptor,
+							ExceptionTranslationFilter.class);
+		}
+	}
+	
+	@Configuration
+	@Order(1)
+	public static class RestSecurityConfigurationAdapter extends
+			WebSecurityConfigurerAdapter {
+		@Inject
+		private AuthenticationManager authenticationManager;
+
+		@Inject
+		private ApplicationAccessDeniedHandler accessDeniedHandler;
+
+		@Inject
+		private HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository;
+
+		@Inject
+		@Qualifier("FilterAccessDecisionManager")
+		private UnanimousBased accessDecisionManager;
+
+		@Value(value = "#{systemProperties['CsrfDisabled']}")
+		private String disabledString;
+		
+		protected void configure(HttpSecurity http) throws Exception {
+			RequestContextFilter requestContextFilter = SecurityFilterConfigurator
+					.requestContextFilter();
+			SecurityContextPersistenceFilter securityContextPersistenceFilter = SecurityFilterConfigurator
+					.securityContextPersistenceFilter();
+			LogoutFilter restLogoutFilter = SecurityFilterConfigurator
+					.restLogoutFilter();
+			JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordAuthenticationFilter = SecurityFilterConfigurator
+					.jsonUsernamePasswordAuthenticationFilter(authenticationManager);
+			RequestCacheAwareFilter requestCacheAwareFilter = SecurityFilterConfigurator
+					.requestCacheAwareFilter();
+			SecurityContextHolderAwareRequestFilter securityContextHolderAwareRequestFilter = SecurityFilterConfigurator
+					.securityContextHolderAwareRequestFilter();
+			AnonymousAuthenticationFilter anonymousAuthenticationFilter = SecurityFilterConfigurator
+					.anonymousAuthenticationFilter();
+			SessionManagementFilter sessionManagementFilter = SecurityFilterConfigurator
+					.sessionManagementFilter();
+			CsrfFilter csrfFilter = SecurityFilterConfigurator.csrfFilter(
+					httpSessionCsrfTokenRepository, accessDeniedHandler);
+			ToggleFilterWrapper csrfFilterWrapper = SecurityFilterConfigurator
+					.csrfFilterWrapper(csrfFilter, disabledString);
+			ExceptionTranslationFilter restExceptionTranslationFilter = SecurityFilterConfigurator
+					.restExceptionTranslationFilter();
+			FilterSecurityInterceptor filterSecurityInterceptor = SecurityFilterConfigurator
+					.filterSecurityInterceptor(authenticationManager,
+							accessDecisionManager);
+
+			http.requestMatchers()
+			.antMatchers("/services/rest/**")
+			.and()
+			.addFilterAfter(requestContextFilter,
+					WebAsyncManagerIntegrationFilter.class)
+			.addFilterAfter(securityContextPersistenceFilter,
+					RequestContextFilter.class)
+			.addFilterAfter(csrfFilterWrapper,
+					SecurityContextPersistenceFilter.class)
+			.addFilterAfter(restLogoutFilter, ToggleFilterWrapper.class)
+			.addFilterAfter(jsonUsernamePasswordAuthenticationFilter,
+					LogoutFilter.class)
+			.addFilterAfter(requestCacheAwareFilter,
+					JsonUsernamePasswordAuthenticationFilter.class)
+			.addFilterAfter(securityContextHolderAwareRequestFilter,
+					RequestCacheAwareFilter.class)
+			.addFilterAfter(anonymousAuthenticationFilter,
+					AnonymousAuthenticationFilter.class)
+			.addFilterAfter(sessionManagementFilter,
+					SessionManagementFilter.class)
+			.addFilterAfter(restExceptionTranslationFilter,
+					SessionManagementFilter.class)
+			.addFilterAfter(filterSecurityInterceptor,
+					ExceptionTranslationFilter.class);
+		}
 	}
 
 }
