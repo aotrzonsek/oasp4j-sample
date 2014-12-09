@@ -10,6 +10,7 @@ import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.BillEto;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderCto;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderEto;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderPositionEto;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderPositionSearchCriteriaTo;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderSearchCriteriaTo;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.PaymentData;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase.UcChangeTable;
@@ -218,6 +219,15 @@ public class SalesmanagementImpl extends AbstractBeanMapperSupport implements Sa
   public OrderPositionEto findOrderPosition(Long orderPositionId) {
 
     return this.ucFindOrderPosition.findOrderPosition(orderPositionId);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<OrderPositionEto> findOrderPositions(OrderPositionSearchCriteriaTo criteria) {
+
+    return this.ucFindOrderPosition.findOrderPositions(criteria);
   }
 
   /**

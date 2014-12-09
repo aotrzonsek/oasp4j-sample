@@ -23,6 +23,8 @@ public class OrderPositionEntity extends ApplicationPersistenceEntity implements
 
   private OrderEntity order;
 
+  private Long cookId;
+
   private Long offerId;
 
   private String offerName;
@@ -85,6 +87,22 @@ public class OrderPositionEntity extends ApplicationPersistenceEntity implements
     OrderEntity orderEntity = new OrderEntity();
     orderEntity.setId(orderId);
     this.order = orderEntity;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public Long getCookId() {
+
+    return this.cookId;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public void setCookId(Long cookId) {
+
+    this.cookId = cookId;
   }
 
   /**
