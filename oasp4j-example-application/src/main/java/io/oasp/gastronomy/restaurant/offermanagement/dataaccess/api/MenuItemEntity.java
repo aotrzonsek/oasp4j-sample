@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 /**
+ * The {@link io.oasp.gastronomy.restaurant.general.dataaccess.api.ApplicationPersistenceEntity persistent entity} for
+ * {@link MenuItem}.
  *
  * @author loverbec
  */

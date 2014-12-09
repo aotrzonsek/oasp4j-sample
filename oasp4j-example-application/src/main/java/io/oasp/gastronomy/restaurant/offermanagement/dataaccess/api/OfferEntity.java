@@ -13,6 +13,8 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 /**
+ * The {@link io.oasp.gastronomy.restaurant.general.dataaccess.api.ApplicationPersistenceEntity persistent entity} for
+ * {@link Offer}.
  *
  * @author loverbec
  */

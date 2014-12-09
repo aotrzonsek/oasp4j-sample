@@ -8,10 +8,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**
- * {@link ApplicationPersistenceEntity Entity} representing a table of the restaurant. A table has a unique
- * {@link #getNumber() number} (primary key) can be {@link TableState#isReserved() reserved},
- * {@link TableState#isOccupied() occupied} and may have a
- * {@link io.oasp.gastronomy.restaurant.staffmanagement.dataaccess.api.StaffMemberEntity waiter} assigned.
+ * {@link ApplicationPersistenceEntity Entity} representing a {@link Table} of the restaurant. A table has a unique
+ * {@link #getNumber() number} can be {@link TableState#isReserved() reserved}, {@link TableState#isOccupied() occupied}
+ * and may have a {@link io.oasp.gastronomy.restaurant.staffmanagement.dataaccess.api.StaffMemberEntity waiter}
+ * assigned.
  *
  * @author hohwille
  */
