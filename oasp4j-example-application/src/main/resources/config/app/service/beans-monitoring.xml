@@ -5,14 +5,7 @@
            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
-
-  <bean id="admin" class="io.oasp.module.monitoring.service.impl.jmx.StatusMonitorMBean" depends-on="mBeanExporter"/>
-  <!-- 
-  <bean id="ping" class="io.oasp.gastronomy.restaurant.service.admin.httpinvoker.v1_0_0.impl.AdminServiceImplMBean"
-    depends-on="mBeanExporter">
-  </bean>
-   -->
-
+  <!--
   <bean id="mBeanExporter" class="org.springframework.jmx.export.MBeanExporter">
     <property name="assembler" ref="assembler"/>
     <property name="autodetect" value="false"/>
@@ -22,15 +15,10 @@
       </map>
     </property>
   </bean>
-
-  <!-- Spring JMX beans -->
   <bean id="jmxAttributeSource" class="org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource"/>
-
   <bean id="assembler" class="org.springframework.jmx.export.assembler.MetadataMBeanInfoAssembler">
     <property name="attributeSource" ref="jmxAttributeSource"/>
   </bean>
-
-<!-- 
   <bean id="watchdogTask" class="org.springframework.scheduling.timer.ScheduledTimerTask" scope="singleton">
     <property name="delay" value="5000"/>
     <property name="period" value="${admin.watchdog.interval}"/>
@@ -41,8 +29,6 @@
       </bean>
     </property>
   </bean>
-  
-
   <bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean">
     <property name="scheduledTimerTasks">
       <list>

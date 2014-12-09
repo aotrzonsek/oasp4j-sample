@@ -2,6 +2,7 @@ package io.oasp.gastronomy.restaurant.salesmanagement.dataaccess.api.dao;
 
 import io.oasp.gastronomy.restaurant.general.dataaccess.api.dao.ApplicationDao;
 import io.oasp.gastronomy.restaurant.salesmanagement.dataaccess.api.OrderPositionEntity;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderPositionSearchCriteriaTo;
 
 import java.util.List;
 
@@ -30,4 +31,12 @@ public interface OrderPositionDao extends ApplicationDao<OrderPositionEntity> {
    *         empty {@link List} if no such {@link OrderPositionEntity} exists.
    */
   List<OrderPositionEntity> findOpenOrderPositionsByOrder(Long orderId);
+
+  /**
+   * Finds the {@link OrderPositionEntity order positions} matching the given {@link OrderPositionSearchCriteriaTo}.
+   *
+   * @param criteria is the {@link OrderPositionSearchCriteriaTo}.
+   * @return the {@link List} with the matching {@link OrderPositionEntity} objects.
+   */
+  List<OrderPositionEntity> findOrderPositions(OrderPositionSearchCriteriaTo criteria);
 }

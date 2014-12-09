@@ -2,6 +2,7 @@ package io.oasp.gastronomy.restaurant.salesmanagement.logic.impl.usecase;
 
 import io.oasp.gastronomy.restaurant.salesmanagement.dataaccess.api.OrderPositionEntity;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderPositionEto;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderPositionSearchCriteriaTo;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase.UcFindOrderPosition;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.base.usecase.AbstractOrderPositionUc;
 
@@ -53,6 +54,16 @@ public class UcFindOrderPositionImpl extends AbstractOrderPositionUc implements 
     LOG.debug("Get all open order positions for order id '" + orderId + "'.");
     return getBeanMapper()
         .mapList(getOrderPositionDao().findOpenOrderPositionsByOrder(orderId), OrderPositionEto.class);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<OrderPositionEto> findOrderPositions(OrderPositionSearchCriteriaTo criteria) {
+
+    List<OrderPositionEntity> positions = getOrderPositionDao().findOrderPositions(criteria);
+    return getBeanMapper().mapList(positions, OrderPositionEto.class);
   }
 
 }

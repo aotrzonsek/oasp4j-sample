@@ -2,8 +2,11 @@ package io.oasp.gastronomy.restaurant.salesmanagement.dataaccess.impl.dao;
 
 import io.oasp.gastronomy.restaurant.general.common.api.constants.NamedQueries;
 import io.oasp.gastronomy.restaurant.general.dataaccess.base.dao.ApplicationDaoImpl;
+import io.oasp.gastronomy.restaurant.offermanagement.dataaccess.api.OfferEntity;
+import io.oasp.gastronomy.restaurant.salesmanagement.common.api.datatype.OrderPositionState;
 import io.oasp.gastronomy.restaurant.salesmanagement.dataaccess.api.OrderPositionEntity;
 import io.oasp.gastronomy.restaurant.salesmanagement.dataaccess.api.dao.OrderPositionDao;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderPositionSearchCriteriaTo;
 
 import java.util.List;
 
@@ -54,4 +57,34 @@ public class OrderPositionDaoImpl extends ApplicationDaoImpl<OrderPositionEntity
         .setParameter(1, orderId).getResultList();
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<OrderPositionEntity> findOrderPositions(OrderPositionSearchCriteriaTo criteria) {
+
+    OrderPositionEntity orderPosition = Alias.alias(OrderPositionEntity.class);
+    EntityPathBase<OrderPositionEntity> alias = Alias.$(orderPosition);
+    JPAQuery query = new JPAQuery(getEntityManager()).from(alias);
+    if (criteria.isMealOrSideDish()) {
+      OfferEntity offer = Alias.alias(OfferEntity.class);
+      EntityPathBase<OfferEntity> offerAlias = Alias.$(offer);
+      query.innerJoin(offerAlias).on(Alias.$(orderPosition.getOfferId()).eq(Alias.$(offer.getId())))
+          .where(Alias.$(offer.getMealId()).isNotNull().or(Alias.$(offer.getSideDishId()).isNotNull()));
+    }
+    Long orderId = criteria.getOrderId();
+    if (orderId != null) {
+      query.where(Alias.$(orderPosition.getOrder().getId()).eq(orderId));
+    }
+    Long cookId = criteria.getCookId();
+    if (cookId != null) {
+      query.where(Alias.$(orderPosition.getCookId()).eq(cookId));
+    }
+    OrderPositionState state = criteria.getState();
+    if (state != null) {
+      query.where(Alias.$(orderPosition.getState()).eq(state));
+    }
+    applyCriteria(criteria, query);
+    return query.list(alias);
+  }
 }

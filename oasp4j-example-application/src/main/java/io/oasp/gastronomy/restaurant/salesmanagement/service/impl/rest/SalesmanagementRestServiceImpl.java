@@ -11,6 +11,7 @@ import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.BillEto;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderCto;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderEto;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderPositionEto;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderPositionSearchCriteriaTo;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderSearchCriteriaTo;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.PaymentData;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase.UcManageOrderPosition;
@@ -86,6 +87,24 @@ public class SalesmanagementRestServiceImpl {
     criteria.setTableId(parameters.get("tableId", Long.class, false));
     criteria.setState(parameters.get("state", OrderState.class, false));
     return this.salesManagement.findOrderCtos(criteria);
+  }
+
+  /**
+   * @param info is the {@link UriInfo}.
+   * @return the {@link List} of matching {@link OrderPositionEto}s.
+   */
+  @Path("/orderposition")
+  @GET
+  @RolesAllowed(PermissionConstants.FIND_ORDER)
+  public List<OrderPositionEto> findOrderPositions(@Context UriInfo info) {
+
+    RequestParameters parameters = RequestParameters.fromQuery(info);
+    OrderPositionSearchCriteriaTo criteria = new OrderPositionSearchCriteriaTo();
+    criteria.setOrderId(parameters.get("orderId", Long.class, false));
+    criteria.setCookId(parameters.get("cookId", Long.class, false));
+    criteria.setState(parameters.get("state", OrderPositionState.class, false));
+    criteria.setMealOrSideDish(parameters.get("mealOrSideDish", Boolean.class, false));
+    return this.salesManagement.findOrderPositions(criteria);
   }
 
   /**

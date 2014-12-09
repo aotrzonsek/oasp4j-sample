@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+      version="3.0">
 
   <display-name>Restaurant</display-name>
 
-  <!-- Spring: Registrierung of context intializer for profile handling -->
-  <context-param>
-    <param-name>contextInitializerClasses</param-name>
-    <param-value>io.oasp.module.web.common.base.PropertiesWebApplicationContextInitializer</param-value>
-  </context-param>
   <!-- Spring: Registration of ApplicationContext -->
   <context-param>
     <param-name>contextConfigLocation</param-name>
@@ -27,19 +24,6 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-
-  <!-- Servlet for the communication with the Loadbalancer. This Servlet checks for every HTTP-GET-Request, whether
-    a isAlive-file exists. If so, HTTP-OK is send back. If no, HTTP-FORBIDDEN. -->
-  <servlet>
-    <servlet-name>Loadbalancer</servlet-name>
-    <servlet-class>io.oasp.module.monitoring.service.impl.loadbalancer.LoadbalancerServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Loadbalancer</servlet-name>
-    <url-pattern>/Loadbalancer</url-pattern>
-  </servlet-mapping>
-
 
   <!-- Servlet for handling httpinvoker service requests. -->
   <!--
@@ -101,7 +85,7 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
-  <!-- Filter to set special characters correctly ("Umlaute"). -->
+    <!-- Filter to set special characters correctly ("Umlaute"). -->
   <filter>
     <filter-name>SetCharacterEncodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
