@@ -45,7 +45,7 @@ public class UcManageStaffMemberImpl extends AbstractStaffMemberUc implements Uc
    * {@inheritDoc}
    */
   @Override
-  public void updateStaffMember(StaffMemberEto staffMember) {
+  public StaffMemberEto saveStaffMember(StaffMemberEto staffMember) {
 
     Objects.requireNonNull(staffMember, "staffMemaber");
 
@@ -66,6 +66,8 @@ public class UcManageStaffMemberImpl extends AbstractStaffMemberUc implements Uc
             targetStaffMember.getName(), staffMember.getName());
       }
     }
-    getStaffMemberDao().save(getBeanMapper().map(staffMember, StaffMemberEntity.class));
+    StaffMemberEntity persistedStaffMember =
+        getStaffMemberDao().save(getBeanMapper().map(staffMember, StaffMemberEntity.class));
+    return getBeanMapper().map(persistedStaffMember, StaffMemberEto.class);
   }
 }

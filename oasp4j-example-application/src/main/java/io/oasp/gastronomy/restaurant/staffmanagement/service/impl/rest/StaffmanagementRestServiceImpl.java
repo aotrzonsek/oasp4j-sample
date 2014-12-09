@@ -3,6 +3,7 @@ package io.oasp.gastronomy.restaurant.staffmanagement.service.impl.rest;
 import io.oasp.gastronomy.restaurant.general.common.api.constants.PermissionConstants;
 import io.oasp.gastronomy.restaurant.staffmanagement.logic.api.Staffmanagement;
 import io.oasp.gastronomy.restaurant.staffmanagement.logic.api.to.StaffMemberEto;
+import io.oasp.gastronomy.restaurant.staffmanagement.logic.api.usecase.UcManageStaffMember;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -77,9 +79,24 @@ public class StaffmanagementRestServiceImpl {
   @PUT
   @Path("/{login}")
   @RolesAllowed(PermissionConstants.UPDATE_STAFF_MEMBER)
+  @Deprecated
   public void updateStaffMember(StaffMemberEto staffMemberBo) {
 
-    this.staffManagement.updateStaffMember(staffMemberBo);
+    this.staffManagement.saveStaffMember(staffMemberBo);
+  }
+
+  /**
+   * Calls {@link UcManageStaffMember#saveStaffMember}.
+   *
+   * @param staffMemberEto the staffMember to be created or updated
+   * @return the saved {@link StaffMemberEto}
+   */
+  @POST
+  @Path("/")
+  @RolesAllowed(PermissionConstants.UPDATE_STAFF_MEMBER)
+  public StaffMemberEto saveStaffMember(StaffMemberEto staffMemberEto) {
+
+    return this.staffManagement.saveStaffMember(staffMemberEto);
   }
 
   /**

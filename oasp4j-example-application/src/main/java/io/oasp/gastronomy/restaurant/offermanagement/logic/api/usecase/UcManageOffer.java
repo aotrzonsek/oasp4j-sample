@@ -17,17 +17,12 @@ public interface UcManageOffer {
   void deleteOffer(Long offerId);
 
   /**
-   * Saves an {@link OfferEto}. If this {@link OfferEto} does not exist, an exception will be thrown.
+   * If no ID is contained creates the {@link OfferEto} for the first time. Else it updates the {@link OfferEto} with
+   * given ID. If no {@link OfferEto} with given ID is present, an exception will be thrown.
    *
    * @param offer the {@link OfferEto} to persist.
+   * @return the generated/updated offer
    */
-  void updateOffer(OfferEto offer);
-
-  /**
-   * Creates the {@link OfferEto} for the first time.
-   *
-   * @param offer the {@link OfferEto} to persist.
-   */
-  void createOffer(OfferEto offer);
+  OfferEto saveOffer(OfferEto offer);
 
 }

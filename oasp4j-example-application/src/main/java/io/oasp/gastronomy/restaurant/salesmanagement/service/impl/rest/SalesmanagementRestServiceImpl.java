@@ -13,6 +13,7 @@ import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderEto;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderPositionEto;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderSearchCriteriaTo;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.PaymentData;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase.UcManageOrderPosition;
 import io.oasp.module.rest.service.api.RequestParameters;
 
 import java.util.List;
@@ -95,6 +96,7 @@ public class SalesmanagementRestServiceImpl {
   @Path("/order/{orderId}")
   @PUT
   @RolesAllowed(PermissionConstants.UPDATE_ORDER)
+  @Deprecated
   public OrderCto updateOrder(OrderCto order, @PathParam("orderId") Long orderId) {
 
     Objects.requireNonNull(order, "order");
@@ -106,26 +108,35 @@ public class SalesmanagementRestServiceImpl {
     } else if (!jsonOrderId.equals(orderId)) {
       throw new BadRequestException("Order ID of URL does not match JSON payload!");
     }
-    return this.salesManagement.updateOrder(order);
+    return this.salesManagement.saveOrder(order);
   }
 
   /**
+   * If no ID is contained creates the {@link OfferEto} for the first time. Else it updates the {@link OfferEto} with
+   * given ID. If no {@link OfferEto} with given ID is present, an exception will be thrown.
+   *
    * @param order the {@link OrderCto} to create.
    * @return the created {@link OrderCto} (with {@link OrderEto#getId() ID}(s) assigned).
    */
   @Path("/order/")
   @POST
   @RolesAllowed(PermissionConstants.CREATE_ORDER)
-  public OrderCto createOrder(OrderCto order) {
+  public OrderCto saveOrder(OrderCto order) {
 
-    Objects.requireNonNull(order, "order");
-    OrderEto orderEto = order.getOrder();
-    Objects.requireNonNull(orderEto, "order");
-    // Long orderId = orderEto.getId();
-    // if (orderId == null) {
-    // throw new BadRequestException("Create order shall not provide ID!");
-    // }
-    return this.salesManagement.updateOrder(order);
+    return this.salesManagement.saveOrder(order);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @SuppressWarnings("javadoc")
+  @Path("/order/{orderId}/position/{orderPositionId}")
+  @GET
+  @RolesAllowed(PermissionConstants.FIND_ORDER)
+  public OrderPositionEto getOrderPosition(@PathParam("orderPositionId") Long orderPositionId) {
+
+    return this.salesManagement.findOrderPosition(orderPositionId);
+
   }
 
   /**
@@ -143,19 +154,6 @@ public class SalesmanagementRestServiceImpl {
     return this.salesManagement.createOrderPosition(offer, getOrder(orderId), comment);
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @SuppressWarnings("javadoc")
-  @Path("/order/{orderId}/position/{orderPositionId}")
-  @GET
-  @RolesAllowed(PermissionConstants.FIND_ORDER)
-  public OrderPositionEto getOrderPosition(@PathParam("orderPositionId") Long orderPositionId) {
-
-    return this.salesManagement.findOrderPosition(orderPositionId);
-
-  }
-
   // although orderId and orderPositionId are not explicitly needed here, the path structure is intentionally chosen
   // see createOrderPosition for a similar reason
   /**
@@ -165,9 +163,24 @@ public class SalesmanagementRestServiceImpl {
   @PUT
   @Path("/order/{orderId}/position/{orderPositionId}")
   @RolesAllowed(PermissionConstants.UPDATE_ORDER)
+  @Deprecated
   public void updateOrderPosition(OrderPositionEto order) {
 
-    this.salesManagement.updateOrderPosition(order);
+    this.salesManagement.saveOrderPosition(order);
+  }
+
+  /**
+   * Calls {@link UcManageOrderPosition#saveOrderPosition}.
+   *
+   * @param orderPosition the OrderPositionEto to save
+   * @return the saved OrderPositionEto
+   */
+  @PUT
+  @Path("/order/{orderId}/position/")
+  @RolesAllowed(PermissionConstants.UPDATE_ORDER)
+  public OrderPositionEto saveOrderPosition(OrderPositionEto orderPosition) {
+
+    return this.salesManagement.saveOrderPosition(orderPosition);
   }
 
   // again orderId is not explicitly needed here

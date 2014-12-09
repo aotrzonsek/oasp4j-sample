@@ -124,15 +124,6 @@ public class SalesmanagementImpl extends AbstractBeanMapperSupport implements Sa
    * {@inheritDoc}
    */
   @Override
-  public OrderEto createOrder(TableEto table) {
-
-    return this.ucManageOrder.createOrder(table);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
   public OrderEto findOrder(Long id) {
 
     return this.ucFindOrder.findOrder(id);
@@ -172,24 +163,6 @@ public class SalesmanagementImpl extends AbstractBeanMapperSupport implements Sa
   public OrderEto findOpenOrderForTable(Long tableId) {
 
     return this.ucFindOrder.findOpenOrderForTable(tableId);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public OrderEto updateOrder(OrderEto order) {
-
-    return this.ucManageOrder.updateOrder(order);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public OrderCto updateOrder(OrderCto order) {
-
-    return this.ucManageOrder.updateOrder(order);
   }
 
   /**
@@ -236,15 +209,6 @@ public class SalesmanagementImpl extends AbstractBeanMapperSupport implements Sa
   public List<OrderPositionEto> findOpenOrderPositionsByOrderId(Long orderId) {
 
     return this.ucFindOrderPosition.findOpenOrderPositionsByOrderId(orderId);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public OrderPositionEto updateOrderPosition(OrderPositionEto order) {
-
-    return this.ucManageOrderPosition.updateOrderPosition(order);
   }
 
   /**
@@ -306,18 +270,45 @@ public class SalesmanagementImpl extends AbstractBeanMapperSupport implements Sa
    * {@inheritDoc}
    */
   @Override
-  public OrderEto createOrder(OrderEto order) {
+  public void deleteOrder(Long id) {
 
-    return this.ucManageOrder.createOrder(order);
+    this.ucManageOrder.deleteOrder(id);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void deleteOrder(Long id) {
+  public OrderCto saveOrder(OrderCto order) {
 
-    this.ucManageOrder.deleteOrder(id);
+    return this.ucManageOrder.saveOrder(order);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public OrderEto saveOrder(OrderEto order) {
+
+    return this.ucManageOrder.saveOrder(order);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public OrderEto saveOrder(TableEto table) {
+
+    return this.ucManageOrder.saveOrder(table);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public OrderPositionEto saveOrderPosition(OrderPositionEto orderPosition) {
+
+    return this.ucManageOrderPosition.saveOrderPosition(orderPosition);
   }
 
 }

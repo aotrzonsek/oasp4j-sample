@@ -11,6 +11,8 @@ import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductFilter;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductSortBy;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.SideDishEto;
+import io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase.UcManageOffer;
+import io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase.UcManageProduct;
 
 import java.util.List;
 
@@ -69,29 +71,35 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Calls {@link UcManageOffer#saveOffer}.
+   *
+   * @param offer the offer to save.
+   *
+   * @return the saved offer
    */
-  @SuppressWarnings("javadoc")
   @POST
   @Path("/offer/")
   @RolesAllowed(PermissionConstants.CREATE_OFFER)
-  public void createOffer(@Valid OfferEto offer) {
+  public OfferEto saveOffer(@Valid OfferEto offer) {
 
-    this.offerManagement.createOffer(offer);
+    return this.offerManagement.saveOffer(offer);
   }
 
   // although id in path is redundant, this structure is intentionally chosen
   // for further reasons behind this decision see one of the other ***ManagementRestServiceImpl
   /**
    * {@inheritDoc}
+   *
+   * @return
    */
   @SuppressWarnings("javadoc")
   @PUT
   @Path("/offer/{id}")
   @RolesAllowed(PermissionConstants.UPDATE_OFFER)
-  public void updateOffer(OfferEto offer) {
+  @Deprecated
+  public OfferEto updateOffer(OfferEto offer) {
 
-    this.offerManagement.updateOffer(offer);
+    return this.offerManagement.saveOffer(offer);
   }
 
   /**
@@ -119,15 +127,18 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Calls {@link UcManageProduct#saveProduct}.
+   *
+   * @param product the product to save
+   * @return the saved product
+   *
    */
-  @SuppressWarnings("javadoc")
   @POST
   @Path("/product/")
   @RolesAllowed(PermissionConstants.CREATE_PRODUCT)
-  public void createProduct(ProductEto product) {
+  public ProductEto saveProduct(ProductEto product) {
 
-    this.offerManagement.createProduct(product);
+    return this.offerManagement.saveProduct(product);
   }
 
   /**
@@ -200,9 +211,10 @@ public class OffermanagementRestServiceImpl {
   @PUT
   @Path("/product/{id}")
   @RolesAllowed(PermissionConstants.UPDATE_PRODUCT)
+  @Deprecated
   public void updateProduct(ProductEto product) {
 
-    this.offerManagement.updateProduct(product);
+    this.offerManagement.saveProduct(product);
   }
 
   /**

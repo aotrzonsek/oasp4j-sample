@@ -71,24 +71,6 @@ public class OffermanagementImpl extends AbstractBeanMapperSupport implements Of
   /**
    * {@inheritDoc}
    */
-
-  public void createOffer(OfferEto offer) {
-
-    this.ucManageOffer.createOffer(offer);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void updateOffer(OfferEto offer) {
-
-    this.ucManageOffer.updateOffer(offer);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public List<OfferEto> findAllOffers() {
 
@@ -120,6 +102,17 @@ public class OffermanagementImpl extends AbstractBeanMapperSupport implements Of
   public List<DrinkEto> findAllDrinks() {
 
     return this.ucFindProduct.findAllDrinks();
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   */
+  @Override
+  public OfferEto saveOffer(OfferEto offer) {
+
+    return this.ucManageOffer.saveOffer(offer);
+
   }
 
   /**
@@ -181,19 +174,9 @@ public class OffermanagementImpl extends AbstractBeanMapperSupport implements Of
    *
    */
   @Override
-  public void createProduct(ProductEto product) {
+  public ProductEto saveProduct(ProductEto product) {
 
-    this.ucManageProduct.createProduct(product);
-  }
-
-  /**
-   * {@inheritDoc}
-   *
-   */
-  @Override
-  public void updateProduct(ProductEto product) {
-
-    this.ucManageProduct.updateProduct(product);
+    return this.ucManageProduct.saveProduct(product);
   }
 
   /**

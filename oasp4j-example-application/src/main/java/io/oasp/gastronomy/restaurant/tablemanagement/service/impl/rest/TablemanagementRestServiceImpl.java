@@ -99,9 +99,24 @@ public class TablemanagementRestServiceImpl {
   @POST
   @Path("/table/")
   @RolesAllowed(PermissionConstants.CREATE_TABLE)
+  @Deprecated
   public TableEto createTable(@Valid TableEto table) {
 
-    return this.tableManagement.createTable(table);
+    return this.tableManagement.saveTable(table);
+  }
+
+  /**
+   * Creates or updates a restaurant table and store it in the database.
+   *
+   * @param table the table to be created
+   * @return the recently created table
+   */
+  @POST
+  @Path("/table/")
+  @RolesAllowed(PermissionConstants.CREATE_TABLE)
+  public TableEto saveTable(@Valid TableEto table) {
+
+    return this.tableManagement.saveTable(table);
   }
 
   /**

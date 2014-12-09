@@ -8,19 +8,15 @@ import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductEto;
  * @author mvielsac
  */
 public interface UcManageProduct {
-  /**
-   * Updates a product.
-   *
-   * @param product the {@link ProductEto} to persist.
-   */
-  void updateProduct(ProductEto product);
 
   /**
-   * Creates the {@link ProductEto} for the first time.
+   * If no ID is contained creates the {@link ProductEto} for the first time. Else it updates the {@link ProductEto}
+   * with given ID. If no {@link ProductEto} with given ID is present, an exception will be thrown.
    *
    * @param product the {@link ProductEto} to persist.
+   * @return the persisted {@link ProductEto}.
    */
-  void createProduct(ProductEto product);
+  ProductEto saveProduct(ProductEto product);
 
   /**
    * Deletes a {@link ProductEto}.

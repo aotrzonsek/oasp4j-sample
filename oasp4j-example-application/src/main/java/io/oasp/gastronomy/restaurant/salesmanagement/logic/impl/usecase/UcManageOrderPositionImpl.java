@@ -20,6 +20,7 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityNotFoundException;
 
 import net.sf.mmm.util.exception.api.ObjectNotFoundUserException;
 
@@ -67,7 +68,7 @@ public class UcManageOrderPositionImpl extends AbstractOrderPositionUc implement
     orderPosition.setOfferId(offerId);
     orderPosition.setOfferName(offerFromDb.getDescription());
     orderPosition.setPrice(offerFromDb.getCurrentPrice());
-    orderPosition.setOrder(getBeanMapper().map(this.salesManagement.updateOrder(order), OrderEntity.class));
+    orderPosition.setOrder(getBeanMapper().map(this.salesManagement.saveOrder(order), OrderEntity.class));
     orderPosition.setComment(comment);
 
     // Save the order position and return it.
@@ -82,7 +83,7 @@ public class UcManageOrderPositionImpl extends AbstractOrderPositionUc implement
   /**
    * {@inheritDoc}
    */
-  public OrderPositionEto updateOrderPosition(OrderPositionEto orderPosition) {
+  public OrderPositionEto saveOrderPosition(OrderPositionEto orderPosition) {
 
     Objects.requireNonNull(orderPosition, "orderPosition");
 
@@ -92,12 +93,16 @@ public class UcManageOrderPositionImpl extends AbstractOrderPositionUc implement
       targetOrderPosition = getOrderPositionDao().findOne(orderPositionId);
     }
 
+    OrderPositionEntity persistedOrderPosition;
     if (targetOrderPosition == null) {
+      if (orderPositionId != null) {
+        throw new EntityNotFoundException();
+      }
       /*
        * OrderPosition does not yet exist. -> new OrderPosition
        */
       targetOrderPosition = getBeanMapper().map(orderPosition, OrderPositionEntity.class);
-      getOrderPositionDao().save(targetOrderPosition);
+      persistedOrderPosition = getOrderPositionDao().save(targetOrderPosition);
       LOG.debug("The order position with id '" + targetOrderPosition.getId() + "' saved.");
 
     } else {
@@ -143,10 +148,10 @@ public class UcManageOrderPositionImpl extends AbstractOrderPositionUc implement
       // targetOrderPosition.setPrice(orderPosition.getPrice());
       // targetOrderPosition.setOrderId(orderPosition.getOrderId());
 
-      getOrderPositionDao().save(targetOrderPosition);
+      persistedOrderPosition = getOrderPositionDao().save(targetOrderPosition);
       LOG.debug("The order position with id '" + targetOrderPosition.getId() + "' has been updated.");
     }
-    return getBeanMapper().map(targetOrderPosition, OrderPositionEto.class);
+    return getBeanMapper().map(persistedOrderPosition, OrderPositionEto.class);
   }
 
   /**

@@ -22,7 +22,7 @@ public interface UcManageTable {
    * @param table the {@link TableEto} to create.
    * @return the new {@link TableEto} that has been saved with ID and version.
    */
-  TableEto createTable(TableEto table);
+  TableEto saveTable(TableEto table);
 
   /**
    * Marks a restaurant table as {@link TableState}.
