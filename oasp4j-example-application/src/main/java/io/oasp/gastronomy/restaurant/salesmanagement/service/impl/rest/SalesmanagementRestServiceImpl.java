@@ -103,7 +103,7 @@ public class SalesmanagementRestServiceImpl {
     criteria.setOrderId(parameters.get("orderId", Long.class, false));
     criteria.setCookId(parameters.get("cookId", Long.class, false));
     criteria.setState(parameters.get("state", OrderPositionState.class, false));
-    criteria.setMealOrSideDish(parameters.get("mealOrSideDish", Boolean.class, false));
+    criteria.setMealOrSideDish(parameters.get("mealOrSideDish", boolean.class, false));
     return this.salesManagement.findOrderPositions(criteria);
   }
 
