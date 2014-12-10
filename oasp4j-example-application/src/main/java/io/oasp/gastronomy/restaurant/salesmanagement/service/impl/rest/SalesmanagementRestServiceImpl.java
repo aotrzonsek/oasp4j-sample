@@ -106,7 +106,7 @@ public class SalesmanagementRestServiceImpl {
    */
   @Path("/orderposition")
   @GET
-  @RolesAllowed(PermissionConstants.FIND_ORDER)
+  @RolesAllowed(PermissionConstants.FIND_ORDER_POSITION)
   public List<OrderPositionEto> findOrderPositions(@Context UriInfo info) {
 
     RequestParameters parameters = RequestParameters.fromQuery(info);
@@ -165,7 +165,7 @@ public class SalesmanagementRestServiceImpl {
    */
   @Path("/order/{orderId}/position/{orderPositionId}")
   @GET
-  @RolesAllowed(PermissionConstants.FIND_ORDER)
+  @RolesAllowed(PermissionConstants.FIND_ORDER_POSITION)
   public OrderPositionEto getOrderPosition(@PathParam("orderPositionId") Long orderPositionId) {
 
     return this.salesManagement.findOrderPosition(orderPositionId);
@@ -182,7 +182,7 @@ public class SalesmanagementRestServiceImpl {
    */
   @Path("/order/{orderId}/position/{comment}")
   @POST
-  @RolesAllowed(PermissionConstants.SAVE_ORDER)
+  @RolesAllowed(PermissionConstants.SAVE_ORDER_POSITION)
   public OrderPositionEto createOrderPosition(OfferEto offer, @PathParam("orderId") Long orderId,
       @PathParam("comment") String comment) {
 
@@ -198,7 +198,7 @@ public class SalesmanagementRestServiceImpl {
    */
   @PUT
   @Path("/order/{orderId}/position/{orderPositionId}")
-  @RolesAllowed(PermissionConstants.SAVE_ORDER)
+  @RolesAllowed(PermissionConstants.SAVE_ORDER_POSITION)
   @Deprecated
   public void updateOrderPosition(OrderPositionEto order) {
 
@@ -211,9 +211,9 @@ public class SalesmanagementRestServiceImpl {
    * @param orderPosition the OrderPositionEto to save
    * @return the saved OrderPositionEto
    */
-  @PUT
-  @Path("/order/{orderId}/position/")
-  @RolesAllowed(PermissionConstants.SAVE_ORDER)
+  @POST
+  @Path("/orderposition/")
+  @RolesAllowed(PermissionConstants.SAVE_ORDER_POSITION)
   public OrderPositionEto saveOrderPosition(OrderPositionEto orderPosition) {
 
     return this.salesManagement.saveOrderPosition(orderPosition);
@@ -228,7 +228,7 @@ public class SalesmanagementRestServiceImpl {
    */
   @PUT
   @Path("/order/{orderId}/position/{orderPositionId}/{newstate}")
-  @RolesAllowed(PermissionConstants.SAVE_ORDER)
+  @RolesAllowed(PermissionConstants.SAVE_ORDER_POSITION)
   public void markOrderPositionAs(OrderPositionEto orderPosition, @PathParam("newState") OrderPositionState newState) {
 
     this.salesManagement.markOrderPositionAs(orderPosition, newState);
