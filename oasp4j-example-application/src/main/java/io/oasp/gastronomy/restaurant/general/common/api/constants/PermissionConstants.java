@@ -12,7 +12,7 @@ public abstract class PermissionConstants {
   public static final String FIND_OFFER = "FindOffer";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to save offer. */
-  public static final String SAVE_OFFER = "CreateOffer";
+  public static final String SAVE_OFFER = "SaveOffer";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to remove offer. */
   public static final String DELETE_OFFER = "DeleteOffer";
@@ -21,7 +21,7 @@ public abstract class PermissionConstants {
   public static final String FIND_PRODUCT = "FindProduct";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to save product. */
-  public static final String SAVE_PRODUCT = "CreateProduct";
+  public static final String SAVE_PRODUCT = "SaveProduct";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to remove product. */
   public static final String DELETE_PRODUCT = "DeleteProduct";
@@ -30,7 +30,7 @@ public abstract class PermissionConstants {
   public static final String FIND_ORDER = "FindOrder";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to save order. */
-  public static final String SAVE_ORDER = "CreateOrder";
+  public static final String SAVE_ORDER = "SaveOrder";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to remove order. */
   public static final String DELETE_ORDER = "DeleteOrder";
@@ -39,7 +39,7 @@ public abstract class PermissionConstants {
   public static final String FIND_ORDER_POSITION = "FindOrderPosition";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to save order position. */
-  public static final String SAVE_ORDER_POSITION = "CreateOrderPosition";
+  public static final String SAVE_ORDER_POSITION = "SaveOrderPosition";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to remove order position. */
   public static final String DELETE_ORDER_POSITION = "DeleteOrderPosition";
@@ -48,7 +48,7 @@ public abstract class PermissionConstants {
   public static final String FIND_BILL = "FindBill";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to save bill. */
-  public static final String SAVE_BILL = "CreateBill";
+  public static final String SAVE_BILL = "SaveBill";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to remove bill. */
   public static final String DELETE_BILL = "DeleteBill";
@@ -57,7 +57,7 @@ public abstract class PermissionConstants {
   public static final String FIND_STAFF_MEMBER = "FindStaffMember";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to save staff member. */
-  public static final String SAVE_STAFF_MEMBER = "CreateStaffMember";
+  public static final String SAVE_STAFF_MEMBER = "SaveStaffMember";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to remove staff member. */
   public static final String DELETE_STAFF_MEMBER = "DeleteStaffMember";
@@ -66,7 +66,7 @@ public abstract class PermissionConstants {
   public static final String FIND_TABLE = "FindTable";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to save table. */
-  public static final String SAVE_TABLE = "CreateTable";
+  public static final String SAVE_TABLE = "SaveTable";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to remove table. */
   public static final String DELETE_TABLE = "DeleteTable";

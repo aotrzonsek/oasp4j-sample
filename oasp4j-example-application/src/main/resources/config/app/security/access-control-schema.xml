@@ -41,6 +41,8 @@
       <!-- salesmanagement -->
       <permission id="SaveOrder"/>
       <permission id="FindOrder"/>
+      <permission id="SaveOrderPosition"/>
+      <permission id="FindOrderPosition"/>
     </permissions>
   </group>
   <group id="Chief" type="role">
@@ -56,6 +58,7 @@
       <!-- staffmanagement -->
       <permission id="SaveStaffMember"/>
       <permission id="DeleteStaffMember"/>
+      <permission id="DeleteOrderPosition"/>
       <!-- tablemanagement -->
       <permission id="DeleteTable"/>
     </permissions>
