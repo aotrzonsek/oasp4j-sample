@@ -1,7 +1,9 @@
 package io.oasp.gastronomy.restaurant;
 
 import io.oasp.gastronomy.restaurant.cxf.CxfConfigurator;
+import io.oasp.gastronomy.restaurant.jpa.DataaccessConfigurator;
 import io.oasp.gastronomy.restaurant.security.SecurityConfigurator;
+
 import org.apache.catalina.startup.Tomcat;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.springframework.boot.SpringApplication;
@@ -19,7 +21,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 @Configuration
 @EnableAutoConfiguration
 @ImportResource({"classpath:config/app/beans-application.xml"})
-@Import({SecurityConfigurator.class, CxfConfigurator.class})
+@Import({DataaccessConfigurator.class, SecurityConfigurator.class, CxfConfigurator.class})
 public class Application {
 
     public static void main(String[] args) {
