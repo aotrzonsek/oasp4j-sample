@@ -8,7 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**
- * {@link ApplicationPersistenceEntity Entity} representing an {@link StaffMember}.
+ * The {@link io.oasp.gastronomy.restaurant.general.dataaccess.api.ApplicationPersistenceEntity persistent entity} for
+ * {@link StaffMember}.
  *
  * @author loverbec
  */

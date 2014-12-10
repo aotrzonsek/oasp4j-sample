@@ -12,7 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 /**
- * {@link ApplicationPersistenceEntity Entity} that represents a single position of an {@link OrderEntity}.
+ * {@link ApplicationPersistenceEntity Entity} that represents a single {@link OrderPosition position} of an
+ * {@link OrderEntity}.
  *
  * @author hohwille
  */

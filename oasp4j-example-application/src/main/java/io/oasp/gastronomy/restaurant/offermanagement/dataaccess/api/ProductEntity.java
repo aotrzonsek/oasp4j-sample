@@ -9,9 +9,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
 /**
- * {@link io.oasp.gastronomy.restaurant.general.dataaccess.api.ApplicationPersistenceEntity
- * Entity} for {@link Product} .
- * 
+ * The {@link io.oasp.gastronomy.restaurant.general.dataaccess.api.ApplicationPersistenceEntity persistent entity} for
+ * {@link Product}.
+ *
  * @author loverbec
  */
 @Entity(name = "Product")
