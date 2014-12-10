@@ -9,23 +9,85 @@ import io.oasp.gastronomy.restaurant.tablemanagement.common.builders.TableEtoBui
 import io.oasp.gastronomy.restaurant.tablemanagement.dataaccess.api.TableEntity;
 import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.to.TableEto;
 import io.oasp.gastronomy.restaurant.test.general.AppProperties.RestUrls;
+import io.oasp.gastronomy.restaurant.test.general.TestData;
 import io.oasp.gastronomy.restaurant.test.general.webclient.ResponseData;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.ws.rs.core.Response;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * Test table management rest service
- * 
+ *
  * @author hahmad, arklos, mbrunnli
  */
 public class TableManagementRestServiceTest extends AbstractRestServiceTest {
 
   /**
+   * Simple crud test for tablemanagement.
+   */
+  @Test
+  public void crudTableTest() throws Exception {
+
+    // get all tables
+
+    List<ResponseData<TableEto>> tables =
+        this.waiter.getAll(RestUrls.TableManagement.getAllTablesUrl(), TableEto.class);
+
+    // get unused table number
+    List<Long> tableNumbers = new ArrayList<>();
+    for (ResponseData<TableEto> responseData : tables) {
+      tableNumbers.add(responseData.getResponseObject().getNumber());
+    }
+    Long number = 1l;
+    while (tableNumbers.contains(number)) {
+      number += 1;
+    }
+    tableNumbers.add(number);
+
+    // create a new table
+    TableEto createdTable =
+        this.waiter.post(TestData.createTable(null, number, 0, TableState.FREE),
+            RestUrls.TableManagement.getCreateTableUrl(), TableEto.class);
+    // get the created table
+    ResponseData<TableEto> table =
+        this.waiter.get(RestUrls.TableManagement.getGetTableUrl(createdTable.getId()), TableEto.class);
+
+    Assert.assertNotNull(table.getResponseObject());
+    Assert.assertEquals(createdTable.getNumber(), table.getResponseObject().getNumber());
+    Assert.assertEquals(createdTable.getState(), table.getResponseObject().getState());
+
+    // update table
+    TableState newState = TableState.OCCUPIED;
+    createdTable.setState(newState);
+    Long newNumber = createdTable.getNumber() + 1l;
+    while (tableNumbers.contains(newNumber)) {
+      newNumber += 1;
+    }
+    createdTable.setNumber(newNumber);
+    TableEto updatedTable =
+        this.waiter.post(createdTable, RestUrls.TableManagement.getCreateTableUrl(), TableEto.class);
+
+    // Assert.assertEquals(newState, updatedTable.getState());
+    Assert.assertEquals(newNumber, updatedTable.getNumber());
+
+    // delete created table
+    Response deleteResponse = this.chief.delete(RestUrls.TableManagement.getDeleteTableUrl(createdTable.getId()));
+    Assert.assertEquals(deleteResponse.getStatus(), 204);
+
+    // check if table is deleted
+    ResponseData<TableEto> getDeletedTableResponse =
+        this.waiter.get(RestUrls.TableManagement.getGetTableUrl(createdTable.getId()), TableEto.class);
+    Assert.assertNull(getDeletedTableResponse.getResponseObject());
+  }
+
+  /**
    * Test get table
-   * 
+   *
    * @throws Exception test fails
    */
   @Test

@@ -265,4 +265,11 @@ public class WebClientWrapper {
     return new ResponseData<>(responseObject, response, jsonString);
   }
 
+  public <T> T post(Object body, String url, Class<T> responseObjectClass) {
+
+    this.webClient.replacePath(url);
+    T responseObject = this.webClient.post(body, responseObjectClass);
+    return responseObject;
+  }
+
 }

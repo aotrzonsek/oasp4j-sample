@@ -178,13 +178,11 @@ public class AppProperties {
         }
 
         /**
-         * @param orderId Order of the position
-         * @param orderPositionId Id of the position
          * @return URL to get the OrderPosition
          */
-        public static final String getUpdateOrderPositionURL(Long orderId, Long orderPositionId) {
+        public static final String getUpdateOrderPositionURL() {
 
-          return getGetOrderPositionURL(orderId, orderPositionId);
+          return ORDER_URL + "position/";
         }
 
         /**
