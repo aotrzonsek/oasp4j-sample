@@ -75,7 +75,7 @@ public class SalesmanagementRestServiceImpl {
   @Path("/order/{orderId}")
   @GET
   @RolesAllowed(PermissionConstants.FIND_ORDER)
-  public OrderEto getOrder(@PathParam("orderId") Long orderId) {
+  public OrderEto findOrder(@PathParam("orderId") Long orderId) {
 
     return this.salesManagement.findOrder(orderId);
   }
@@ -161,12 +161,12 @@ public class SalesmanagementRestServiceImpl {
    * Delegates to {@link UcFindOrderPosition#findOrderPosition}.
    *
    * @param orderPositionId id of the {@link OrderPositionEto}
-   * @return the {@link OrderPositionEto}
+   * @return the {@link OrderPositionEto}.
    */
-  @Path("/order/{orderId}/position/{orderPositionId}")
+  @Path("/orderposition/{orderPositionId}")
   @GET
   @RolesAllowed(PermissionConstants.FIND_ORDER_POSITION)
-  public OrderPositionEto getOrderPosition(@PathParam("orderPositionId") Long orderPositionId) {
+  public OrderPositionEto findOrderPosition(@PathParam("orderPositionId") Long orderPositionId) {
 
     return this.salesManagement.findOrderPosition(orderPositionId);
 
@@ -179,30 +179,16 @@ public class SalesmanagementRestServiceImpl {
    * @param orderId the order id
    * @param comment the comment together with an orderPosition
    * @return a new orderPosition
+   * @deprecated not REST style, will be removed.
    */
   @Path("/order/{orderId}/position/{comment}")
   @POST
   @RolesAllowed(PermissionConstants.SAVE_ORDER_POSITION)
+  @Deprecated
   public OrderPositionEto createOrderPosition(OfferEto offer, @PathParam("orderId") Long orderId,
       @PathParam("comment") String comment) {
 
-    return this.salesManagement.createOrderPosition(offer, getOrder(orderId), comment);
-  }
-
-  // although orderId and orderPositionId are not explicitly needed here, the path structure is intentionally chosen
-  // see createOrderPosition for a similar reason
-  /**
-   * Delegates to {@link UcManageOrderPosition#createOrderPosition}.
-   *
-   * @param order the {@link OrderPositionEto} to update
-   */
-  @PUT
-  @Path("/order/{orderId}/position/{orderPositionId}")
-  @RolesAllowed(PermissionConstants.SAVE_ORDER_POSITION)
-  @Deprecated
-  public void updateOrderPosition(OrderPositionEto order) {
-
-    this.salesManagement.saveOrderPosition(order);
+    return this.salesManagement.createOrderPosition(offer, findOrder(orderId), comment);
   }
 
   /**
