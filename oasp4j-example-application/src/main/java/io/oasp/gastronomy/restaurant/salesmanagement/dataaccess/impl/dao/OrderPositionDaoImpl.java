@@ -13,8 +13,10 @@ import java.util.List;
 import javax.inject.Named;
 
 import com.mysema.query.alias.Alias;
+import com.mysema.query.jpa.JPASubQuery;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.mysema.query.types.path.EntityPathBase;
+import com.mysema.query.types.query.ListSubQuery;
 
 /**
  * Implementation of {@link OrderPositionDao}.
@@ -66,12 +68,6 @@ public class OrderPositionDaoImpl extends ApplicationDaoImpl<OrderPositionEntity
     OrderPositionEntity orderPosition = Alias.alias(OrderPositionEntity.class);
     EntityPathBase<OrderPositionEntity> alias = Alias.$(orderPosition);
     JPAQuery query = new JPAQuery(getEntityManager()).from(alias);
-    if (criteria.isMealOrSideDish()) {
-      OfferEntity offer = Alias.alias(OfferEntity.class);
-      EntityPathBase<OfferEntity> offerAlias = Alias.$(offer);
-      query.innerJoin(offerAlias).on(Alias.$(orderPosition.getOfferId()).eq(Alias.$(offer.getId())))
-          .where(Alias.$(offer.getMealId()).isNotNull().or(Alias.$(offer.getSideDishId()).isNotNull()));
-    }
     Long orderId = criteria.getOrderId();
     if (orderId != null) {
       query.where(Alias.$(orderPosition.getOrder().getId()).eq(orderId));
@@ -83,6 +79,20 @@ public class OrderPositionDaoImpl extends ApplicationDaoImpl<OrderPositionEntity
     OrderPositionState state = criteria.getState();
     if (state != null) {
       query.where(Alias.$(orderPosition.getState()).eq(state));
+    }
+    if (criteria.isMealOrSideDish()) {
+      OfferEntity offer = Alias.alias(OfferEntity.class);
+      EntityPathBase<OfferEntity> offerAlias = Alias.$(offer);
+      JPASubQuery subQuery =
+          new JPASubQuery().from(offerAlias).where(
+              Alias.$(offer.getMeal().getId()).isNotNull().or(Alias.$(offer.getSideDish().getId()).isNotNull()));
+      ListSubQuery<Long> listSubQuery = subQuery.list(Alias.$(offer.getId()));
+      query.where(Alias.$(orderPosition.getOfferId()).in(listSubQuery));
+
+      //
+      //
+      // query.innerJoin(offer.).on(Alias.$(orderPosition.getOfferId()).eq(Alias.$(offer.getId())))
+      // .where(Alias.$(offer.getMealId()).isNotNull().or(Alias.$(offer.getSideDishId()).isNotNull()));
     }
     applyCriteria(criteria, query);
     return query.list(alias);
