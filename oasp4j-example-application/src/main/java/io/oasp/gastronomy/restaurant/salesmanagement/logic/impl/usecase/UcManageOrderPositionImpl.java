@@ -68,7 +68,7 @@ public class UcManageOrderPositionImpl extends AbstractOrderPositionUc implement
     // Declare the order position.
     orderPosition.setOfferId(offerId);
     orderPosition.setOfferName(offerFromDb.getDescription());
-    orderPosition.setPrice(offerFromDb.getCurrentPrice());
+    orderPosition.setPrice(offerFromDb.getPrice());
     orderPosition.setOrder(getBeanMapper().map(this.salesManagement.saveOrder(order), OrderEntity.class));
     orderPosition.setComment(comment);
 
@@ -111,10 +111,10 @@ public class UcManageOrderPositionImpl extends AbstractOrderPositionUc implement
    */
   private void verifyUpdate(OrderPosition currentOrderPosition, OrderPosition updateOrderPosition) {
 
-    if (Objects.equals(currentOrderPosition.getOrderId(), currentOrderPosition.getOrderId())) {
+    if (!Objects.equals(currentOrderPosition.getOrderId(), currentOrderPosition.getOrderId())) {
       throw new IllegalPropertyChangeException(updateOrderPosition, "orderId");
     }
-    if (Objects.equals(currentOrderPosition.getOfferId(), currentOrderPosition.getOfferId())) {
+    if (!Objects.equals(currentOrderPosition.getOfferId(), currentOrderPosition.getOfferId())) {
       throw new IllegalPropertyChangeException(updateOrderPosition, "offerId");
     }
     OrderPositionState currentState = currentOrderPosition.getState();

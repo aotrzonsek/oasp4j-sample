@@ -32,7 +32,7 @@ public abstract class MenuItemEntity extends ApplicationPersistenceEntity implem
   /**
    * {@inheritDoc}
    */
-  @Column(name = "name"/* , unique = true */)
+  @Column(name = "name", unique = true)
   @Override
   public String getName() {
 

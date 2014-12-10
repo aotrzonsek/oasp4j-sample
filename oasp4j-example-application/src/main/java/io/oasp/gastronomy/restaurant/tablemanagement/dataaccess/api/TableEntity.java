@@ -16,6 +16,7 @@ import javax.persistence.Entity;
  * @author hohwille
  */
 @Entity(name = "Table")
+// Table is a reserved word in SQL/RDBMS and can not be used as table name
 @javax.persistence.Table(name = "RestaurantTable")
 public class TableEntity extends ApplicationPersistenceEntity implements Table {
 
@@ -50,6 +51,7 @@ public class TableEntity extends ApplicationPersistenceEntity implements Table {
    * {@inheritDoc}
    */
   @Override
+  @Column(name = "waiter_id")
   public Long getWaiterId() {
 
     return this.waiterId;

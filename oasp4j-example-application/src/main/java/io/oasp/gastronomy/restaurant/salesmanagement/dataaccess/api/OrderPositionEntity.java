@@ -5,6 +5,7 @@ import io.oasp.gastronomy.restaurant.general.dataaccess.api.ApplicationPersisten
 import io.oasp.gastronomy.restaurant.salesmanagement.common.api.OrderPosition;
 import io.oasp.gastronomy.restaurant.salesmanagement.common.api.datatype.OrderPositionState;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -93,6 +94,8 @@ public class OrderPositionEntity extends ApplicationPersistenceEntity implements
   /**
    * {@inheritDoc}
    */
+  @Override
+  @Column(name = "cook_id")
   public Long getCookId() {
 
     return this.cookId;
@@ -101,6 +104,7 @@ public class OrderPositionEntity extends ApplicationPersistenceEntity implements
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setCookId(Long cookId) {
 
     this.cookId = cookId;
@@ -110,6 +114,7 @@ public class OrderPositionEntity extends ApplicationPersistenceEntity implements
    * {@inheritDoc}
    */
   @Override
+  @Column(name = "offer_id")
   public Long getOfferId() {
 
     return this.offerId;

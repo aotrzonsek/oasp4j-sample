@@ -325,7 +325,7 @@ public class TestData {
           writer
               .write("INSERT INTO OFFER (id, description, state, meal_id, sidedish_id, drink_id, modificationCounter, currentprice) VALUES ( "
                   + getCsv(e.getId(), e.getDescription(), getPosition(e.getState(), OfferState.values()),
-                      e.getMealId(), e.getSideDishId(), e.getDrinkId(), e.getModificationCounter(), e.getCurrentPrice()
+                      e.getMealId(), e.getSideDishId(), e.getDrinkId(), e.getModificationCounter(), e.getPrice()
                           .getValue()) + " );\n");
         }
 
@@ -351,7 +351,7 @@ public class TestData {
 
         for (BillEto e : ALL_BILLS) {
           writer.write("INSERT INTO BILL (id, payed, modificationCounter, totalamount,tip) VALUES ( "
-              + getCsv(e.getId(), e.isPayed(), e.getModificationCounter(), e.getTotalAmount().getValue(), e.getTip()
+              + getCsv(e.getId(), e.isPayed(), e.getModificationCounter(), e.getTotal().getValue(), e.getTip()
                   .getValue()) + " );\n");
           for (Long id : e.getOrderPositionIds()) {
             writer.write("INSERT INTO BILL_ORDERPOSITION (bill_id, orderpositions_id) VALUES ( "
@@ -443,7 +443,7 @@ public class TestData {
     bill.setPayed(payed);
     if (modificationCounter != null)
       bill.setModificationCounter(modificationCounter);
-    bill.setTotalAmount(totalamount);
+    bill.setTotal(totalamount);
     bill.setTip(tip);
     if (orderPositions != null) {
       bill.setOrderPositionIds(Arrays.asList(orderPositions));
@@ -527,7 +527,7 @@ public class TestData {
     offer.setDrinkId(drink_id);
     if (modificationCounter != null)
       offer.setModificationCounter(modificationCounter);
-    offer.setCurrentPrice(currentprice);
+    offer.setPrice(currentprice);
     return offer;
   }
 

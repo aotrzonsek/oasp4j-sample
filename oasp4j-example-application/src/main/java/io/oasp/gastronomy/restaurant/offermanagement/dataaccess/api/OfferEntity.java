@@ -26,7 +26,7 @@ public class OfferEntity extends MenuItemEntity implements Offer {
 
   private Long number;
 
-  private Money currentPrice;
+  private Money price;
 
   private MealEntity meal;
 
@@ -64,14 +64,12 @@ public class OfferEntity extends MenuItemEntity implements Offer {
   }
 
   /**
-   * Returns the field 'currentPrice'.
-   *
-   * @return Value of currentPrice
+   * {@inheritDoc}
    */
   @Override
-  public Money getCurrentPrice() {
+  public Money getPrice() {
 
-    return this.currentPrice;
+    return this.price;
   }
 
   /**
@@ -80,9 +78,9 @@ public class OfferEntity extends MenuItemEntity implements Offer {
    * @param currentPrice New value for currentPrice
    */
   @Override
-  public void setCurrentPrice(Money currentPrice) {
+  public void setPrice(Money currentPrice) {
 
-    this.currentPrice = currentPrice;
+    this.price = currentPrice;
   }
 
   /**
@@ -235,6 +233,7 @@ public class OfferEntity extends MenuItemEntity implements Offer {
    *
    * @return Value of state
    */
+  @Override
   public OfferState getState() {
 
     return this.state;
@@ -245,6 +244,7 @@ public class OfferEntity extends MenuItemEntity implements Offer {
    *
    * @param state New value for state
    */
+  @Override
   public void setState(OfferState state) {
 
     this.state = state;
