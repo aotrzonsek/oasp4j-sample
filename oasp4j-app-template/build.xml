@@ -1,13 +1,5 @@
 <project name="app-template" default="main" basedir=".">
   <description>Pre-process sources and resources of oasp4j-sample to remove project specific parts.</description>
-  <property name="exampleapp.sources.output" value="src/main/resources/archetype-resources/__rootArtifactId__-application/src/main/java/general"/>
-  <property name="exampleapp.sources.input" value="../oasp4j-example-application/src/main/java/io/oasp/gastronomy/restaurant/general"/>
-  <property name="exampleapp.resources.output" value="src/main/resources/archetype-resources/__rootArtifactId__-application/src/main/resources"/>
-  <property name="exampleapp.resources.input" value="../oasp4j-example-application/src/main/resources"/>
-  <property name="exampleapp.webresources.output" value="src/main/resources/archetype-resources/__rootArtifactId__-application/src/main/webapp"/>
-  <property name="exampleapp.webresources.input" value="../oasp4j-example-application/src/main/webapp"/>
-  <property name="integrationtest.sources.output"  value="src/main/resources/archetype-resources/__rootArtifactId__-application-integration-test/src/main/java/test/general"/>
-  <property name="integrationtest.sources.input"  value="../oasp4j-example-application-integration-test/src/main/java/io/oasp/gastronomy/restaurant/test/general"/>
   
   <property name="xml.end.pattern"  value="&lt;!-- END ARCHETYPE SKIP"/>
   <property name="xml.begin.pattern"  value="BEGIN ARCHETYPE SKIP --&gt;"/>
@@ -15,11 +7,12 @@
   <property name="java.begin.pattern"  value="// END ARCHETYPE SKIP "/>
   <!-- the prefix necessary for archetype replacement -->
   <property name="prefix"  value="#set( $symbol_pound = '#' )${line.separator}#set( $symbol_dollar = '$' )${line.separator}#set( $symbol_escape = '\\\\' )${line.separator}"/>
-
+	
   <target name="main" depends="clean">
 
 		<copy todir="${exampleapp.sources.output}">
 			<fileset dir="${exampleapp.sources.input}"/>
+			<fileset dir="${restaurantapp.sources.input}"/>
 			
 			<filterchain>
 				<tokenfilter>
@@ -39,6 +32,7 @@
 	
 		<copy todir="${exampleapp.resources.output}">
 			<fileset dir="${exampleapp.resources.input}"/>
+			<fileset dir="${restaurantapp.resources.input}"/>
 			
 			<filterchain>
 				<tokenfilter>
@@ -53,7 +47,10 @@
 				</tokenfilter>
 			</filterchain>
     </copy>
-	
+
+		<if>
+ 			<equals arg1="${copy.webresources}" arg2="true" />
+ 		<then>
 		<copy todir="${exampleapp.webresources.output}">
 			<fileset dir="${exampleapp.webresources.input}"/>
 			
@@ -67,6 +64,8 @@
 				</tokenfilter>
 			</filterchain>
     </copy>
+ 		</then>
+		</if>	
 	
 		<copy todir="${integrationtest.sources.output}">
 			<fileset dir="${integrationtest.sources.input}"/>

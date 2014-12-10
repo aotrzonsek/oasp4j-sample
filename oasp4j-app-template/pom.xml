@@ -15,11 +15,39 @@
 
   <properties>
     <exampleapp.sources.output>src/main/resources/archetype-resources/__rootArtifactId__-application/src/main/java/general</exampleapp.sources.output>
-    <exampleapp.sources.input>../oasp4j-example-application/src/main/java/io/oasp/gastronomy/restaurant/general</exampleapp.sources.input>
     <integrationtest.sources.output>src/main/resources/archetype-resources/__rootArtifactId__-application-integration-test/src/main/java/test/general</integrationtest.sources.output>
-    <integrationtest.sources.input>../oasp4j-example-application-integration-test/src/main/java/io/oasp/gastronomy/restaurant/test/general</integrationtest.sources.input>
+  	<exampleapp.sources.output>src/main/resources/archetype-resources/__rootArtifactId__-application/src/main/java/general</exampleapp.sources.output>
+  	<exampleapp.resources.output>src/main/resources/archetype-resources/__rootArtifactId__-application/src/main/resources</exampleapp.resources.output>
+  	<exampleapp.webresources.output>src/main/resources/archetype-resources/__rootArtifactId__-application/src/main/webapp</exampleapp.webresources.output>
+  	<integrationtest.sources.output>src/main/resources/archetype-resources/__rootArtifactId__-application-integration-test/src/main/java/test/general</integrationtest.sources.output>
+		<restaurantapp.sources.input>../oasp4j-restaurant/src/main/java/io/oasp/gastronomy/restaurant/general</restaurantapp.sources.input>
+ 		<restaurantapp.resources.input>../oasp4j-restaurant/src/main/resources</restaurantapp.resources.input>
+		<integrationtest.sources.input>../oasp4j-example-application-integration-test/src/main/java/io/oasp/gastronomy/restaurant/test/general</integrationtest.sources.input>
   </properties>
 
+	<profiles>
+  	<profile>
+    	<id>classic</id>
+    	<activation>
+      	<activeByDefault>true</activeByDefault>
+    	</activation>
+  		<properties>
+  			<exampleapp.sources.input>../oasp4j-example-application/src/main/java/io/oasp/gastronomy/restaurant/gui</exampleapp.sources.input>
+  			<exampleapp.resources.input>../oasp4j-example-application/src/main/resources</exampleapp.resources.input>
+  			<exampleapp.webresources.input>../oasp4j-example-application/src/main/webapp</exampleapp.webresources.input>
+				<copy.webresources>true</copy.webresources>
+  		</properties>
+	  </profile>
+  	<profile>
+    	<id>spring-boot</id>
+  		<properties>
+  			<exampleapp.sources.input>../oasp4j-example-boot-application/src/main/java/io/oasp/gastronomy/restaurant</exampleapp.sources.input>
+  			<exampleapp.resources.input>../oasp4j-example-boot-application/src/main/resources</exampleapp.resources.input>
+				<copy.webresources>false</copy.webresources>
+  		</properties>
+	  </profile>
+	</profiles>
+	
   <build>
     <extensions>
       <extension>
