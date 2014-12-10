@@ -30,7 +30,7 @@ public abstract class PermissionConstants {
   public static final String FIND_ORDER = "FindOrder";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to save order. */
-  public static final String SAVE_ORDER = "CreateOrder";
+  public static final String SAVE_ORDER = "SaveOrder";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to remove order. */
   public static final String DELETE_ORDER = "DeleteOrder";
