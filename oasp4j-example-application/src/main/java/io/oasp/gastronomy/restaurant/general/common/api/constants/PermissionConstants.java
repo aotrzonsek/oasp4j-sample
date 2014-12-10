@@ -11,11 +11,8 @@ public abstract class PermissionConstants {
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to retrieve offer. */
   public static final String FIND_OFFER = "FindOffer";
 
-  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to update offer. */
-  public static final String UPDATE_OFFER = "UpdateOffer";
-
-  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to create offer. */
-  public static final String CREATE_OFFER = "CreateOffer";
+  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to save offer. */
+  public static final String SAVE_OFFER = "CreateOffer";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to remove offer. */
   public static final String DELETE_OFFER = "DeleteOffer";
@@ -23,11 +20,8 @@ public abstract class PermissionConstants {
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to retrieve product. */
   public static final String FIND_PRODUCT = "FindProduct";
 
-  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to update product. */
-  public static final String UPDATE_PRODUCT = "UpdateProduct";
-
-  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to create product. */
-  public static final String CREATE_PRODUCT = "CreateProduct";
+  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to save product. */
+  public static final String SAVE_PRODUCT = "CreateProduct";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to remove product. */
   public static final String DELETE_PRODUCT = "DeleteProduct";
@@ -35,23 +29,26 @@ public abstract class PermissionConstants {
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to retrieve order. */
   public static final String FIND_ORDER = "FindOrder";
 
-  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to update order. */
-  public static final String UPDATE_ORDER = "UpdateOrder";
-
-  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to create order. */
-  public static final String CREATE_ORDER = "CreateOrder";
+  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to save order. */
+  public static final String SAVE_ORDER = "CreateOrder";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to remove order. */
   public static final String DELETE_ORDER = "DeleteOrder";
 
+  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to retrieve order position. */
+  public static final String FIND_ORDER_POSITION = "FindOrderPosition";
+
+  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to save order position. */
+  public static final String SAVE_ORDER_POSITION = "CreateOrderPosition";
+
+  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to remove order position. */
+  public static final String DELETE_ORDER_POSITION = "DeleteOrderPosition";
+
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to retrieve bill. */
   public static final String FIND_BILL = "FindBill";
 
-  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to update bill. */
-  public static final String UPDATE_BILL = "UpdateBill";
-
-  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to create bill. */
-  public static final String CREATE_BILL = "CreateBill";
+  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to save bill. */
+  public static final String SAVE_BILL = "CreateBill";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to remove bill. */
   public static final String DELETE_BILL = "DeleteBill";
@@ -59,11 +56,8 @@ public abstract class PermissionConstants {
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to retrieve staff member. */
   public static final String FIND_STAFF_MEMBER = "FindStaffMember";
 
-  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to update staff member. */
-  public static final String UPDATE_STAFF_MEMBER = "UpdateStaffMember";
-
-  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to create staff member. */
-  public static final String CREATE_STAFF_MEMBER = "CreateStaffMember";
+  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to save staff member. */
+  public static final String SAVE_STAFF_MEMBER = "CreateStaffMember";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to remove staff member. */
   public static final String DELETE_STAFF_MEMBER = "DeleteStaffMember";
@@ -71,11 +65,8 @@ public abstract class PermissionConstants {
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to retrieve table. */
   public static final String FIND_TABLE = "FindTable";
 
-  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to update table. */
-  public static final String UPDATE_TABLE = "UpdateTable";
-
-  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to create table. */
-  public static final String CREATE_TABLE = "CreateTable";
+  /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to save table. */
+  public static final String SAVE_TABLE = "CreateTable";
 
   /** {@link io.oasp.module.security.common.api.accesscontrol.AccessControlPermission} to remove table. */
   public static final String DELETE_TABLE = "DeleteTable";

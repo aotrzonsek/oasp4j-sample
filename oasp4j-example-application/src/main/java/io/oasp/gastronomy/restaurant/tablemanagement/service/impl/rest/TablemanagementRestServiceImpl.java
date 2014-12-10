@@ -103,7 +103,7 @@ public class TablemanagementRestServiceImpl {
    */
   @POST
   @Path("/table/")
-  @RolesAllowed(PermissionConstants.CREATE_TABLE)
+  @RolesAllowed(PermissionConstants.SAVE_TABLE)
   @Deprecated
   public TableEto createTable(@Valid TableEto table) {
 
@@ -118,7 +118,7 @@ public class TablemanagementRestServiceImpl {
    */
   @POST
   @Path("/table/")
-  @RolesAllowed(PermissionConstants.CREATE_TABLE)
+  @RolesAllowed(PermissionConstants.SAVE_TABLE)
   public TableEto saveTable(@Valid TableEto table) {
 
     return this.tableManagement.saveTable(table);
@@ -158,7 +158,7 @@ public class TablemanagementRestServiceImpl {
    */
   @Path("/table/{id}/marktableas/{newState}")
   @POST
-  @RolesAllowed(PermissionConstants.UPDATE_TABLE)
+  @RolesAllowed(PermissionConstants.SAVE_TABLE)
   public void markTableAs(@PathParam("id") Long id, @PathParam("newState") TableState newState) {
 
     TableEto table = this.tableManagement.findTable(id);

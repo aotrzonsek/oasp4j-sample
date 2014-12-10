@@ -78,7 +78,7 @@ public class StaffmanagementRestServiceImpl {
    */
   @PUT
   @Path("/{login}")
-  @RolesAllowed(PermissionConstants.UPDATE_STAFF_MEMBER)
+  @RolesAllowed(PermissionConstants.SAVE_STAFF_MEMBER)
   @Deprecated
   public void updateStaffMember(StaffMemberEto staffMemberBo) {
 
@@ -93,7 +93,7 @@ public class StaffmanagementRestServiceImpl {
    */
   @POST
   @Path("/")
-  @RolesAllowed(PermissionConstants.UPDATE_STAFF_MEMBER)
+  @RolesAllowed(PermissionConstants.SAVE_STAFF_MEMBER)
   public StaffMemberEto saveStaffMember(StaffMemberEto staffMemberEto) {
 
     return this.staffManagement.saveStaffMember(staffMemberEto);

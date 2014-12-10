@@ -127,7 +127,7 @@ public class SalesmanagementRestServiceImpl {
    */
   @Path("/order/{orderId}")
   @PUT
-  @RolesAllowed(PermissionConstants.UPDATE_ORDER)
+  @RolesAllowed(PermissionConstants.SAVE_ORDER)
   @Deprecated
   public OrderCto updateOrder(OrderCto order, @PathParam("orderId") Long orderId) {
 
@@ -151,7 +151,7 @@ public class SalesmanagementRestServiceImpl {
    */
   @Path("/order/")
   @POST
-  @RolesAllowed(PermissionConstants.CREATE_ORDER)
+  @RolesAllowed(PermissionConstants.SAVE_ORDER)
   public OrderCto saveOrder(OrderCto order) {
 
     return this.salesManagement.saveOrder(order);
@@ -182,7 +182,7 @@ public class SalesmanagementRestServiceImpl {
    */
   @Path("/order/{orderId}/position/{comment}")
   @POST
-  @RolesAllowed(PermissionConstants.CREATE_ORDER)
+  @RolesAllowed(PermissionConstants.SAVE_ORDER)
   public OrderPositionEto createOrderPosition(OfferEto offer, @PathParam("orderId") Long orderId,
       @PathParam("comment") String comment) {
 
@@ -198,7 +198,7 @@ public class SalesmanagementRestServiceImpl {
    */
   @PUT
   @Path("/order/{orderId}/position/{orderPositionId}")
-  @RolesAllowed(PermissionConstants.UPDATE_ORDER)
+  @RolesAllowed(PermissionConstants.SAVE_ORDER)
   @Deprecated
   public void updateOrderPosition(OrderPositionEto order) {
 
@@ -213,7 +213,7 @@ public class SalesmanagementRestServiceImpl {
    */
   @PUT
   @Path("/order/{orderId}/position/")
-  @RolesAllowed(PermissionConstants.UPDATE_ORDER)
+  @RolesAllowed(PermissionConstants.SAVE_ORDER)
   public OrderPositionEto saveOrderPosition(OrderPositionEto orderPosition) {
 
     return this.salesManagement.saveOrderPosition(orderPosition);
@@ -228,7 +228,7 @@ public class SalesmanagementRestServiceImpl {
    */
   @PUT
   @Path("/order/{orderId}/position/{orderPositionId}/{newstate}")
-  @RolesAllowed(PermissionConstants.UPDATE_ORDER)
+  @RolesAllowed(PermissionConstants.SAVE_ORDER)
   public void markOrderPositionAs(OrderPositionEto orderPosition, @PathParam("newState") OrderPositionState newState) {
 
     this.salesManagement.markOrderPositionAs(orderPosition, newState);
@@ -256,7 +256,7 @@ public class SalesmanagementRestServiceImpl {
    */
   @POST
   @Path("/bill/{billId}/payment")
-  @RolesAllowed(PermissionConstants.UPDATE_BILL)
+  @RolesAllowed(PermissionConstants.SAVE_BILL)
   public PaymentStatus doPayment(@PathParam("billId") Long billId) {
 
     return this.salesManagement.doPayment(getBill(billId));
@@ -271,7 +271,7 @@ public class SalesmanagementRestServiceImpl {
    */
   @Path("/bill/{billId}/payment")
   @POST
-  @RolesAllowed(PermissionConstants.UPDATE_BILL)
+  @RolesAllowed(PermissionConstants.SAVE_BILL)
   public PaymentStatus doPayment(@PathParam("billId") Long billId, PaymentData paymentData) {
 
     return this.salesManagement.doPayment(getBill(billId), paymentData);
@@ -286,7 +286,7 @@ public class SalesmanagementRestServiceImpl {
    */
   @POST
   @Path("/bill/{tip}")
-  @RolesAllowed(PermissionConstants.CREATE_BILL)
+  @RolesAllowed(PermissionConstants.SAVE_BILL)
   public BillEto createBill(List<OrderPositionEto> orderPositions, @PathParam("tip") Money tip) {
 
     return this.salesManagement.createBill(orderPositions, tip);

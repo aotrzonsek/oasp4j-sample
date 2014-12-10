@@ -83,7 +83,7 @@ public class OffermanagementRestServiceImpl {
    */
   @POST
   @Path("/offer/")
-  @RolesAllowed(PermissionConstants.CREATE_OFFER)
+  @RolesAllowed(PermissionConstants.SAVE_OFFER)
   public OfferEto saveOffer(@Valid OfferEto offer) {
 
     return this.offerManagement.saveOffer(offer);
@@ -100,7 +100,7 @@ public class OffermanagementRestServiceImpl {
    */
   @PUT
   @Path("/offer/{id}")
-  @RolesAllowed(PermissionConstants.UPDATE_OFFER)
+  @RolesAllowed(PermissionConstants.SAVE_OFFER)
   @Deprecated
   public OfferEto updateOffer(OfferEto offer) {
 
@@ -141,7 +141,7 @@ public class OffermanagementRestServiceImpl {
    */
   @POST
   @Path("/product/")
-  @RolesAllowed(PermissionConstants.CREATE_PRODUCT)
+  @RolesAllowed(PermissionConstants.SAVE_PRODUCT)
   public ProductEto saveProduct(ProductEto product) {
 
     return this.offerManagement.saveProduct(product);
@@ -223,7 +223,7 @@ public class OffermanagementRestServiceImpl {
    */
   @PUT
   @Path("/product/{id}")
-  @RolesAllowed(PermissionConstants.UPDATE_PRODUCT)
+  @RolesAllowed(PermissionConstants.SAVE_PRODUCT)
   @Deprecated
   public void updateProduct(ProductEto product) {
 
