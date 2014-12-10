@@ -53,6 +53,7 @@ public class UcManageOrderPositionImpl extends AbstractOrderPositionUc implement
   /**
    * {@inheritDoc}
    */
+  @Override
   public OrderPositionEto createOrderPosition(OfferEto offer, OrderEto order, String comment) {
 
     Objects.requireNonNull(offer, "offer");
@@ -83,6 +84,7 @@ public class UcManageOrderPositionImpl extends AbstractOrderPositionUc implement
   /**
    * {@inheritDoc}
    */
+  @Override
   public OrderPositionEto saveOrderPosition(OrderPositionEto orderPosition) {
 
     Objects.requireNonNull(orderPosition, "orderPosition");
@@ -157,6 +159,7 @@ public class UcManageOrderPositionImpl extends AbstractOrderPositionUc implement
   /**
    * {@inheritDoc}
    */
+  @Override
   public void markOrderPositionAs(OrderPositionEto orderPosition, OrderPositionState newState) {
 
     Objects.requireNonNull(orderPosition, "orderPosition");

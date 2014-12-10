@@ -5,6 +5,8 @@ import io.oasp.gastronomy.restaurant.tablemanagement.common.api.Table;
 import io.oasp.gastronomy.restaurant.tablemanagement.common.api.datatype.TableState;
 import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.Tablemanagement;
 import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.to.TableEto;
+import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.usecase.UcFindTable;
+import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.usecase.UcManageTable;
 
 import java.util.List;
 
@@ -46,7 +48,7 @@ public class TablemanagementRestServiceImpl {
   /**
    * This method sets the field <tt>tableManagement</tt>.
    *
-   * @param tableManagement the new value of the field ${bare_field_name}
+   * @param tableManagement the new value of the field tableManagement
    */
   @Inject
   public void setTableManagement(Tablemanagement tableManagement) {
@@ -55,9 +57,11 @@ public class TablemanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindTable#findTable}.
+   *
+   * @param id the ID of the {@link TableEto}
+   * @return the {@link TableEto}
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/table/{id}/")
   @RolesAllowed(PermissionConstants.FIND_TABLE)
@@ -78,9 +82,10 @@ public class TablemanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindTable#findAllTables}.
+   *
+   * @return list of all existing restaurant {@link TableEto}s
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/table/")
   @RolesAllowed(PermissionConstants.FIND_TABLE)
@@ -91,10 +96,10 @@ public class TablemanagementRestServiceImpl {
   }
 
   /**
-   * Creates a new restaurant table and store it in the database.
+   * Delegates to {@link UcManageTable#saveTable}.
    *
-   * @param table the table to be created
-   * @return the recently created table
+   * @param table the {@link TableEto} to be created
+   * @return the recently created {@link TableEto}
    */
   @POST
   @Path("/table/")
@@ -106,10 +111,10 @@ public class TablemanagementRestServiceImpl {
   }
 
   /**
-   * Creates or updates a restaurant table and store it in the database.
+   * Delegates to {@link UcManageTable#saveTable}.
    *
-   * @param table the table to be created
-   * @return the recently created table
+   * @param table the {@link TableEto} to be created
+   * @return the recently created {@link TableEto}
    */
   @POST
   @Path("/table/")
@@ -120,9 +125,9 @@ public class TablemanagementRestServiceImpl {
   }
 
   /**
-   * Deletes the table with specified id.
+   * Delegates to {@link UcManageTable#deleteTable}.
    *
-   * @param id the table to be deleted
+   * @param id ID of the {@link TableEto} to be deleted
    */
   @DELETE
   @Path("/table/{id}/")
@@ -133,9 +138,9 @@ public class TablemanagementRestServiceImpl {
   }
 
   /**
-   * Returns a list of all existing free tables.
+   * Delegates to {@link UcFindTable#findFreeTables}.
    *
-   * @return List of all existing free tables
+   * @return list of all existing free {@link TableEto}s
    */
   @GET
   @Path("/freetables/")
@@ -146,9 +151,11 @@ public class TablemanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageTable#markTableAs}.
+   *
+   * @param id ID of the {@link TableEto}
+   * @param newState the new {@link TableState}
    */
-  @SuppressWarnings("javadoc")
   @Path("/table/{id}/marktableas/{newState}")
   @POST
   @RolesAllowed(PermissionConstants.UPDATE_TABLE)
@@ -163,9 +170,12 @@ public class TablemanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageTable#isTableReleasable}.
+   *
+   * @param id ID of the {@link TableEto}
+   * @return <code>true</code> if the table could be released<br>
+   *         <code>false</code>, otherwise
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/table/{id}/istablereleasable/")
   @RolesAllowed(PermissionConstants.FIND_TABLE)

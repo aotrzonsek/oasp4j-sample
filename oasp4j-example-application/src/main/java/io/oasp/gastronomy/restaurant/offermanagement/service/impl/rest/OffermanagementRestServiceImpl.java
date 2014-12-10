@@ -11,6 +11,8 @@ import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductFilter;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductSortBy;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.SideDishEto;
+import io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase.UcFindOffer;
+import io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase.UcFindProduct;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase.UcManageOffer;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase.UcManageProduct;
 
@@ -59,9 +61,11 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindOffer#findOffer}.
+   *
+   * @param id the ID of the {@link OfferEto}
+   * @return the {@link OfferEto}
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/offer/{id}")
   @RolesAllowed(PermissionConstants.FIND_OFFER)
@@ -71,11 +75,11 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * Calls {@link UcManageOffer#saveOffer}.
+   * Delegates to {@link UcManageOffer#saveOffer}.
    *
-   * @param offer the offer to save.
+   * @param offer the {@link OfferEto} to save
    *
-   * @return the saved offer
+   * @return the saved {@link OfferEto}
    */
   @POST
   @Path("/offer/")
@@ -88,11 +92,12 @@ public class OffermanagementRestServiceImpl {
   // although id in path is redundant, this structure is intentionally chosen
   // for further reasons behind this decision see one of the other ***ManagementRestServiceImpl
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageOffer#saveOffer}.
    *
-   * @return
+   * @param offer the {@link OfferEto} to be updated
+   *
+   * @return the updated {@link OfferEto}
    */
-  @SuppressWarnings("javadoc")
   @PUT
   @Path("/offer/{id}")
   @RolesAllowed(PermissionConstants.UPDATE_OFFER)
@@ -103,9 +108,10 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindOffer#findAllOffers}.
+   *
+   * @return all {@link OfferEto}s as list
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/offer/")
   @RolesAllowed(PermissionConstants.FIND_OFFER)
@@ -115,9 +121,10 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindProduct#findAllProducts}.
+   *
+   * @return all {@link ProductEto}s as list
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/product/")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -127,11 +134,10 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * Calls {@link UcManageProduct#saveProduct}.
+   * Delegates to {@link UcManageProduct#saveProduct}.
    *
    * @param product the product to save
    * @return the saved product
-   *
    */
   @POST
   @Path("/product/")
@@ -142,9 +148,10 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindProduct#findAllMeals}.
+   *
+   * @return all {@link MealEto}s as list
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/product/meal/")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -154,9 +161,10 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindProduct#findAllDrinks}.
+   *
+   * @return all {@link DrinkEto}s as list
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/product/drink/")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -166,9 +174,10 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindProduct#findAllSideDishes}.
+   *
+   * @return all {@link SideDishEto}s as list
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/product/side/")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -178,9 +187,10 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageOffer#deleteOffer}.
+   *
+   * @param id ID of the {@link OfferEto} to delete
    */
-  @SuppressWarnings("javadoc")
   @DELETE
   @Path("/offer/{id}")
   @RolesAllowed(PermissionConstants.DELETE_OFFER)
@@ -190,9 +200,11 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindProduct#findProduct}.
+   *
+   * @param id ID of the {@link ProductEto}
+   * @return the {@link ProductEto}
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/product/{id}")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -205,9 +217,10 @@ public class OffermanagementRestServiceImpl {
   // for further reasons behind this decision see one of the other
   // *ManagementRestServiceImpl
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageProduct#saveProduct}.
+   *
+   * @param product the {@link ProductEto} to be updated
    */
-  @SuppressWarnings("javadoc")
   @PUT
   @Path("/product/{id}")
   @RolesAllowed(PermissionConstants.UPDATE_PRODUCT)
@@ -218,9 +231,11 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindOffer#isProductInUseByOffer}.
+   *
+   * @param id ID of the {@link ProductEto}
+   * @return true, if there are no offers, that use the given ProductEto. false otherwise.
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/product/{id}/inuse")
   @RolesAllowed({ PermissionConstants.FIND_OFFER, PermissionConstants.FIND_OFFER })
@@ -230,9 +245,10 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageProduct#deleteProduct}.
+   *
+   * @param id ID of the ProductEto to delete
    */
-  @SuppressWarnings("javadoc")
   @DELETE
   @Path("/product/{id}")
   @RolesAllowed(PermissionConstants.DELETE_PRODUCT)
@@ -242,26 +258,32 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindOffer#findOffersFiltered}.
+   *
+   * @param offerFilter the offers filter criteria
+   * @param sortBy sorting specification
+   * @return list with all {@link OfferEto}s that match the {@link OfferFilter} criteria
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/sortby/{sortBy}")
   @RolesAllowed(PermissionConstants.FIND_OFFER)
-  public List<OfferEto> getFilteredOffers(OfferFilter offerFilterBo, @PathParam("sortBy") OfferSortBy sortBy) {
+  public List<OfferEto> getFilteredOffers(OfferFilter offerFilter, @PathParam("sortBy") OfferSortBy sortBy) {
 
-    return this.offerManagement.findOffersFiltered(offerFilterBo, sortBy);
+    return this.offerManagement.findOffersFiltered(offerFilter, sortBy);
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindProduct#findProductsFiltered}.
+   *
+   * @param productFilter filter specification
+   * @param sortBy sorting specification
+   * @return list with all {@link ProductEto}s that match the {@link ProductFilter} criteria
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/product/sortby/{sortBy}")
   @RolesAllowed(PermissionConstants.FIND_OFFER)
-  public List<ProductEto> getFilteredProducts(ProductFilter productFilterBo, @PathParam("sortBy") ProductSortBy sortBy) {
+  public List<ProductEto> getFilteredProducts(ProductFilter productFilter, @PathParam("sortBy") ProductSortBy sortBy) {
 
-    return this.offerManagement.findProductsFiltered(productFilterBo, sortBy);
+    return this.offerManagement.findProductsFiltered(productFilter, sortBy);
   }
 }

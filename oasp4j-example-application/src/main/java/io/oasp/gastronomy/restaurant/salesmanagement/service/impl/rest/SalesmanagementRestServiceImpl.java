@@ -14,6 +14,11 @@ import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderPositionE
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderPositionSearchCriteriaTo;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderSearchCriteriaTo;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.PaymentData;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase.UcFindBill;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase.UcFindOrder;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase.UcFindOrderPosition;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase.UcManageBill;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase.UcManageOrder;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase.UcManageOrderPosition;
 import io.oasp.module.rest.service.api.RequestParameters;
 
@@ -62,6 +67,8 @@ public class SalesmanagementRestServiceImpl {
   }
 
   /**
+   * Delegates to {@link UcFindOrder#findOrder}.
+   *
    * @param orderId specified for the order
    * @return the order
    */
@@ -74,6 +81,8 @@ public class SalesmanagementRestServiceImpl {
   }
 
   /**
+   * Delegates to {@link UcFindOrderPosition#findOrderPositions}.
+   *
    * @param info is the {@link UriInfo}.
    * @return the {@link List} of matching {@link OrderCto}s.
    */
@@ -90,6 +99,8 @@ public class SalesmanagementRestServiceImpl {
   }
 
   /**
+   * Delegates to {@link UcFindOrderPosition#findOrderPositions}.
+   *
    * @param info is the {@link UriInfo}.
    * @return the {@link List} of matching {@link OrderPositionEto}s.
    */
@@ -108,6 +119,8 @@ public class SalesmanagementRestServiceImpl {
   }
 
   /**
+   * Delegates to {@link UcManageOrder#saveOrder}.
+   *
    * @param order the {@link OrderCto} to update.
    * @param orderId the {@link OrderEto#getId() ID} of the order.
    * @return the updated {@link OrderCto}.
@@ -131,11 +144,10 @@ public class SalesmanagementRestServiceImpl {
   }
 
   /**
-   * If no ID is contained creates the {@link OfferEto} for the first time. Else it updates the {@link OfferEto} with
-   * given ID. If no {@link OfferEto} with given ID is present, an exception will be thrown.
+   * Delegates to {@link UcManageOrder#saveOrder}.
    *
-   * @param order the {@link OrderCto} to create.
-   * @return the created {@link OrderCto} (with {@link OrderEto#getId() ID}(s) assigned).
+   * @param order the {@link OrderCto} to save.
+   * @return the saved {@link OrderCto} (with {@link OrderEto#getId() ID}(s) assigned).
    */
   @Path("/order/")
   @POST
@@ -146,9 +158,11 @@ public class SalesmanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindOrderPosition#findOrderPosition}.
+   *
+   * @param orderPositionId id of the {@link OrderPositionEto}
+   * @return the {@link OrderPositionEto}
    */
-  @SuppressWarnings("javadoc")
   @Path("/order/{orderId}/position/{orderPositionId}")
   @GET
   @RolesAllowed(PermissionConstants.FIND_ORDER)
@@ -159,6 +173,8 @@ public class SalesmanagementRestServiceImpl {
   }
 
   /**
+   * Delegates to {@link UcManageOrderPosition#createOrderPosition}.
+   *
    * @param offer the offer as new position within an order as JSON
    * @param orderId the order id
    * @param comment the comment together with an orderPosition
@@ -176,9 +192,10 @@ public class SalesmanagementRestServiceImpl {
   // although orderId and orderPositionId are not explicitly needed here, the path structure is intentionally chosen
   // see createOrderPosition for a similar reason
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageOrderPosition#createOrderPosition}.
+   *
+   * @param order the {@link OrderPositionEto} to update
    */
-  @SuppressWarnings("javadoc")
   @PUT
   @Path("/order/{orderId}/position/{orderPositionId}")
   @RolesAllowed(PermissionConstants.UPDATE_ORDER)
@@ -189,7 +206,7 @@ public class SalesmanagementRestServiceImpl {
   }
 
   /**
-   * Calls {@link UcManageOrderPosition#saveOrderPosition}.
+   * Delegates to {@link UcManageOrderPosition#saveOrderPosition}.
    *
    * @param orderPosition the OrderPositionEto to save
    * @return the saved OrderPositionEto
@@ -204,9 +221,11 @@ public class SalesmanagementRestServiceImpl {
 
   // again orderId is not explicitly needed here
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageOrderPosition#markOrderPositionAs}.
+   *
+   * @param orderPosition the {@link OrderPositionEto} to change
+   * @param newState the new {@link OrderPositionState}
    */
-  @SuppressWarnings("javadoc")
   @PUT
   @Path("/order/{orderId}/position/{orderPositionId}/{newstate}")
   @RolesAllowed(PermissionConstants.UPDATE_ORDER)
@@ -216,9 +235,11 @@ public class SalesmanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindBill#findBill}
+   *
+   * @param billId id of the {@link BillEto}
+   * @return the {@link BillEto}
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/bill/{billId}")
   @RolesAllowed(PermissionConstants.FIND_BILL)
@@ -228,9 +249,11 @@ public class SalesmanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageBill#doPayment}
+   *
+   * @param billId id of the bill
+   * @return the {@link PaymentStatus}
    */
-  @SuppressWarnings("javadoc")
   @POST
   @Path("/bill/{billId}/payment")
   @RolesAllowed(PermissionConstants.UPDATE_BILL)
@@ -240,9 +263,12 @@ public class SalesmanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageBill#doPayment(BillEto bill, PaymentData paymentDataDebitor)}
+   *
+   * @param billId id of the {@link BillEto}
+   * @param paymentData the {@link PaymentData}
+   * @return the {@link PaymentStatus}
    */
-  @SuppressWarnings("javadoc")
   @Path("/bill/{billId}/payment")
   @POST
   @RolesAllowed(PermissionConstants.UPDATE_BILL)
@@ -252,9 +278,12 @@ public class SalesmanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageBill#createBill}.
+   *
+   * @param orderPositions list of {@link OrderPositionEto}s to be contained in the bill
+   * @param tip the tip
+   * @return the created {@link BillEto}
    */
-  @SuppressWarnings("javadoc")
   @POST
   @Path("/bill/{tip}")
   @RolesAllowed(PermissionConstants.CREATE_BILL)
@@ -264,9 +293,10 @@ public class SalesmanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageBill#deleteBill}.
+   *
+   * @param billId id of the {@link BillEto}
    */
-  @SuppressWarnings("javadoc")
   @Path("/bill/{billId}")
   @DELETE
   @RolesAllowed(PermissionConstants.DELETE_BILL)
