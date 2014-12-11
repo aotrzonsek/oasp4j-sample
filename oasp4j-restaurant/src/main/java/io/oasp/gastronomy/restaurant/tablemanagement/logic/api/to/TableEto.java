@@ -1,6 +1,7 @@
 package io.oasp.gastronomy.restaurant.tablemanagement.logic.api.to;
 
 import io.oasp.gastronomy.restaurant.general.common.api.to.AbstractEto;
+import io.oasp.gastronomy.restaurant.general.common.domain.ValueObject;
 import io.oasp.gastronomy.restaurant.tablemanagement.common.api.Table;
 import io.oasp.gastronomy.restaurant.tablemanagement.common.api.datatype.TableState;
 
@@ -9,6 +10,7 @@ import io.oasp.gastronomy.restaurant.tablemanagement.common.api.datatype.TableSt
  *
  * @author etomety
  */
+@ValueObject
 public class TableEto extends AbstractEto implements Table {
 
   private static final long serialVersionUID = 1L;

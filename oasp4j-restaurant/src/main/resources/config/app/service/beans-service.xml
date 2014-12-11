@@ -14,7 +14,7 @@
   <import resource="../security/beans-security.xml"/>
 
 
-  <context:component-scan base-package="io.oasp.gastronomy.restaurant.*.service"/>
+  <context:component-scan base-package="io.oasp.gastronomy.restaurant.**.service"/>
   <import resource="classpath:META-INF/cxf/cxf.xml"/>
   <!-- <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" /> -->
   <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>

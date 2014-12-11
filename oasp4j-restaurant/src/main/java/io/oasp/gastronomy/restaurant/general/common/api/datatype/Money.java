@@ -1,5 +1,7 @@
 package io.oasp.gastronomy.restaurant.general.common.api.datatype;
 
+import io.oasp.gastronomy.restaurant.general.common.domain.ValueObject;
+
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Objects;
@@ -13,6 +15,7 @@ import net.sf.mmm.util.lang.api.AbstractSimpleDatatype;
  *
  * @author hohwille
  */
+@ValueObject
 public class Money extends AbstractSimpleDatatype<BigDecimal> {
 
   /** A {@link Money} instance where the {@link #getValue() amount} is <code>0</code>. */

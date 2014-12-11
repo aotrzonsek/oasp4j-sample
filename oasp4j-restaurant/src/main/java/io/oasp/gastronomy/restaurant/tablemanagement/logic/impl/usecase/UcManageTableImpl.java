@@ -1,16 +1,13 @@
 package io.oasp.gastronomy.restaurant.tablemanagement.logic.impl.usecase;
 
-import io.oasp.gastronomy.restaurant.general.common.api.datatype.Role;
 import io.oasp.gastronomy.restaurant.general.common.api.exception.IllegalEntityStateException;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.Salesmanagement;
-import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderEto;
 import io.oasp.gastronomy.restaurant.staffmanagement.logic.api.Staffmanagement;
-import io.oasp.gastronomy.restaurant.staffmanagement.logic.api.to.StaffMemberEto;
 import io.oasp.gastronomy.restaurant.tablemanagement.common.api.datatype.TableState;
-import io.oasp.gastronomy.restaurant.tablemanagement.dataaccess.api.TableEntity;
 import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.to.TableEto;
 import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.usecase.UcManageTable;
-import io.oasp.gastronomy.restaurant.tablemanagement.logic.base.usecase.AbstractTableUc;
+import io.oasp.gastronomy.restaurant.tablemanagement.logic.domain.TableBusinessEntity;
+import io.oasp.gastronomy.restaurant.tablemanagement.logic.domain.TableFactory;
 
 import java.util.Objects;
 
@@ -39,79 +36,45 @@ public class UcManageTableImpl extends AbstractTableUc implements UcManageTable 
    * {@inheritDoc}
    */
   @Override
-  public void deleteTable(Long tableId) {
-
-    TableEntity table = getTableDao().find(tableId);
-
-    if (!table.getState().isFree()) {
-      throw new IllegalEntityStateException(table, table.getState());
-    }
-
-    getTableDao().delete(table);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
   public TableEto createTable(TableEto table) {
-
-    Long tableId = table.getId();
-    if (tableId != null) {
-      throw new IllegalArgumentException("Table ID must not be set for creation!");
-    }
-
-    TableEntity tableEntity = getBeanMapper().map(table, TableEntity.class);
-    // initialize
-    tableEntity.setState(TableState.FREE);
-    Long waiterId = tableEntity.getWaiterId();
-    if (waiterId != null) {
-      StaffMemberEto staffMember = this.staffmanagement.findStaffMember(waiterId);
-      if (Role.WAITER != staffMember.getRole()) {
-        throw new IllegalArgumentException("Staffmember with id " + waiterId + " has role " + staffMember.getRole()
-            + " and can not be associated as waiter for table with ID " + tableId + "!");
-      }
-    }
-
-    getTableDao().save(tableEntity);
-    LOG.debug("Table with id '{}' has been created.", tableEntity.getId());
-    return getBeanMapper().map(tableEntity, TableEto.class);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void markTableAs(TableEto table, TableState newState) {
 
     Objects.requireNonNull(table, "table");
 
-    long tableId = table.getId();
-    TableEntity targetTable = getTableDao().find(tableId);
-    if (targetTable.getState() == newState) {
-      return;
-    }
+    TableBusinessEntity tableBusinessEntity =
+        new TableFactory(table, this.staffmanagement, this.salesManagement).create();
+    TableEto savedTable = getTableRepository().save(tableBusinessEntity);
 
-    switch (newState) {
-    case FREE:
-      // we need the ensure that there is no open order associated with the table...
-      OrderEto openOrder = this.salesManagement.findOpenOrderForTable(tableId);
-      if (openOrder != null) {
-        throw new IllegalEntityStateException(table, table.getState(), newState);
-      }
-      break;
-    case RESERVED:
-      if (table.getState() != TableState.FREE) {
-        // table has to be free before going to reserved state...
-        throw new IllegalEntityStateException(table, table.getState(), newState);
-      }
-      break;
-    default:
-      // nothing to do...
-      break;
+    LOG.debug("Table with id '{}' has been created.", savedTable.getId());
+    return savedTable;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void deleteTable(Long tableId) {
+  
+    Objects.requireNonNull(tableId, "table");
+  
+    TableBusinessEntity tableBusinessEntity = getTableRepository().find(tableId);
+    if (!tableBusinessEntity.canBeDeleted()) {
+      throw new IllegalEntityStateException(tableBusinessEntity, tableBusinessEntity.getState());
     }
-    targetTable.setState(newState);
-    getTableDao().save(targetTable);
+    getTableRepository().delete(tableBusinessEntity);
+    LOG.debug("Table with id '{}' has been deleted.", tableBusinessEntity.getTable().getId());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void markTableAs(Long tableId, TableState newState) {
+
+    Objects.requireNonNull(tableId, "table");
+
+    TableBusinessEntity tableBusinessEntity = getTableRepository().find(tableId);
+    tableBusinessEntity.markTableAs(newState);
+    getTableRepository().save(tableBusinessEntity);
     LOG.debug("The table with id '{}' is marked as {}.", tableId, newState);
 
   }
@@ -120,14 +83,12 @@ public class UcManageTableImpl extends AbstractTableUc implements UcManageTable 
    * {@inheritDoc}
    */
   @Override
-  public boolean isTableReleasable(TableEto table) {
+  public boolean isTableReleasable(Long tableId) {
 
-    if (table.getState() != TableState.OCCUPIED) {
-      return true;
-    }
-    OrderEto order = this.salesManagement.findOpenOrderForTable(table.getId());
-    // no open order so the table is actually free...
-    return order == null;
+    Objects.requireNonNull(tableId, "table");
+
+    TableBusinessEntity tableBusinessEntity = getTableRepository().find(tableId);
+    return tableBusinessEntity.isTableReleasable();
   }
 
   /**

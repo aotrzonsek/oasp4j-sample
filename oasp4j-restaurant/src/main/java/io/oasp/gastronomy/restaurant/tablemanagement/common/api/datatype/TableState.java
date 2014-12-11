@@ -40,12 +40,4 @@ public enum TableState {
     return (this == OCCUPIED);
   }
 
-  // /**
-  // * @return <code>true</code> if the
-  // * {@link io.oasp.gastronomy.restaurant.tablemanagement.persistence.api.entity.Table} has opened orders.
-  // */
-  // public boolean isOrdersopen() {
-  //
-  // return (this == ORDERSOPEN);
-  // }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 public interface OrderDao extends ApplicationDao<OrderEntity> {
 
   /**
-   * @param tableId the {@link io.oasp.gastronomy.restaurant.tablemanagement.dataaccess.api.TableEntity#getNumber()
+   * @param tableId the {@link io.oasp.gastronomy.restaurant.tablemanagement.delivery.dataaccess.api.TableEntity#getNumber()
    *        table ID} for which the open {@link OrderEntity} is requested.
    * @return the {@link OrderEntity} with the given {@link OrderEntity#getTableId() table ID} in
    *         {@link OrderEntity#getState() state}
