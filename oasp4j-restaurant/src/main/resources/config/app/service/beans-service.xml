@@ -6,25 +6,9 @@
            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
            http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
-
-  <import resource="../logic/beans-logic.xml"/>
-  <import resource="beans-monitoring.xml"/>
-
-
-  <context:component-scan base-package="io.oasp.gastronomy.restaurant.*.service"/>
-
+ 
   <!-- By convention web-services should be located in the path folder "ws" -->
   <!-- BEGIN ARCHETYPE SKIP -->
   <jaxws:endpoint id="tableManagement" implementor="#TablemanagementWebService" address="/ws/Tablemanagement/v1_0"/>
   <!-- END ARCHETYPE SKIP -->
-
-  <!-- By convention REST services should be located in the path folder "rest" -->
-  <!-- BEGIN ARCHETYPE SKIP -->
-  <bean id="RestServiceExceptionFacade" class="io.oasp.module.rest.service.impl.RestServiceExceptionFacade">
-    <property name="exposeInternalErrorDetails" value="${security.expose.error.details}"/>
-  </bean>
-  <!-- END ARCHETYPE SKIP -->
-
-  <!-- JSON mapping config -->
-  <bean id="JacksonObjectMapper" factory-bean="ApplicationObjectMapperFactory" factory-method="createInstance"/>
 </beans>
