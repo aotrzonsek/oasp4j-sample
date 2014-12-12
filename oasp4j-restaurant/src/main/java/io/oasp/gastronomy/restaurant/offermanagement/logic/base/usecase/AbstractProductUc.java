@@ -1,6 +1,7 @@
 package io.oasp.gastronomy.restaurant.offermanagement.logic.base.usecase;
 
 import io.oasp.gastronomy.restaurant.general.logic.base.AbstractUc;
+import io.oasp.gastronomy.restaurant.general.logic.base.UcManageBinaryObject;
 import io.oasp.gastronomy.restaurant.offermanagement.dataaccess.api.dao.ProductDao;
 
 import javax.inject.Inject;
@@ -15,12 +16,24 @@ public abstract class AbstractProductUc extends AbstractUc {
   /** @see #setProductDao(ProductDao) */
   private ProductDao productDao;
 
-  /**
-   * The constructor.
-   */
-  public AbstractProductUc() {
+  /** **/
+  private UcManageBinaryObject ucManageBinaryObject;
 
-    super();
+  /**
+   * @param ucManageBinaryObject the ucManageBinaryObject to set
+   */
+  @Inject
+  public void setUcManageBinaryObject(UcManageBinaryObject ucManageBinaryObject) {
+
+    this.ucManageBinaryObject = ucManageBinaryObject;
+  }
+
+  /**
+   * @return ucManageBinaryObject
+   */
+  public UcManageBinaryObject getUcManageBinaryObject() {
+
+    return this.ucManageBinaryObject;
   }
 
   /**

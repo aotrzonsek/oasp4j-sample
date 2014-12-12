@@ -20,7 +20,7 @@ public class BillEto extends AbstractEto implements Bill {
 
   private List<Long> orderPositionIds;
 
-  private Money totalAmount;
+  private Money total;
 
   private Money tip;
 
@@ -54,18 +54,18 @@ public class BillEto extends AbstractEto implements Bill {
    * {@inheritDoc}
    */
   @Override
-  public Money getTotalAmount() {
+  public Money getTotal() {
 
-    return this.totalAmount;
+    return this.total;
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void setTotalAmount(Money totalAmount) {
+  public void setTotal(Money total) {
 
-    this.totalAmount = totalAmount;
+    this.total = total;
   }
 
   /**
@@ -115,7 +115,7 @@ public class BillEto extends AbstractEto implements Bill {
     result = prime * result + ((this.orderPositionIds == null) ? 0 : this.orderPositionIds.hashCode());
     result = prime * result + (this.payed ? 1 : 0);
     result = prime * result + ((this.tip == null) ? 0 : this.tip.hashCode());
-    result = prime * result + ((this.totalAmount == null) ? 0 : this.totalAmount.hashCode());
+    result = prime * result + ((this.total == null) ? 0 : this.total.hashCode());
     return result;
   }
 
@@ -141,7 +141,7 @@ public class BillEto extends AbstractEto implements Bill {
     if (this.payed != other.payed) {
       return false;
     }
-    if (Objects.equals(this.totalAmount, other.totalAmount)) {
+    if (Objects.equals(this.total, other.total)) {
       return false;
     }
     if (Objects.equals(this.tip, other.tip)) {

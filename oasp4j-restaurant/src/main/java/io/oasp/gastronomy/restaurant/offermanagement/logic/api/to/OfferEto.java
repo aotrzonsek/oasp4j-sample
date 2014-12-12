@@ -59,7 +59,7 @@ public class OfferEto extends MenuItemEto implements Offer {
    * {@inheritDoc}
    */
   @Override
-  public Money getCurrentPrice() {
+  public Money getPrice() {
 
     return this.currentPrice;
   }
@@ -68,7 +68,7 @@ public class OfferEto extends MenuItemEto implements Offer {
    * {@inheritDoc}
    */
   @Override
-  public void setCurrentPrice(Money currentPrice) {
+  public void setPrice(Money currentPrice) {
 
     this.currentPrice = currentPrice;
   }

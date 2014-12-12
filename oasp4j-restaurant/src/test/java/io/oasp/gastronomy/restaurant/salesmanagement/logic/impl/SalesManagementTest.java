@@ -33,7 +33,7 @@ public class SalesManagementTest extends AbstractSpringIntegrationTest {
     TableEto table = new TableEto();
     Long tableId = 1L;
     table.setId(tableId);
-    OrderEto order = this.salesManagement.createOrder(table);
+    OrderEto order = this.salesManagement.saveOrder(table);
     assertEquals(tableId, Long.valueOf(order.getTableId()));
   }
 

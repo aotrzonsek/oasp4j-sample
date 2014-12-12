@@ -77,9 +77,9 @@ public class TablemanagementImpl extends AbstractBeanMapperSupport implements Ta
    *
    */
   @Override
-  public TableEto createTable(TableEto table) {
+  public TableEto saveTable(TableEto table) {
 
-    return this.ucManageTable.createTable(table);
+    return this.ucManageTable.saveTable(table);
   }
 
   /**

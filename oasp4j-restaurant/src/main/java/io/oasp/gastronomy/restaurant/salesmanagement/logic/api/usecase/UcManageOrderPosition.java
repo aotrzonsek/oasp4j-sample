@@ -29,7 +29,7 @@ public interface UcManageOrderPosition {
    * @param orderPosition is the {@link OrderPositionEto} to persist.
    * @return the saved {@link OrderPositionEto}.
    */
-  OrderPositionEto updateOrderPosition(OrderPositionEto orderPosition);
+  OrderPositionEto saveOrderPosition(OrderPositionEto orderPosition);
 
   /**
    * Marks the given {@link OrderPositionEto} as 'chosen' {@link OrderPositionState}.

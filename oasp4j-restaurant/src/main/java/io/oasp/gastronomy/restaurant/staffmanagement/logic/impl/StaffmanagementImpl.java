@@ -80,9 +80,9 @@ public class StaffmanagementImpl extends AbstractBeanMapperSupport implements St
    * {@inheritDoc}
    */
   @Override
-  public void updateStaffMember(StaffMemberEto staffMember) {
+  public StaffMemberEto saveStaffMember(StaffMemberEto staffMember) {
 
-    this.ucManageStaffMember.updateStaffMember(staffMember);
+    return this.ucManageStaffMember.saveStaffMember(staffMember);
   }
 
   /**

@@ -67,6 +67,7 @@ public class UserData extends User implements Principal {
   public UserDetailsClientTo toClientTo() {
 
     UserDetailsClientTo clientTo = new UserDetailsClientTo();
+    clientTo.setId(this.userProfile.getId());
     clientTo.setName(this.userProfile.getName());
     clientTo.setFirstName(this.userProfile.getFirstName());
     clientTo.setLastName(this.userProfile.getLastName());

@@ -14,6 +14,10 @@ import java.security.Principal;
  * @author agreul
  */
 public interface UserProfile extends Principal {
+  /**
+   * @return the technical ID of the user for calling REST services.
+   */
+  Long getId();
 
   /**
    * @return the unique login of the user for authentication and identification.

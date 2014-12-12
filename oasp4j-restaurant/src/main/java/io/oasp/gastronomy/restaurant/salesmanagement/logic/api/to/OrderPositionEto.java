@@ -18,6 +18,8 @@ public class OrderPositionEto extends AbstractEto implements OrderPosition {
 
   private Long orderId;
 
+  private Long cookId;
+
   private Long offerId;
 
   private String offerName;
@@ -52,6 +54,22 @@ public class OrderPositionEto extends AbstractEto implements OrderPosition {
   public void setOrderId(Long orderId) {
 
     this.orderId = orderId;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public Long getCookId() {
+
+    return this.cookId;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public void setCookId(Long cookId) {
+
+    this.cookId = cookId;
   }
 
   /**
@@ -135,6 +153,7 @@ public class OrderPositionEto extends AbstractEto implements OrderPosition {
     final int prime = 31;
     int result = super.hashCode();
     result = prime * result + ((this.orderId == null) ? 0 : this.orderId.hashCode());
+    result = prime * result + ((this.cookId == null) ? 0 : this.cookId.hashCode());
     result = prime * result + ((this.offerName == null) ? 0 : this.offerName.hashCode());
     result = prime * result + ((this.offerId == null) ? 0 : this.offerId.hashCode());
     result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
@@ -157,6 +176,9 @@ public class OrderPositionEto extends AbstractEto implements OrderPosition {
     }
     OrderPositionEto other = (OrderPositionEto) obj;
     if (!Objects.equals(this.orderId, other.orderId)) {
+      return false;
+    }
+    if (!Objects.equals(this.cookId, other.cookId)) {
       return false;
     }
     if (!Objects.equals(this.offerId, other.offerId)) {

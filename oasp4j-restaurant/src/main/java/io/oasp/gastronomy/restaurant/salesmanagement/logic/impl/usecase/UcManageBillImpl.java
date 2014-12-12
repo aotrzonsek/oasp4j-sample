@@ -52,12 +52,12 @@ public class UcManageBillImpl extends AbstractBillUc implements UcManageBill {
 
     Objects.requireNonNull(orderPositions, "orderPositions");
 
-    Money totalAmount = Money.ZERO;
+    Money total = Money.ZERO;
 
     for (OrderPositionEto position : orderPositions) {
       OrderPositionEto orderPosition = this.ucFindOrderPosition.findOrderPosition(position.getId());
       verifyNotClosed(orderPosition);
-      totalAmount = totalAmount.add(orderPosition.getPrice());
+      total = total.add(orderPosition.getPrice());
     }
 
     Money localTip = tip;
@@ -76,7 +76,7 @@ public class UcManageBillImpl extends AbstractBillUc implements UcManageBill {
     bill.setOrderPositions(myOrderPositions);
     bill.setTip(localTip);
     bill.setPayed(false);
-    bill.setTotalAmount(totalAmount);
+    bill.setTotal(total);
 
     getBillDao().save(bill);
 
@@ -100,7 +100,7 @@ public class UcManageBillImpl extends AbstractBillUc implements UcManageBill {
    * id} in the database. If no such {@link BillEntity} exists, a new bill will be created by calling
    * {@link UcManageBillImpl#create(List, Money)}. Otherwise, the existing {@link BillEntity} will be updated by
    * overriding the set {@link BillEntity#getOrderPositions() order positions}, {@link BillEntity#getTip() tip} and the
-   * {@link BillEntity#getTotalAmount() total amount}.
+   * {@link BillEntity#getTotal() total amount}.
    *
    * @param bill The {@link BillEntity} to update.
    *
@@ -127,7 +127,7 @@ public class UcManageBillImpl extends AbstractBillUc implements UcManageBill {
       targetBill.setOrderPositionIds(orderPositionIds);
       targetBill.setPayed(bill.isPayed());
       targetBill.setTip(bill.getTip());
-      targetBill.setTotalAmount(bill.getTotalAmount());
+      targetBill.setTotal(bill.getTotal());
 
       /*
        * Save updated bill
@@ -182,7 +182,7 @@ public class UcManageBillImpl extends AbstractBillUc implements UcManageBill {
     PaymentTransactionData paymentTransactionData = new PaymentTransactionData();
     paymentTransactionData.setCreditor(paymentDataCreditor);
     paymentTransactionData.setDebitor(paymentDataDebitor);
-    paymentTransactionData.setTotalAmount(bill.getTotalAmount());
+    paymentTransactionData.setTotalAmount(bill.getTotal());
 
     // Step2: Call the external system with the transactionDataTo
     status = this.paymentAdapter.pay(paymentTransactionData);

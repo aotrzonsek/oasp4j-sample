@@ -62,7 +62,6 @@
       <groupId>io.oasp.java</groupId>
       <artifactId>oasp4j-example-application</artifactId>
       <version>dev-SNAPSHOT</version>
-      <scope>test</scope>
       <type>jar</type>
     </dependency>
 

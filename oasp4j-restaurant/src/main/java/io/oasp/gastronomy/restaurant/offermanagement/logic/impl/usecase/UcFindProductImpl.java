@@ -1,5 +1,6 @@
 package io.oasp.gastronomy.restaurant.offermanagement.logic.impl.usecase;
 
+import io.oasp.gastronomy.restaurant.general.logic.api.to.BinaryObjectEto;
 import io.oasp.gastronomy.restaurant.offermanagement.dataaccess.api.ProductEntity;
 import io.oasp.gastronomy.restaurant.offermanagement.dataaccess.api.dao.DrinkDao;
 import io.oasp.gastronomy.restaurant.offermanagement.dataaccess.api.dao.MealDao;
@@ -13,6 +14,7 @@ import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.SideDishEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase.UcFindProduct;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.base.usecase.AbstractProductUc;
 
+import java.sql.Blob;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -182,5 +184,23 @@ public class UcFindProductImpl extends AbstractProductUc implements UcFindProduc
 
     LOG.debug("Fetch filtered offers.");
     return getBeanMapper().mapList(getProductDao().findProductsFiltered(productFilterBo, sortBy), ProductEto.class);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public BinaryObjectEto findProductPicture(Long productId) {
+
+    return getUcManageBinaryObject().findBinaryObject(findProduct(productId).getPictureId());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Blob findProductPictureBlob(Long productId) {
+
+    return getUcManageBinaryObject().getBinaryObjectBlob(findProductPicture(productId).getId());
   }
 }
