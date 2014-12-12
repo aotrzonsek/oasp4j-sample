@@ -1,6 +1,6 @@
 package io.oasp.gastronomy.restaurant.general.common;
 
-import io.oasp.gastronomy.restaurant.tablemanagement.service.impl.rest.TablemanagementRestServiceImpl;
+import io.oasp.gastronomy.restaurant.tablemanagement.delivery.service.api.rest.TablemanagementRestServiceImpl;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;

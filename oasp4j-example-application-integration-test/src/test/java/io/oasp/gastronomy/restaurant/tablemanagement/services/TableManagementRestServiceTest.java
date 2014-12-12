@@ -6,7 +6,7 @@ import io.oasp.gastronomy.restaurant.general.common.AbstractRestServiceTest;
 import io.oasp.gastronomy.restaurant.tablemanagement.common.api.datatype.TableState;
 import io.oasp.gastronomy.restaurant.tablemanagement.common.builders.TableEntityBuilder;
 import io.oasp.gastronomy.restaurant.tablemanagement.common.builders.TableEtoBuilder;
-import io.oasp.gastronomy.restaurant.tablemanagement.dataaccess.api.TableEntity;
+import io.oasp.gastronomy.restaurant.tablemanagement.delivery.dataaccess.api.TableEntity;
 import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.to.TableEto;
 import io.oasp.gastronomy.restaurant.test.general.AppProperties.RestUrls;
 import io.oasp.gastronomy.restaurant.test.general.webclient.ResponseData;

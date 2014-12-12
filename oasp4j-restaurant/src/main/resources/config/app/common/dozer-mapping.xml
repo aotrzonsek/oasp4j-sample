@@ -19,7 +19,7 @@
   <!-- BEGIN ARCHETYPE SKIP -->
   <mapping>
     <class-a>io.oasp.gastronomy.restaurant.tablemanagement.logic.api.to.TableEto</class-a>
-    <class-b>io.oasp.gastronomy.restaurant.tablemanagement.dataaccess.api.TableEntity</class-b>
+    <class-b>io.oasp.gastronomy.restaurant.tablemanagement.delivery.dataaccess.api.TableEntity</class-b>
   </mapping>
   <mapping>
     <class-a>io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.DrinkEto</class-a>

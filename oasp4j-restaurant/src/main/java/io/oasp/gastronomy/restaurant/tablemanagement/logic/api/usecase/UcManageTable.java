@@ -34,17 +34,17 @@ public interface UcManageTable {
   /**
    * Evaluate if this table could marked as free.
    *
-   * @param table {@link TableEto} to be evaluate
+   * @param tableId Id of the restaurant table to be evaluate
    * @return <code>true</code> if the table could be released<br>
    *         <code>false</code> , otherwise
    */
-  boolean isTableReleasable(TableEto table);
+  boolean isTableReleasable(Long tableId);
 
   /**
    * Marks a restaurant table as {@link TableState}.
    *
-   * @param table Table the restaurant table to mark as occupied
+   * @param tableId Id of the restaurant table to mark as occupied
    * @param newState new table {@link TableState}
    */
-  void markTableAs(TableEto table, TableState newState);
+  void markTableAs(Long tableId, TableState newState);
 }

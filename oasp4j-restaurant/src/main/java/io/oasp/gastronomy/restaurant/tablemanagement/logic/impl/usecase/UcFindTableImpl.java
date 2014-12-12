@@ -1,9 +1,8 @@
 package io.oasp.gastronomy.restaurant.tablemanagement.logic.impl.usecase;
 
-import io.oasp.gastronomy.restaurant.tablemanagement.dataaccess.api.TableEntity;
+import io.oasp.gastronomy.restaurant.tablemanagement.delivery.dataaccess.api.TableEntity;
 import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.to.TableEto;
 import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.usecase.UcFindTable;
-import io.oasp.gastronomy.restaurant.tablemanagement.logic.base.usecase.AbstractTableUc;
 
 import java.util.List;
 

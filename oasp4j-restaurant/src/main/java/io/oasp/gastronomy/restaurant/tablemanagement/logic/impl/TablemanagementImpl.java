@@ -103,21 +103,20 @@ public class TablemanagementImpl extends AbstractBeanMapperSupport implements Ta
 
   /**
    * {@inheritDoc}
-   *
    */
   @Override
-  public void markTableAs(TableEto table, TableState newState) {
+  public boolean isTableReleasable(Long tableId) {
 
-    this.ucManageTable.markTableAs(table, newState);
+    return this.ucManageTable.isTableReleasable(tableId);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public boolean isTableReleasable(TableEto table) {
+  public void markTableAs(Long tableId, TableState newState) {
 
-    return this.ucManageTable.isTableReleasable(table);
+    this.ucManageTable.markTableAs(tableId, newState);
   }
 
 }

@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 /**
  * {@link ApplicationPersistenceEntity Entity} that represents an order of a customer associated with the according
- * {@link io.oasp.gastronomy.restaurant.tablemanagement.dataaccess.api.TableEntity}.
+ * {@link io.oasp.gastronomy.restaurant.tablemanagement.delivery.dataaccess.api.TableEntity}.
  *
  * @author rjoeris
  */

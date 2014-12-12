@@ -4,8 +4,9 @@ import io.oasp.gastronomy.restaurant.general.common.AbstractSpringIntegrationTes
 import io.oasp.gastronomy.restaurant.offermanagement.service.impl.rest.OffermanagementRestServiceImpl;
 import io.oasp.gastronomy.restaurant.salesmanagement.service.impl.rest.SalesmanagementRestServiceImpl;
 import io.oasp.gastronomy.restaurant.staffmanagement.service.impl.rest.StaffmanagementRestServiceImpl;
+import io.oasp.gastronomy.restaurant.tablemanagement.delivery.service.api.rest.TablemanagementRestServiceImpl;
 import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.to.TableEto;
-import io.oasp.gastronomy.restaurant.tablemanagement.service.impl.rest.TablemanagementRestServiceImpl;
+
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.client.WebClient;
