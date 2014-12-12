@@ -6,7 +6,7 @@ import io.oasp.gastronomy.restaurant.offermanagement.common.api.datatype.Product
 // TODO mvielsac javadoc for class is missing
 
 /**
- * 
+ *
  * @author erandres
  */
 public class ProductSortBy {
@@ -25,7 +25,7 @@ public class ProductSortBy {
 
   /**
    * Returns the field 'sortByEntry'.
-   * 
+   *
    * @return Value of sortByEntry
    */
   public ProductSortByHitEntry getSortByEntry() {
@@ -35,7 +35,7 @@ public class ProductSortBy {
 
   /**
    * Sets the field 'sortByEntry'.
-   * 
+   *
    * @param sortByEntry New value for sortByEntry
    */
   public void setSortByEntry(ProductSortByHitEntry sortByEntry) {
@@ -45,7 +45,7 @@ public class ProductSortBy {
 
   /**
    * Returns the field 'orderBy'.
-   * 
+   *
    * @return Value of orderBy
    */
   public OrderBy getOrderBy() {
@@ -55,7 +55,7 @@ public class ProductSortBy {
 
   /**
    * Sets the field 'orderBy'.
-   * 
+   *
    * @param orderBy New value for orderBy
    */
   public void setOrderBy(OrderBy orderBy) {

@@ -1,6 +1,7 @@
 package io.oasp.gastronomy.restaurant.offermanagement.service.impl.rest;
 
 import io.oasp.gastronomy.restaurant.general.common.api.constants.PermissionConstants;
+import io.oasp.gastronomy.restaurant.general.logic.api.to.BinaryObjectEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.Offermanagement;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.DrinkEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.MealEto;
@@ -16,11 +17,19 @@ import io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase.UcFindPro
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase.UcManageOffer;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase.UcManageProduct;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -32,6 +41,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.cxf.helpers.IOUtils;
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+import org.apache.cxf.jaxrs.ext.multipart.Multipart;
+import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
@@ -285,5 +298,50 @@ public class OffermanagementRestServiceImpl {
   public List<ProductEto> getFilteredProducts(ProductFilter productFilter, @PathParam("sortBy") ProductSortBy sortBy) {
 
     return this.offerManagement.findProductsFiltered(productFilter, sortBy);
+  }
+
+  @SuppressWarnings("javadoc")
+  @Consumes("multipart/mixed")
+  @POST
+  @Path("/product/{id}/picture")
+  @RolesAllowed(PermissionConstants.SAVE_PRODUCT)
+  public void updateProductPicture(@PathParam("id") Long productId,
+      @Multipart(value = "binaryObjectEto", type = MediaType.APPLICATION_JSON) BinaryObjectEto binaryObjectEto,
+      @Multipart(value = "blob", type = MediaType.APPLICATION_OCTET_STREAM) InputStream picture)
+      throws SerialException, SQLException, IOException {
+
+    Blob blob = new SerialBlob(IOUtils.readBytesFromStream(picture));
+    this.offerManagement.updateProductPicture(productId, blob, binaryObjectEto);
+
+  }
+
+  @SuppressWarnings("javadoc")
+  @Produces("multipart/mixed")
+  @GET
+  @Path("/product/{id}/picture")
+  @RolesAllowed(PermissionConstants.FIND_PRODUCT)
+  public MultipartBody getProductPicture(@PathParam("id") long productId) throws SQLException, IOException {
+
+    Blob blob = this.offerManagement.findProductPictureBlob(productId);
+    // REVIEW arturk88 (hohwille) we need to find another way to stream the blob without loading into heap.
+    // https://github.com/oasp/oasp4j-sample/pull/45
+    byte[] data = IOUtils.readBytesFromStream(blob.getBinaryStream());
+
+    List<Attachment> atts = new LinkedList<>();
+    atts.add(new Attachment("binaryObjectEto", MediaType.APPLICATION_JSON, this.offerManagement
+        .findProductPicture(productId)));
+    atts.add(new Attachment("blob", MediaType.APPLICATION_OCTET_STREAM, new ByteArrayInputStream(data)));
+    return new MultipartBody(atts, true);
+
+  }
+
+  @SuppressWarnings("javadoc")
+  @DELETE
+  @Path("/product/{id}/picture")
+  // REVIEW arturk88 (hohwille) wrong permission, we need to create SAVE_PRODUCT_PICTURE and DELETE_PRODUCT_PICTURE
+  @RolesAllowed(PermissionConstants.SAVE_PRODUCT)
+  public void deleteProductPicture(long productId) {
+
+    this.offerManagement.deleteProductPicture(productId);
   }
 }

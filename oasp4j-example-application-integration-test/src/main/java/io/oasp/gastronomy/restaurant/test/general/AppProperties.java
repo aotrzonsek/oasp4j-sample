@@ -547,6 +547,33 @@ public class AppProperties {
         }
 
         /**
+         * @param id Product id
+         * @return Url
+         */
+        public static final String getGetProductPictureUrl(Long id) {
+
+          return PRODUCT_URL + "/" + id + "/picture";
+        }
+
+        /**
+         * @param id Product id
+         * @return Url
+         */
+        public static final String getSetProductPictureUrl(Long id) {
+
+          return PRODUCT_URL + "/" + id + "/picture";
+        }
+
+        /**
+         * @param id Product id
+         * @return Url
+         */
+        public static final String getDeleteProductPictureUrl(Long id) {
+
+          return PRODUCT_URL + "/" + id + "/picture";
+        }
+
+        /**
          * @param sortBy {@link ProductSortBy}
          * @return Url
          */
@@ -554,6 +581,7 @@ public class AppProperties {
 
           return PRODUCT_URL + "/sortby/" + sortBy;
         }
+
       }
     }
 
