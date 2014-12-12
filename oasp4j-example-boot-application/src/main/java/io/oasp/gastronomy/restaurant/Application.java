@@ -19,11 +19,9 @@ import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletCon
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.ImportResource;
 
 @Configuration
 @EnableAutoConfiguration
-@ImportResource({ "classpath:config/app/beans-application.xml" })
 @Import({DozerConfigurator.class, GuiConfigurator.class, LogicConfigurator.class, ServiceConfigurator.class,
 		DataaccessConfigurator.class, SecurityConfigurator.class,
 		CxfConfigurator.class })
@@ -55,6 +53,7 @@ public class Application {
 		};
 	}
 
+	//TODO is is necessary??
 	/*
 	@Bean
 	public ServletRegistrationBean dispatcherServlet() {
