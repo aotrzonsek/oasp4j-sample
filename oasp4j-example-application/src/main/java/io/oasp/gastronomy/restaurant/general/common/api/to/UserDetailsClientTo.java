@@ -13,6 +13,8 @@ public class UserDetailsClientTo extends AbstractTo implements UserProfile {
   /** UID for serialization. */
   private static final long serialVersionUID = 1L;
 
+  private Long id;
+
   private String name;
 
   private String firstName;
@@ -29,7 +31,12 @@ public class UserDetailsClientTo extends AbstractTo implements UserProfile {
     super();
   }
 
-  /**
+  @Override
+  public Long getId() {
+      return id;
+  }
+
+    /**
    * {@inheritDoc}
    */
   @Override
@@ -66,6 +73,15 @@ public class UserDetailsClientTo extends AbstractTo implements UserProfile {
   }
 
   /**
+   * Sets the ID.
+   *
+   * @param id the ID to set
+   */
+  public void setId(Long id) {
+     this.id = id;
+  }
+
+    /**
    * @param name the name to set
    */
   public void setName(String name) {
