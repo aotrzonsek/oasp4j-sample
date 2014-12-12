@@ -15,37 +15,4 @@
        -->
     </copy-by-references>
   </configuration>
-
-  <!-- BEGIN ARCHETYPE SKIP -->
-  <mapping>
-    <class-a>io.oasp.gastronomy.restaurant.tablemanagement.logic.api.to.TableEto</class-a>
-    <class-b>io.oasp.gastronomy.restaurant.tablemanagement.dataaccess.api.TableEntity</class-b>
-  </mapping>
-  <mapping>
-    <class-a>io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.DrinkEto</class-a>
-    <class-b>io.oasp.gastronomy.restaurant.offermanagement.dataaccess.api.DrinkEntity</class-b>
-  </mapping>
-  <mapping>
-    <class-a>io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.MealEto</class-a>
-    <class-b>io.oasp.gastronomy.restaurant.offermanagement.dataaccess.api.MealEntity</class-b>
-  </mapping>
-  <mapping>
-    <class-a>io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.SideDishEto</class-a>
-    <class-b>io.oasp.gastronomy.restaurant.offermanagement.dataaccess.api.SideDishEntity</class-b>
-  </mapping>
-  <!-- END ARCHETYPE SKIP -->
-
-  <!-- If a persistence entity is converted to an ETO then the original entity is stored as hidden reference.
-       The modificationCounter of a persistence entity is updated by the JPA provider (hibernate) after the transaction
-       has been committed what is after this conversion so the wrong modificationCounter is converted.
-       The hidden and transient reference allows to update the modificationCounter to the correct value on
-       serialization. -->
-  <mapping type="one-way">
-    <class-a>io.oasp.gastronomy.restaurant.general.dataaccess.api.ApplicationPersistenceEntity</class-a>
-    <class-b>net.sf.mmm.util.transferobject.api.EntityTo</class-b>
-    <field custom-converter="io.oasp.module.beanmapping.common.impl.IdentityConverter">
-      <a>this</a>
-      <b is-accessible="true">persistentEntity</b>
-    </field>
-  </mapping>
 </mappings>

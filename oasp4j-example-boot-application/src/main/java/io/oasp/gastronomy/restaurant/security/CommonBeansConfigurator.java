@@ -76,7 +76,7 @@ public class CommonBeansConfigurator {
 	}
 
 	@Bean(name = "propertyConfigurer")
-	public PropertyPlaceholderConfigurer propertyConfigurer() {
+	public static PropertyPlaceholderConfigurer propertyConfigurer() {
 		DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
 		PropertyPlaceholderConfigurer propertyConfigurer = new PropertyPlaceholderConfigurer();
 		propertyConfigurer
