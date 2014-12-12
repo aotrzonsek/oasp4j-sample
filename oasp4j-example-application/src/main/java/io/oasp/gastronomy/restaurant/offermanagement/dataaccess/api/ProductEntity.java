@@ -21,8 +21,7 @@ public abstract class ProductEntity extends MenuItemEntity implements Product {
 
   private static final long serialVersionUID = 1L;
 
-  // TODO oasp/oasp4j#52
-  // private byte[] picture;
+  private Long pictureId;
 
   /**
    * The constructor.
@@ -30,6 +29,24 @@ public abstract class ProductEntity extends MenuItemEntity implements Product {
   public ProductEntity() {
 
     super();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Long getPictureId() {
+
+    return this.pictureId;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void setPictureId(Long binaryObjectId) {
+
+    this.pictureId = binaryObjectId;
   }
 
 }
