@@ -11,8 +11,15 @@ import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.BillEto;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderCto;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderEto;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderPositionEto;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderPositionSearchCriteriaTo;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderSearchCriteriaTo;
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.PaymentData;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase.UcFindBill;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase.UcFindOrder;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase.UcFindOrderPosition;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase.UcManageBill;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase.UcManageOrder;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase.UcManageOrderPosition;
 import io.oasp.module.rest.service.api.RequestParameters;
 
 import java.util.List;
@@ -60,18 +67,22 @@ public class SalesmanagementRestServiceImpl {
   }
 
   /**
+   * Delegates to {@link UcFindOrder#findOrder}.
+   *
    * @param orderId specified for the order
    * @return the order
    */
   @Path("/order/{orderId}")
   @GET
   @RolesAllowed(PermissionConstants.FIND_ORDER)
-  public OrderEto getOrder(@PathParam("orderId") Long orderId) {
+  public OrderEto findOrder(@PathParam("orderId") Long orderId) {
 
     return this.salesManagement.findOrder(orderId);
   }
 
   /**
+   * Delegates to {@link UcFindOrderPosition#findOrderPositions}.
+   *
    * @param info is the {@link UriInfo}.
    * @return the {@link List} of matching {@link OrderCto}s.
    */
@@ -88,13 +99,36 @@ public class SalesmanagementRestServiceImpl {
   }
 
   /**
+   * Delegates to {@link UcFindOrderPosition#findOrderPositions}.
+   *
+   * @param info is the {@link UriInfo}.
+   * @return the {@link List} of matching {@link OrderPositionEto}s.
+   */
+  @Path("/orderposition")
+  @GET
+  @RolesAllowed(PermissionConstants.FIND_ORDER_POSITION)
+  public List<OrderPositionEto> findOrderPositions(@Context UriInfo info) {
+
+    RequestParameters parameters = RequestParameters.fromQuery(info);
+    OrderPositionSearchCriteriaTo criteria = new OrderPositionSearchCriteriaTo();
+    criteria.setOrderId(parameters.get("orderId", Long.class, false));
+    criteria.setCookId(parameters.get("cookId", Long.class, false));
+    criteria.setState(parameters.get("state", OrderPositionState.class, false));
+    criteria.setMealOrSideDish(parameters.get("mealOrSideDish", boolean.class, false));
+    return this.salesManagement.findOrderPositions(criteria);
+  }
+
+  /**
+   * Delegates to {@link UcManageOrder#saveOrder}.
+   *
    * @param order the {@link OrderCto} to update.
    * @param orderId the {@link OrderEto#getId() ID} of the order.
    * @return the updated {@link OrderCto}.
    */
   @Path("/order/{orderId}")
   @PUT
-  @RolesAllowed(PermissionConstants.UPDATE_ORDER)
+  @RolesAllowed(PermissionConstants.SAVE_ORDER)
+  @Deprecated
   public OrderCto updateOrder(OrderCto order, @PathParam("orderId") Long orderId) {
 
     Objects.requireNonNull(order, "order");
@@ -106,87 +140,92 @@ public class SalesmanagementRestServiceImpl {
     } else if (!jsonOrderId.equals(orderId)) {
       throw new BadRequestException("Order ID of URL does not match JSON payload!");
     }
-    return this.salesManagement.updateOrder(order);
+    return this.salesManagement.saveOrder(order);
   }
 
   /**
-   * @param order the {@link OrderCto} to create.
-   * @return the created {@link OrderCto} (with {@link OrderEto#getId() ID}(s) assigned).
+   * Delegates to {@link UcManageOrder#saveOrder}.
+   *
+   * @param order the {@link OrderCto} to save.
+   * @return the saved {@link OrderCto} (with {@link OrderEto#getId() ID}(s) assigned).
    */
   @Path("/order/")
   @POST
-  @RolesAllowed(PermissionConstants.CREATE_ORDER)
-  public OrderCto createOrder(OrderCto order) {
+  @RolesAllowed(PermissionConstants.SAVE_ORDER)
+  public OrderCto saveOrder(OrderCto order) {
 
-    Objects.requireNonNull(order, "order");
-    OrderEto orderEto = order.getOrder();
-    Objects.requireNonNull(orderEto, "order");
-    // Long orderId = orderEto.getId();
-    // if (orderId == null) {
-    // throw new BadRequestException("Create order shall not provide ID!");
-    // }
-    return this.salesManagement.updateOrder(order);
+    return this.salesManagement.saveOrder(order);
   }
 
   /**
-   * @param offer the offer as new position within an order as JSON
-   * @param orderId the order id
-   * @param comment the comment together with an orderPosition
-   * @return a new orderPosition
+   * Delegates to {@link UcFindOrderPosition#findOrderPosition}.
+   *
+   * @param orderPositionId id of the {@link OrderPositionEto}
+   * @return the {@link OrderPositionEto}.
    */
-  @Path("/order/{orderId}/position/{comment}")
-  @POST
-  @RolesAllowed(PermissionConstants.CREATE_ORDER)
-  public OrderPositionEto createOrderPosition(OfferEto offer, @PathParam("orderId") Long orderId,
-      @PathParam("comment") String comment) {
-
-    return this.salesManagement.createOrderPosition(offer, getOrder(orderId), comment);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @SuppressWarnings("javadoc")
-  @Path("/order/{orderId}/position/{orderPositionId}")
+  @Path("/orderposition/{orderPositionId}")
   @GET
-  @RolesAllowed(PermissionConstants.FIND_ORDER)
-  public OrderPositionEto getOrderPosition(@PathParam("orderPositionId") Long orderPositionId) {
+  @RolesAllowed(PermissionConstants.FIND_ORDER_POSITION)
+  public OrderPositionEto findOrderPosition(@PathParam("orderPositionId") Long orderPositionId) {
 
     return this.salesManagement.findOrderPosition(orderPositionId);
 
   }
 
-  // although orderId and orderPositionId are not explicitly needed here, the path structure is intentionally chosen
-  // see createOrderPosition for a similar reason
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageOrderPosition#createOrderPosition}.
+   *
+   * @param offer the offer as new position within an order as JSON
+   * @param orderId the order id
+   * @param comment the comment together with an orderPosition
+   * @return a new orderPosition
+   * @deprecated not REST style, will be removed.
    */
-  @SuppressWarnings("javadoc")
-  @PUT
-  @Path("/order/{orderId}/position/{orderPositionId}")
-  @RolesAllowed(PermissionConstants.UPDATE_ORDER)
-  public void updateOrderPosition(OrderPositionEto order) {
+  @Path("/order/{orderId}/position/{comment}")
+  @POST
+  @RolesAllowed(PermissionConstants.SAVE_ORDER_POSITION)
+  @Deprecated
+  public OrderPositionEto createOrderPosition(OfferEto offer, @PathParam("orderId") Long orderId,
+      @PathParam("comment") String comment) {
 
-    this.salesManagement.updateOrderPosition(order);
+    return this.salesManagement.createOrderPosition(offer, findOrder(orderId), comment);
+  }
+
+  /**
+   * Delegates to {@link UcManageOrderPosition#saveOrderPosition}.
+   *
+   * @param orderPosition the OrderPositionEto to save
+   * @return the saved OrderPositionEto
+   */
+  @POST
+  @Path("/orderposition/")
+  @RolesAllowed(PermissionConstants.SAVE_ORDER_POSITION)
+  public OrderPositionEto saveOrderPosition(OrderPositionEto orderPosition) {
+
+    return this.salesManagement.saveOrderPosition(orderPosition);
   }
 
   // again orderId is not explicitly needed here
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageOrderPosition#markOrderPositionAs}.
+   *
+   * @param orderPosition the {@link OrderPositionEto} to change
+   * @param newState the new {@link OrderPositionState}
    */
-  @SuppressWarnings("javadoc")
   @PUT
   @Path("/order/{orderId}/position/{orderPositionId}/{newstate}")
-  @RolesAllowed(PermissionConstants.UPDATE_ORDER)
+  @RolesAllowed(PermissionConstants.SAVE_ORDER_POSITION)
   public void markOrderPositionAs(OrderPositionEto orderPosition, @PathParam("newState") OrderPositionState newState) {
 
     this.salesManagement.markOrderPositionAs(orderPosition, newState);
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindBill#findBill}
+   *
+   * @param billId id of the {@link BillEto}
+   * @return the {@link BillEto}
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/bill/{billId}")
   @RolesAllowed(PermissionConstants.FIND_BILL)
@@ -196,45 +235,54 @@ public class SalesmanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageBill#doPayment}
+   *
+   * @param billId id of the bill
+   * @return the {@link PaymentStatus}
    */
-  @SuppressWarnings("javadoc")
   @POST
   @Path("/bill/{billId}/payment")
-  @RolesAllowed(PermissionConstants.UPDATE_BILL)
+  @RolesAllowed(PermissionConstants.SAVE_BILL)
   public PaymentStatus doPayment(@PathParam("billId") Long billId) {
 
     return this.salesManagement.doPayment(getBill(billId));
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageBill#doPayment(BillEto bill, PaymentData paymentDataDebitor)}
+   *
+   * @param billId id of the {@link BillEto}
+   * @param paymentData the {@link PaymentData}
+   * @return the {@link PaymentStatus}
    */
-  @SuppressWarnings("javadoc")
   @Path("/bill/{billId}/payment")
   @POST
-  @RolesAllowed(PermissionConstants.UPDATE_BILL)
+  @RolesAllowed(PermissionConstants.SAVE_BILL)
   public PaymentStatus doPayment(@PathParam("billId") Long billId, PaymentData paymentData) {
 
     return this.salesManagement.doPayment(getBill(billId), paymentData);
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageBill#createBill}.
+   *
+   * @param orderPositions list of {@link OrderPositionEto}s to be contained in the bill
+   * @param tip the tip
+   * @return the created {@link BillEto}
    */
-  @SuppressWarnings("javadoc")
   @POST
   @Path("/bill/{tip}")
-  @RolesAllowed(PermissionConstants.CREATE_BILL)
+  @RolesAllowed(PermissionConstants.SAVE_BILL)
   public BillEto createBill(List<OrderPositionEto> orderPositions, @PathParam("tip") Money tip) {
 
     return this.salesManagement.createBill(orderPositions, tip);
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageBill#deleteBill}.
+   *
+   * @param billId id of the {@link BillEto}
    */
-  @SuppressWarnings("javadoc")
   @Path("/bill/{billId}")
   @DELETE
   @RolesAllowed(PermissionConstants.DELETE_BILL)

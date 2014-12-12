@@ -20,7 +20,10 @@ public interface UcManageStaffMember {
   void deleteStaffMemberByLogin(String login);
 
   /**
-   * @param staffMember The {@link StaffMemberEto} to update.
+   * Creates or updates a {@link StaffMemberEto}.
+   *
+   * @param staffMember The {@link StaffMemberEto} to create or update.
+   * @return the saved {@link StaffMemberEto}
    */
-  void updateStaffMember(StaffMemberEto staffMember);
+  StaffMemberEto saveStaffMember(StaffMemberEto staffMember);
 }

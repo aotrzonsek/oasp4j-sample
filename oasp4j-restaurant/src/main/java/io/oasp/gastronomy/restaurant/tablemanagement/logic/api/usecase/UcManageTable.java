@@ -22,15 +22,8 @@ public interface UcManageTable {
    * @param table the {@link TableEto} to create.
    * @return the new {@link TableEto} that has been saved with ID and version.
    */
-  TableEto createTable(TableEto table);
+  TableEto saveTable(TableEto table);
 
-  /**
-   * Marks a restaurant table as {@link TableState}.
-   *
-   * @param table Table the restaurant table to mark as occupied
-   * @param newState new table {@link TableState}
-   * @throws ValidationException thrown by validation check
-   */
   /**
    * Evaluate if this table could marked as free.
    *

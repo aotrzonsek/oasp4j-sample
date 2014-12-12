@@ -18,7 +18,7 @@
     </inherits>
     <permissions>
       <!-- tablemanagement -->
-      <permission id="UpdateTable"/>
+      <permission id="SaveTable"/>
     </permissions>
   </group>
   <group id="Barkeeper" type="role">
@@ -27,11 +27,9 @@
     </inherits>
     <permissions>
       <!-- salesmanagement -->
-      <permission id="CreateBill"/>
-      <permission id="UpdateBill"/>
+      <permission id="SaveBill"/>
       <permission id="FindBill"/>
       <permission id="DeleteBill"/>
-      <permission id="CreateOrder"/>
       <permission id="DeleteOrder"/>
     </permissions>
   </group>
@@ -41,8 +39,10 @@
     </inherits>
     <permissions>
       <!-- salesmanagement -->
-      <permission id="UpdateOrder"/>
+      <permission id="SaveOrder"/>
       <permission id="FindOrder"/>
+      <permission id="SaveOrderPosition"/>
+      <permission id="FindOrderPosition"/>
     </permissions>
   </group>
   <group id="Chief" type="role">
@@ -51,18 +51,15 @@
     </inherits>
     <permissions>
       <!-- offermanagement -->
-      <permission id="CreateOffer"/>
-      <permission id="UpdateOffer"/>
+      <permission id="SaveOffer"/>
       <permission id="DeleteOffer"/>
-      <permission id="CreateProduct"/>
-      <permission id="UpdateProduct"/>
+      <permission id="SaveProduct"/>
       <permission id="DeleteProduct"/>
       <!-- staffmanagement -->
-      <permission id="CreateStaffMember"/>
-      <permission id="UpdateStaffMember"/>
+      <permission id="SaveStaffMember"/>
       <permission id="DeleteStaffMember"/>
+      <permission id="DeleteOrderPosition"/>
       <!-- tablemanagement -->
-      <permission id="CreateTable"/>
       <permission id="DeleteTable"/>
     </permissions>
   </group>

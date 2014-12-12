@@ -1,6 +1,7 @@
 package io.oasp.gastronomy.restaurant.offermanagement.service.impl.rest;
 
 import io.oasp.gastronomy.restaurant.general.common.api.constants.PermissionConstants;
+import io.oasp.gastronomy.restaurant.general.logic.api.to.BinaryObjectEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.Offermanagement;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.DrinkEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.MealEto;
@@ -11,12 +12,24 @@ import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductFilter;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductSortBy;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.SideDishEto;
+import io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase.UcFindOffer;
+import io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase.UcFindProduct;
+import io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase.UcManageOffer;
+import io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase.UcManageProduct;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -28,6 +41,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.cxf.helpers.IOUtils;
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+import org.apache.cxf.jaxrs.ext.multipart.Multipart;
+import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
@@ -57,9 +74,11 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindOffer#findOffer}.
+   *
+   * @param id the ID of the {@link OfferEto}
+   * @return the {@link OfferEto}
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/offer/{id}")
   @RolesAllowed(PermissionConstants.FIND_OFFER)
@@ -69,35 +88,43 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageOffer#saveOffer}.
+   *
+   * @param offer the {@link OfferEto} to save
+   *
+   * @return the saved {@link OfferEto}
    */
-  @SuppressWarnings("javadoc")
   @POST
   @Path("/offer/")
-  @RolesAllowed(PermissionConstants.CREATE_OFFER)
-  public void createOffer(@Valid OfferEto offer) {
+  @RolesAllowed(PermissionConstants.SAVE_OFFER)
+  public OfferEto saveOffer(@Valid OfferEto offer) {
 
-    this.offerManagement.createOffer(offer);
+    return this.offerManagement.saveOffer(offer);
   }
 
   // although id in path is redundant, this structure is intentionally chosen
   // for further reasons behind this decision see one of the other ***ManagementRestServiceImpl
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageOffer#saveOffer}.
+   *
+   * @param offer the {@link OfferEto} to be updated
+   *
+   * @return the updated {@link OfferEto}
    */
-  @SuppressWarnings("javadoc")
   @PUT
   @Path("/offer/{id}")
-  @RolesAllowed(PermissionConstants.UPDATE_OFFER)
-  public void updateOffer(OfferEto offer) {
+  @RolesAllowed(PermissionConstants.SAVE_OFFER)
+  @Deprecated
+  public OfferEto updateOffer(OfferEto offer) {
 
-    this.offerManagement.updateOffer(offer);
+    return this.offerManagement.saveOffer(offer);
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindOffer#findAllOffers}.
+   *
+   * @return all {@link OfferEto}s as list
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/offer/")
   @RolesAllowed(PermissionConstants.FIND_OFFER)
@@ -107,9 +134,10 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindProduct#findAllProducts}.
+   *
+   * @return all {@link ProductEto}s as list
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/product/")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -119,21 +147,24 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageProduct#saveProduct}.
+   *
+   * @param product the product to save
+   * @return the saved product
    */
-  @SuppressWarnings("javadoc")
   @POST
   @Path("/product/")
-  @RolesAllowed(PermissionConstants.CREATE_PRODUCT)
-  public void createProduct(ProductEto product) {
+  @RolesAllowed(PermissionConstants.SAVE_PRODUCT)
+  public ProductEto saveProduct(ProductEto product) {
 
-    this.offerManagement.createProduct(product);
+    return this.offerManagement.saveProduct(product);
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindProduct#findAllMeals}.
+   *
+   * @return all {@link MealEto}s as list
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/product/meal/")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -143,9 +174,10 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindProduct#findAllDrinks}.
+   *
+   * @return all {@link DrinkEto}s as list
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/product/drink/")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -155,9 +187,10 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindProduct#findAllSideDishes}.
+   *
+   * @return all {@link SideDishEto}s as list
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/product/side/")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -167,9 +200,10 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageOffer#deleteOffer}.
+   *
+   * @param id ID of the {@link OfferEto} to delete
    */
-  @SuppressWarnings("javadoc")
   @DELETE
   @Path("/offer/{id}")
   @RolesAllowed(PermissionConstants.DELETE_OFFER)
@@ -179,9 +213,11 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindProduct#findProduct}.
+   *
+   * @param id ID of the {@link ProductEto}
+   * @return the {@link ProductEto}
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/product/{id}")
   @RolesAllowed(PermissionConstants.FIND_PRODUCT)
@@ -194,21 +230,25 @@ public class OffermanagementRestServiceImpl {
   // for further reasons behind this decision see one of the other
   // *ManagementRestServiceImpl
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageProduct#saveProduct}.
+   *
+   * @param product the {@link ProductEto} to be updated
    */
-  @SuppressWarnings("javadoc")
   @PUT
   @Path("/product/{id}")
-  @RolesAllowed(PermissionConstants.UPDATE_PRODUCT)
+  @RolesAllowed(PermissionConstants.SAVE_PRODUCT)
+  @Deprecated
   public void updateProduct(ProductEto product) {
 
-    this.offerManagement.updateProduct(product);
+    this.offerManagement.saveProduct(product);
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindOffer#isProductInUseByOffer}.
+   *
+   * @param id ID of the {@link ProductEto}
+   * @return true, if there are no offers, that use the given ProductEto. false otherwise.
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/product/{id}/inuse")
   @RolesAllowed({ PermissionConstants.FIND_OFFER, PermissionConstants.FIND_OFFER })
@@ -218,9 +258,10 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcManageProduct#deleteProduct}.
+   *
+   * @param id ID of the ProductEto to delete
    */
-  @SuppressWarnings("javadoc")
   @DELETE
   @Path("/product/{id}")
   @RolesAllowed(PermissionConstants.DELETE_PRODUCT)
@@ -230,26 +271,77 @@ public class OffermanagementRestServiceImpl {
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindOffer#findOffersFiltered}.
+   *
+   * @param offerFilter the offers filter criteria
+   * @param sortBy sorting specification
+   * @return list with all {@link OfferEto}s that match the {@link OfferFilter} criteria
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/sortby/{sortBy}")
   @RolesAllowed(PermissionConstants.FIND_OFFER)
-  public List<OfferEto> getFilteredOffers(OfferFilter offerFilterBo, @PathParam("sortBy") OfferSortBy sortBy) {
+  public List<OfferEto> getFilteredOffers(OfferFilter offerFilter, @PathParam("sortBy") OfferSortBy sortBy) {
 
-    return this.offerManagement.findOffersFiltered(offerFilterBo, sortBy);
+    return this.offerManagement.findOffersFiltered(offerFilter, sortBy);
   }
 
   /**
-   * {@inheritDoc}
+   * Delegates to {@link UcFindProduct#findProductsFiltered}.
+   *
+   * @param productFilter filter specification
+   * @param sortBy sorting specification
+   * @return list with all {@link ProductEto}s that match the {@link ProductFilter} criteria
    */
-  @SuppressWarnings("javadoc")
   @GET
   @Path("/product/sortby/{sortBy}")
   @RolesAllowed(PermissionConstants.FIND_OFFER)
-  public List<ProductEto> getFilteredProducts(ProductFilter productFilterBo, @PathParam("sortBy") ProductSortBy sortBy) {
+  public List<ProductEto> getFilteredProducts(ProductFilter productFilter, @PathParam("sortBy") ProductSortBy sortBy) {
 
-    return this.offerManagement.findProductsFiltered(productFilterBo, sortBy);
+    return this.offerManagement.findProductsFiltered(productFilter, sortBy);
+  }
+
+  @SuppressWarnings("javadoc")
+  @Consumes("multipart/mixed")
+  @POST
+  @Path("/product/{id}/picture")
+  @RolesAllowed(PermissionConstants.SAVE_PRODUCT)
+  public void updateProductPicture(@PathParam("id") Long productId,
+      @Multipart(value = "binaryObjectEto", type = MediaType.APPLICATION_JSON) BinaryObjectEto binaryObjectEto,
+      @Multipart(value = "blob", type = MediaType.APPLICATION_OCTET_STREAM) InputStream picture)
+      throws SerialException, SQLException, IOException {
+
+    Blob blob = new SerialBlob(IOUtils.readBytesFromStream(picture));
+    this.offerManagement.updateProductPicture(productId, blob, binaryObjectEto);
+
+  }
+
+  @SuppressWarnings("javadoc")
+  @Produces("multipart/mixed")
+  @GET
+  @Path("/product/{id}/picture")
+  @RolesAllowed(PermissionConstants.FIND_PRODUCT)
+  public MultipartBody getProductPicture(@PathParam("id") long productId) throws SQLException, IOException {
+
+    Blob blob = this.offerManagement.findProductPictureBlob(productId);
+    // REVIEW arturk88 (hohwille) we need to find another way to stream the blob without loading into heap.
+    // https://github.com/oasp/oasp4j-sample/pull/45
+    byte[] data = IOUtils.readBytesFromStream(blob.getBinaryStream());
+
+    List<Attachment> atts = new LinkedList<>();
+    atts.add(new Attachment("binaryObjectEto", MediaType.APPLICATION_JSON, this.offerManagement
+        .findProductPicture(productId)));
+    atts.add(new Attachment("blob", MediaType.APPLICATION_OCTET_STREAM, new ByteArrayInputStream(data)));
+    return new MultipartBody(atts, true);
+
+  }
+
+  @SuppressWarnings("javadoc")
+  @DELETE
+  @Path("/product/{id}/picture")
+  // REVIEW arturk88 (hohwille) wrong permission, we need to create SAVE_PRODUCT_PICTURE and DELETE_PRODUCT_PICTURE
+  @RolesAllowed(PermissionConstants.SAVE_PRODUCT)
+  public void deleteProductPicture(long productId) {
+
+    this.offerManagement.deleteProductPicture(productId);
   }
 }

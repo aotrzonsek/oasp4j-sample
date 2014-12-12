@@ -54,12 +54,11 @@ public class UcManageTableImpl extends AbstractTableUc implements UcManageTable 
    * {@inheritDoc}
    */
   @Override
-  public TableEto createTable(TableEto table) {
+  public TableEto saveTable(TableEto table) {
+
+    Objects.requireNonNull(table, "table");
 
     Long tableId = table.getId();
-    if (tableId != null) {
-      throw new IllegalArgumentException("Table ID must not be set for creation!");
-    }
 
     TableEntity tableEntity = getBeanMapper().map(table, TableEntity.class);
     // initialize

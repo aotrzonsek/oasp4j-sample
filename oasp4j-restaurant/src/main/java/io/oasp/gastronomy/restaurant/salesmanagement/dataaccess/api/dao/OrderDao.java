@@ -28,7 +28,7 @@ public interface OrderDao extends ApplicationDao<OrderEntity> {
    * Finds the {@link OrderEntity orders} matching the given {@link OrderSearchCriteriaTo}.
    *
    * @param criteria is the {@link OrderSearchCriteriaTo}.
-   * @return the matching {@link OrderEntity} or <code>null</code> if no such {@link OrderEntity} exists.
+   * @return the {@link List} with the matching {@link OrderEntity} objects.
    */
   List<OrderEntity> findOrders(OrderSearchCriteriaTo criteria);
 

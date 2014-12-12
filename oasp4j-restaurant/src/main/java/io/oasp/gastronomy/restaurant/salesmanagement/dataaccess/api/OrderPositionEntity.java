@@ -5,6 +5,7 @@ import io.oasp.gastronomy.restaurant.general.dataaccess.api.ApplicationPersisten
 import io.oasp.gastronomy.restaurant.salesmanagement.common.api.OrderPosition;
 import io.oasp.gastronomy.restaurant.salesmanagement.common.api.datatype.OrderPositionState;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -12,7 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 /**
- * {@link ApplicationPersistenceEntity Entity} that represents a single position of an {@link OrderEntity}.
+ * {@link ApplicationPersistenceEntity Entity} that represents a single {@link OrderPosition position} of an
+ * {@link OrderEntity}.
  *
  * @author hohwille
  */
@@ -22,6 +24,8 @@ public class OrderPositionEntity extends ApplicationPersistenceEntity implements
   private static final long serialVersionUID = 1L;
 
   private OrderEntity order;
+
+  private Long cookId;
 
   private Long offerId;
 
@@ -91,6 +95,26 @@ public class OrderPositionEntity extends ApplicationPersistenceEntity implements
    * {@inheritDoc}
    */
   @Override
+  @Column(name = "cook_id")
+  public Long getCookId() {
+
+    return this.cookId;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void setCookId(Long cookId) {
+
+    this.cookId = cookId;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  @Column(name = "offer_id")
   public Long getOfferId() {
 
     return this.offerId;
