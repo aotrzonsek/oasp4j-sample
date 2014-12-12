@@ -38,7 +38,27 @@
         	<groupId>org.springframework</groupId>
         	<artifactId>spring-webmvc</artifactId>
       	</dependency>
-
+      	 
+		<dependency>
+    		<groupId>org.springframework.javaconfig</groupId>
+    		<artifactId>org.springframework.config.java</artifactId>
+    		<version>1.0.0.M4</version>
+			<exclusions>
+        		<exclusion>
+	          		<groupId>org.springframework</groupId>
+    	      		<artifactId>org.springframework.beans</artifactId>
+        		</exclusion>
+        		<exclusion>
+	          		<groupId>org.springframework</groupId>
+    	      		<artifactId>org.springframework.context</artifactId>
+        		</exclusion>
+        		<exclusion>
+	          		<groupId>org.springframework</groupId>
+    	      		<artifactId>org.springframework.test</artifactId>
+        		</exclusion>
+      		</exclusions> 		
+      	</dependency>
+		 
         <!-- Internal -->
         <dependency>
             <groupId>io.oasp.java</groupId>
@@ -62,5 +82,19 @@
             </plugin>
         </plugins>
     </build>
-
+     
+    <repositories>
+		<repository>
+    		<id>com.springsource.repository.bundles.milestone</id>
+    		<name>SpringSource Enterprise Bundle Repository - SpringSource Milestone Releases</name>
+    		<url>http://repository.springsource.com/maven/bundles/milestone</url>
+		</repository>
+	
+		<repository>
+    		<id>com.springsource.repository.bundles.external</id>
+    		<name>SpringSource Enterprise Bundle Repository - External Releases</name>
+    		<url>http://repository.springsource.com/maven/bundles/external</url>
+			</repository>
+		</repositories>
+		               
 </project>
