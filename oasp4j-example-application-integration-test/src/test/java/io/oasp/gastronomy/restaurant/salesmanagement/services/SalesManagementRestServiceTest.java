@@ -140,8 +140,8 @@ public class SalesManagementRestServiceTest extends AbstractDBRollbackTest {
   @Test
   public void updateOrderPosition() {
 
-    this.chief.put(RestUrls.SalesManagement.Order.getUpdateOrderPositionURL(DB.ORDER_1.getId(), 1L),
-        Additional.CHANGED_ORDER_POSITION_1);
+    this.chief.post(RestUrls.SalesManagement.Order.getUpdateOrderPositionURL(), Additional.CHANGED_ORDER_POSITION_1);
+
     ResponseData<OrderPositionEto> position =
         this.chief.get(RestUrls.SalesManagement.Order.getGetOrderPositionURL(1L, 1L), OrderPositionEto.class);
     assertThat(position.getResponseObject().getState(), is(Additional.CHANGED_ORDER_POSITION_1.getState()));

@@ -1,5 +1,6 @@
 package io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase;
 
+import io.oasp.gastronomy.restaurant.general.logic.api.to.BinaryObjectEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.DrinkEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.MealEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductEto;
@@ -7,6 +8,7 @@ import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductFilter;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductSortBy;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.SideDishEto;
 
+import java.sql.Blob;
 import java.util.List;
 
 /**
@@ -82,4 +84,17 @@ public interface UcFindProduct {
    * @return a {@link List} of filtered products
    */
   List<ProductEto> findProductsFiltered(ProductFilter productFilterBo, ProductSortBy sortBy);
+
+  /**
+   * @param productId the ID of the {@link ProductEto} to get the picture
+   * @return the {@link BinaryObjectEto} that contains meta data about the picture
+   */
+  BinaryObjectEto findProductPicture(Long productId);
+
+  /**
+   * @param productId the ID of the {@link ProductEto} to get the picture data
+   * @return the {@link Blob} that contains the data
+   */
+  Blob findProductPictureBlob(Long productId);
+
 }

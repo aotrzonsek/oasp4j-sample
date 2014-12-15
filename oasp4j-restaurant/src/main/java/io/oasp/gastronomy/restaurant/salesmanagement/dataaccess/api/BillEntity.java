@@ -13,8 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
 /**
- * {@link ApplicationPersistenceEntity Entity} that represents the bill related to one or multiple {@OrderPosition
- *  order positions}.
+ * {@link ApplicationPersistenceEntity Entity} that represents the {@link Bill} related to one or multiple
+ * {@OrderPosition order positions}.
  *
  * @author etomety
  */
@@ -27,7 +27,7 @@ public class BillEntity extends ApplicationPersistenceEntity implements Bill {
 
   private List<OrderPositionEntity> orderPositions;
 
-  private Money totalAmount;
+  private Money total;
 
   private Money tip;
 
@@ -40,9 +40,7 @@ public class BillEntity extends ApplicationPersistenceEntity implements Bill {
   }
 
   /**
-   * Returns the field 'orderPositions'.
-   *
-   * @return Value of orderPositions
+   * @return the {@link List} of {@link OrderPositionEntity} objects associated with this {@link BillEntity}.
    */
   @ManyToMany(fetch = FetchType.EAGER)
   public List<OrderPositionEntity> getOrderPositions() {
@@ -100,18 +98,18 @@ public class BillEntity extends ApplicationPersistenceEntity implements Bill {
    * {@inheritDoc}
    */
   @Override
-  public Money getTotalAmount() {
+  public Money getTotal() {
 
-    return this.totalAmount;
+    return this.total;
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void setTotalAmount(Money totalAmount) {
+  public void setTotal(Money total) {
 
-    this.totalAmount = totalAmount;
+    this.total = total;
   }
 
   /**

@@ -57,7 +57,9 @@ public class UcManageOrderImpl extends AbstractOrderUc implements UcManageOrder 
    * {@inheritDoc}
    */
   @Override
-  public OrderEto createOrder(TableEto table) {
+  public OrderEto saveOrder(TableEto table) {
+
+    Objects.requireNonNull(table, "table");
 
     OrderEntity order = new OrderEntity();
     order.setTableId(table.getId());
@@ -73,7 +75,7 @@ public class UcManageOrderImpl extends AbstractOrderUc implements UcManageOrder 
    * {@inheritDoc}
    */
   @Override
-  public OrderEto updateOrder(OrderEto order) {
+  public OrderEto saveOrder(OrderEto order) {
 
     Objects.requireNonNull(order, "order");
 
@@ -87,7 +89,7 @@ public class UcManageOrderImpl extends AbstractOrderUc implements UcManageOrder 
    * {@inheritDoc}
    */
   @Override
-  public OrderCto updateOrder(OrderCto order) {
+  public OrderCto saveOrder(OrderCto order) {
 
     Objects.requireNonNull(order, "order");
 
@@ -125,7 +127,7 @@ public class UcManageOrderImpl extends AbstractOrderUc implements UcManageOrder 
       for (OrderPositionEto position : positions2DeleteList) {
         // only logically delete, actually the client should still send the cancelled positions...
         position.setState(OrderPositionState.CANCELLED);
-        this.salesmanagement.updateOrderPosition(position);
+        this.salesmanagement.saveOrderPosition(position);
       }
       savedPositionList.addAll(positions2DeleteList);
     }
@@ -137,7 +139,7 @@ public class UcManageOrderImpl extends AbstractOrderUc implements UcManageOrder 
       } else if (!positionOrderId.equals(orderId)) {
         throw new ObjectMismatchException(positionOrderId, orderId, "position.orderId");
       }
-      savedPositionList.add(this.salesmanagement.updateOrderPosition(position));
+      savedPositionList.add(this.salesmanagement.saveOrderPosition(position));
     }
     return result;
   }
@@ -171,17 +173,6 @@ public class UcManageOrderImpl extends AbstractOrderUc implements UcManageOrder 
         }
       }
     }
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public OrderEto createOrder(OrderEto order) {
-
-    OrderEntity orderEntity = getBeanMapper().map(order, OrderEntity.class);
-    getOrderDao().save(orderEntity);
-    return getBeanMapper().map(orderEntity, OrderEto.class);
   }
 
   /**

@@ -10,36 +10,32 @@ import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.to.TableEto;
  * @author mvielsac
  */
 public interface UcManageOrder {
-  /**
-   * Creates an {@link OrderEto} for the given {@link TableEto}.
-   *
-   * @param table for which the {@link OrderEto} is
-   *
-   * @return the new {@link OrderEto}
-   */
-  OrderEto createOrder(TableEto table);
 
   /**
-   * Saves or updates the given {@link OrderCto}.
+   * If no ID is contained creates the {@link OrderCto} for the first time. Else it updates the {@link OrderCto} with
+   * given ID. If no {@link OrderCto} with given ID is present, an exception will be thrown.
    *
-   * @param order is the {@link OrderCto} to persist.
-   * @return the saved {@link OrderCto}.
+   * @param order the {@link OrderCto} to persist.
+   * @return the persisted {@link OrderCto}.
    */
-  OrderCto updateOrder(OrderCto order);
+  OrderCto saveOrder(OrderCto order);
 
   /**
-   * Saves or updates the given {@link OrderEto}.
+   * If no ID is contained creates the {@link OrderEto} for the first time. Else it updates the {@link OrderEto} with
+   * given ID. If no {@link OrderEto} with given ID is present, an exception will be thrown.
    *
-   * @param order is the {@link OrderEto} to persist.
-   * @return the saved {@link OrderEto}.
+   * @param order the {@link OrderEto} to persist.
+   * @return the persisted {@link OrderEto}.
    */
-  OrderEto updateOrder(OrderEto order);
+  OrderEto saveOrder(OrderEto order);
 
   /**
-   * @param table the {@link OrderEto} to create.
-   * @return the created OrderEto
+   * Persists new {@link OrderEto} with table ID set to ID of the given {@link TableEto}.
+   * 
+   * @param table
+   * @return The persisted {@link OrderEto}.
    */
-  OrderEto createOrder(OrderEto table);
+  OrderEto saveOrder(TableEto table);
 
   /**
    * @param id is the {@link OrderEto#getId() ID} of the order to delete.

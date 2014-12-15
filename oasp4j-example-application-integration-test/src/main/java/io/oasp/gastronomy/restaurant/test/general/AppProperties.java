@@ -178,13 +178,11 @@ public class AppProperties {
         }
 
         /**
-         * @param orderId Order of the position
-         * @param orderPositionId Id of the position
          * @return URL to get the OrderPosition
          */
-        public static final String getUpdateOrderPositionURL(Long orderId, Long orderPositionId) {
+        public static final String getUpdateOrderPositionURL() {
 
-          return getGetOrderPositionURL(orderId, orderPositionId);
+          return ORDER_URL + "position/";
         }
 
         /**
@@ -549,6 +547,33 @@ public class AppProperties {
         }
 
         /**
+         * @param id Product id
+         * @return Url
+         */
+        public static final String getGetProductPictureUrl(Long id) {
+
+          return PRODUCT_URL + "/" + id + "/picture";
+        }
+
+        /**
+         * @param id Product id
+         * @return Url
+         */
+        public static final String getSetProductPictureUrl(Long id) {
+
+          return PRODUCT_URL + "/" + id + "/picture";
+        }
+
+        /**
+         * @param id Product id
+         * @return Url
+         */
+        public static final String getDeleteProductPictureUrl(Long id) {
+
+          return PRODUCT_URL + "/" + id + "/picture";
+        }
+
+        /**
          * @param sortBy {@link ProductSortBy}
          * @return Url
          */
@@ -556,6 +581,7 @@ public class AppProperties {
 
           return PRODUCT_URL + "/sortby/" + sortBy;
         }
+
       }
     }
 

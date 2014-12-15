@@ -1,6 +1,7 @@
 package io.oasp.gastronomy.restaurant.offermanagement.logic.impl;
 
 import io.oasp.gastronomy.restaurant.general.common.base.AbstractBeanMapperSupport;
+import io.oasp.gastronomy.restaurant.general.logic.api.to.BinaryObjectEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.Offermanagement;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.DrinkEto;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.MealEto;
@@ -21,6 +22,7 @@ import io.oasp.gastronomy.restaurant.offermanagement.logic.impl.usecase.UcFindPr
 import io.oasp.gastronomy.restaurant.offermanagement.logic.impl.usecase.UcManageOfferImpl;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.impl.usecase.UcManageProductImpl;
 
+import java.sql.Blob;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -71,24 +73,6 @@ public class OffermanagementImpl extends AbstractBeanMapperSupport implements Of
   /**
    * {@inheritDoc}
    */
-
-  public void createOffer(OfferEto offer) {
-
-    this.ucManageOffer.createOffer(offer);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void updateOffer(OfferEto offer) {
-
-    this.ucManageOffer.updateOffer(offer);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public List<OfferEto> findAllOffers() {
 
@@ -120,6 +104,17 @@ public class OffermanagementImpl extends AbstractBeanMapperSupport implements Of
   public List<DrinkEto> findAllDrinks() {
 
     return this.ucFindProduct.findAllDrinks();
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   */
+  @Override
+  public OfferEto saveOffer(OfferEto offer) {
+
+    return this.ucManageOffer.saveOffer(offer);
+
   }
 
   /**
@@ -181,19 +176,9 @@ public class OffermanagementImpl extends AbstractBeanMapperSupport implements Of
    *
    */
   @Override
-  public void createProduct(ProductEto product) {
+  public ProductEto saveProduct(ProductEto product) {
 
-    this.ucManageProduct.createProduct(product);
-  }
-
-  /**
-   * {@inheritDoc}
-   *
-   */
-  @Override
-  public void updateProduct(ProductEto product) {
-
-    this.ucManageProduct.updateProduct(product);
+    return this.ucManageProduct.saveProduct(product);
   }
 
   /**
@@ -275,6 +260,43 @@ public class OffermanagementImpl extends AbstractBeanMapperSupport implements Of
   public void setUcManageProduct(UcManageProductImpl ucManageProduct) {
 
     this.ucManageProduct = ucManageProduct;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public BinaryObjectEto findProductPicture(Long productId) {
+
+    return this.ucFindProduct.findProductPicture(productId);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Blob findProductPictureBlob(Long pictureId) {
+
+    return this.ucFindProduct.findProductPictureBlob(pictureId);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void updateProductPicture(Long productId, Blob blob, BinaryObjectEto binaryObjectEto) {
+
+    this.ucManageProduct.updateProductPicture(productId, blob, binaryObjectEto);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void deleteProductPicture(Long productId) {
+
+    this.ucManageProduct.deleteProductPicture(productId);
+
   }
 
 }

@@ -7,18 +7,19 @@ import io.oasp.gastronomy.restaurant.general.dataaccess.api.ApplicationPersisten
 import io.oasp.gastronomy.restaurant.salesmanagement.common.api.Order;
 import io.oasp.gastronomy.restaurant.salesmanagement.common.api.datatype.OrderState;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * {@link ApplicationPersistenceEntity Entity} that represents an order of a customer associated with the according
- * {@link io.oasp.gastronomy.restaurant.tablemanagement.dataaccess.api.TableEntity}.
+ * {@link ApplicationPersistenceEntity Entity} that represents an {@link Order} of a customer associated with the
+ * according {@link io.oasp.gastronomy.restaurant.tablemanagement.dataaccess.api.TableEntity}.
  *
  * @author rjoeris
  */
 @Entity(name = "Order")
 // Order is a reserved word in SQL/RDBMS and can not be used as table name
-@Table(name = "TableOrder")
+@Table(name = "RestaurantOrder")
 public class OrderEntity extends ApplicationPersistenceEntity implements Order {
 
   private static final long serialVersionUID = 1L;
@@ -40,6 +41,7 @@ public class OrderEntity extends ApplicationPersistenceEntity implements Order {
    * {@inheritDoc}
    */
   @Override
+  @Column(name = "table_id")
   public long getTableId() {
 
     return this.tableId;

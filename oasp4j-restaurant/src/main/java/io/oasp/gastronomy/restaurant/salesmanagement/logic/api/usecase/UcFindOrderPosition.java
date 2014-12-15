@@ -1,6 +1,7 @@
 package io.oasp.gastronomy.restaurant.salesmanagement.logic.api.usecase;
 
 import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderPositionEto;
+import io.oasp.gastronomy.restaurant.salesmanagement.logic.api.to.OrderPositionSearchCriteriaTo;
 
 import java.util.List;
 
@@ -26,6 +27,12 @@ public interface UcFindOrderPosition {
    *         given <code>orderId</code>.
    */
   List<OrderPositionEto> findOrderPositionsByOrderId(Long orderId);
+
+  /**
+   * @param criteria the {@link OrderPositionSearchCriteriaTo}.
+   * @return the {@link List} of matching {@link OrderPositionEto}s.
+   */
+  List<OrderPositionEto> findOrderPositions(OrderPositionSearchCriteriaTo criteria);
 
   /**
    * @param orderId for which the {@link OrderPositionEto}s are requested.

@@ -74,7 +74,35 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
         </dependency>
-
+        <!-- for running tests from oasp4j-restaurant -->
+				<dependency>
+            <groupId>io.oasp.java</groupId>
+            <artifactId>oasp4j-restaurant</artifactId>
+            <version>dev-SNAPSHOT</version>
+		    		<type>test-jar</type>
+		  	  	<scope>test</scope>
+				</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-client</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- local transport for fast testing -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-local</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -120,7 +148,31 @@
                     </packagingExcludes>
                 </configuration>
             </plugin>
-        </plugins>
+					<plugin>
+	    			<groupId>org.apache.maven.plugins</groupId>
+	    			<artifactId>maven-dependency-plugin</artifactId>
+	    			<executions>
+	        		<execution>
+	            	<id>unpack</id>
+	            	<phase>process-test-classes</phase>
+	            	<goals>
+	             		<goal>unpack</goal>
+	            	</goals>
+	            	<configuration>
+	                <artifactItems>
+	                    <artifactItem>
+            						<groupId>io.oasp.java</groupId>
+            						<artifactId>oasp4j-restaurant</artifactId>
+            						<version>dev-SNAPSHOT</version>
+	                      <type>test-jar</type>
+	                      <outputDirectory>${project.build.directory}/test-classes</outputDirectory>
+	                   	</artifactItem>
+	                </artifactItems>
+	            	</configuration>
+	        		</execution>
+	    			</executions>
+					</plugin>        
+			</plugins>
     </build>
 
 

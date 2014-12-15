@@ -25,16 +25,14 @@ public interface Offer extends MenuItem {
   void setNumber(Long number);
 
   /**
-   * Returns the field 'currentPrice'.
-   *
-   * @return Value of currentPrice
+   * @return the current price of the offer.
    */
-  Money getCurrentPrice();
+  Money getPrice();
 
   /**
-   * @param currentPrice is the new {@link #getCurrentPrice() price}.
+   * @param price is the new {@link #getPrice() price}.
    */
-  void setCurrentPrice(Money currentPrice);
+  void setPrice(Money price);
 
   /**
    * @return is the {@link Meal#getId() ID} of the {@link Meal} or <code>null</code> if no {@link Meal} is contained in

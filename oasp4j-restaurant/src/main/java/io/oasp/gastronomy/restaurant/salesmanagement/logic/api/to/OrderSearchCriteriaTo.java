@@ -5,7 +5,7 @@ import io.oasp.gastronomy.restaurant.salesmanagement.common.api.datatype.OrderSt
 
 /**
  * This is the {@link SearchCriteriaTo search criteria} {@link net.sf.mmm.util.transferobject.api.TransferObject TO}
- * used to find an {@link io.oasp.gastronomy.restaurant.salesmanagement.common.api.Order}.
+ * used to find {@link io.oasp.gastronomy.restaurant.salesmanagement.common.api.Order}s.
  *
  * @author hohwille
  */

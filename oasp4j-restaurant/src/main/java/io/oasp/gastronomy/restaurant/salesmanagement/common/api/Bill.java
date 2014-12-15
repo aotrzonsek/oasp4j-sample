@@ -15,15 +15,15 @@ public interface Bill extends ApplicationEntity {
   /**
    * @return the total amount that has to be payed for this {@link Bill}.
    */
-  Money getTotalAmount();
+  Money getTotal();
 
   /**
-   * @param totalAmount is the new {@link #getTotalAmount() total amount}.
+   * @param total is the new {@link #getTotal() total amount}.
    */
-  void setTotalAmount(Money totalAmount);
+  void setTotal(Money total);
 
   /**
-   * @return the tip (voluntary payment in addition to {@link #getTotalAmount() total amount}).
+   * @return the tip (voluntary payment in addition to {@link #getTotal() total amount}).
    */
   Money getTip();
 

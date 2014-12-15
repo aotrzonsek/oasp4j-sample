@@ -2,23 +2,28 @@ package io.oasp.gastronomy.restaurant.cxf;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+
 import io.oasp.gastronomy.restaurant.general.service.impl.rest.SecurityRestServiceImpl;
 import io.oasp.gastronomy.restaurant.offermanagement.service.impl.rest.OffermanagementRestServiceImpl;
 import io.oasp.gastronomy.restaurant.salesmanagement.service.impl.rest.SalesmanagementRestServiceImpl;
 import io.oasp.gastronomy.restaurant.staffmanagement.service.impl.rest.StaffmanagementRestServiceImpl;
 import io.oasp.gastronomy.restaurant.tablemanagement.service.impl.rest.TablemanagementRestServiceImpl;
+import io.oasp.gastronomy.restaurant.tablemanagement.service.impl.ws.v1_0.TablemanagementWebServiceImpl;
 import io.oasp.module.rest.service.impl.RestServiceExceptionFacade;
+
 import org.apache.cxf.bus.spring.BusExtensionPostProcessor;
 import org.apache.cxf.bus.spring.BusWiringBeanFactoryPostProcessor;
 import org.apache.cxf.bus.spring.SpringBus;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
+import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
 import javax.inject.Inject;
+
 import java.util.Arrays;
 
 @Configuration
@@ -60,4 +65,16 @@ public class CxfConfigurator {
         factory.setProviders(Arrays.asList(new JacksonJsonProvider(objectMapper), restServiceExceptionFacade));
         return factory.create();
     }
+    
+    
+    @Bean
+    @Inject
+    public Server jaxWsServer(TablemanagementWebServiceImpl tablemanagementWebService) {
+
+    	JaxWsServerFactoryBean factory = new JaxWsServerFactoryBean();
+        factory.setAddress("/ws/Tablemanagement/v1_0");
+        factory.setServiceBean(tablemanagementWebService);
+        return factory.create();
+    }
 }
+
